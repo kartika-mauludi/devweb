@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'refferal_code',
+        'bank_account',
+        'bank_name'
     ];
 
     /**
@@ -45,4 +48,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function affiliates()
+    {
+        return $this->hasMany(Affiliate::class);
+    }
+
+
 }
