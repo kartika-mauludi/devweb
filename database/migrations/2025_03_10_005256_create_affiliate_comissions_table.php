@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('affiliate_withdraws', function (Blueprint $table) {
+        Schema::create('affiliate_comissions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('affiliate_id')->constrained('affiliates')->onDelete('cascade');
             $table->decimal('amount', 10, 2);
-            $table->string('status');
+            $table->enum('type', ['percentage', 'fixed'])->default('percentage');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('affiliate_withdraws');
+        Schema::dropIfExists('affiliate_comissions');
     }
 };

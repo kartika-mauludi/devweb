@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('referral_code')->nullable()->unique();
             $table->string('bank_account')->nullable();
             $table->string('bank_name')->nullable();
+            $table->boolean('is_superadmin')->default(false);
         });
     }
 
@@ -24,7 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['referral_code', 'bank_account', 'bank_name']);
+            $table->dropColumn(['referral_code', 'bank_account', 'bank_name', 'is_superadmin']);
         });
     }
 };

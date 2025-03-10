@@ -23,7 +23,8 @@ class User extends Authenticatable
         'password',
         'refferal_code',
         'bank_account',
-        'bank_name'
+        'bank_name',
+        'is_superadmin'
     ];
 
     /**
@@ -56,7 +57,7 @@ class User extends Authenticatable
 
     public function affiliates()
     {
-        return $this->hasMany(Affiliate::class);
+        return $this->hasMany(UserAffiliate::class);
     }
 
 

@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('affiliates', function (Blueprint $table) {
+        Schema::create('user_affiliates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('amount', 10, 2);
+            $table->enum('status', ['pending', 'withdraw'])->default('pending');
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('affiliates');
+        Schema::dropIfExists('user_affiliates');
     }
 };

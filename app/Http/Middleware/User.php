@@ -15,7 +15,7 @@ class User
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->role == 1){
+        if(auth()->user()->is_superadmin == 0){
             return $next($request);
         }
         return response()->json(['You do not have permission to access for this page.']);
