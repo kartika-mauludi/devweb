@@ -32,12 +32,12 @@
                             <nav class="-mx-3 flex flex-1 justify-end">
                                 @auth
 
-                                @if(auth::user()->role == 0)
+                                @if(auth::user()->is_superadmin == 1)
                                     <a
-                                        href="{{ url('/admin/home') }}"
+                                        href="{{ url('/admin/home' }}"
                                         class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                     >
-                                @elseif(auth::user()->role == 1)
+                                @elseif(auth::user()->is_superadmin == 0)
                                 <a
                                         href="{{ url('/user/home') }}"
                                         class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"

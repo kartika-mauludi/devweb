@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use auth;
 class Admin
 {
     /**
@@ -13,11 +13,16 @@ class Admin
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle($request, Closure $next)
     {
-        if(auth()->user()->is_superadmin == 1){
+        if(!auth::check()){
+            return redirect()->route('login');
+        }
+        if (auth()->user()->is_superadmin == 1) {
             return $next($request);
         }
-        return response()->json(['You do not have permission to access for this page.']);
+// 
+        return redirect('login')->with('error',"you dont have permisson");
+       
     }
 }

@@ -15,10 +15,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::middleware(['auth', 'user'])->group(function () {
     Route::get('/user/home', [App\Http\Controllers\HomeController::class, 'userhome'])->name("user.home");
 });
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

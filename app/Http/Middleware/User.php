@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use auth;
 class User
 {
     /**
@@ -15,9 +15,13 @@ class User
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if(!auth::check()){
+            return redirect()->route('login');
+        }
         if(auth()->user()->is_superadmin == 0){
             return $next($request);
         }
-        return response()->json(['You do not have permission to access for this page.']);
+        return redirect('login')->with('error',"you dont have permisson");
+       
     }
 }
