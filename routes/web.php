@@ -8,10 +8,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/home', [App\Http\Controllers\HomeController::class, 'adminhome'])->name("admin.home");
+Route::middleware(['auth', 'Admin'])->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'adminhome'])->name('home');
 });
 
-Route::middleware(['auth', 'user'])->group(function () {
-    Route::get('/user/home', [App\Http\Controllers\HomeController::class, 'userhome'])->name("user.home");
+Route::middleware(['auth', 'User'])->group(function () {
+    Route::get('/home2', [App\Http\Controllers\HomeController::class, 'userhome'])->name('home2');
 });

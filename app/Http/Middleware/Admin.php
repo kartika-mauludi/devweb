@@ -21,7 +21,7 @@ class Admin
         if (auth()->user()->is_superadmin == 1) {
             return $next($request);
         }
-
+// 
         return redirect('login')->with('error',"you dont have permisson");
        
     }

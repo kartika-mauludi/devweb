@@ -53,7 +53,7 @@ class LoginController extends Controller
         {
             if (auth()->user()->is_superadmin == 1) {
                 return redirect()->route('admin.home');
-            }else if (auth()->user()->is_superadmin == 0) {
+            }else if (auth()->user()->is_superadmin	== 0) {
                 return redirect()->route('user.home');
             }else{
                 return redirect()->route('login');
