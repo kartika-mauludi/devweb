@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    // protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -51,9 +51,9 @@ class LoginController extends Controller
      
         if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
         {
-            if (auth()->user()->role == 0) {
+            if (auth()->user()->is_superadmin == 1) {
                 return redirect()->route('admin.home');
-            }else if (auth()->user()->role == 1) {
+            }else if (auth()->user()->is_superadmin == 0) {
                 return redirect()->route('user.home');
             }else{
                 return redirect()->route('login');
