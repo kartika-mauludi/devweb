@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'refferal_code',
+        'referral_code',
         'bank_account',
         'bank_name',
         'is_superadmin'
@@ -60,5 +60,13 @@ class User extends Authenticatable
         return $this->hasMany(UserAffiliate::class);
     }
 
+    public function scopeCustomer($query)
+    {
+        $query->where('is_superadmin', false);
+    }
 
+    public function scopeSuperadmin($query)
+    {
+        $query->where('is_superadmin', true);
+    }
 }
