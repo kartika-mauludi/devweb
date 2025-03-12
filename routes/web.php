@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AffiliateCommisionController;
+use App\Http\Controllers\Admin\ConfigurationController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\SubscribePackageController;
 use App\Http\Controllers\Admin\UserAffiliateController;
@@ -51,6 +53,14 @@ Route::group(['prefix' => 'user-affiliates', 'as' => 'user-affiliates.', 'contro
     Route::post('store', 'store')->name('store');
     Route::put('update/{userAffiliate}', 'update')->name('update');
     Route::delete('destroy/{userAffiliate}', 'destroy')->name('destroy');
+});
+
+Route::get('configuration', [ConfigurationController::class, 'index'])->name('configuration');
+
+Route::group(['prefix' => 'commision-config', 'as' => 'commision-config.', 'controller' => AffiliateCommisionController::class], function(){
+    Route::get('setting', 'setting')->name('setting');
+
+    Route::post('store', 'store')->name('store');
 });
 // Auth::routes();
 

@@ -25,5 +25,13 @@
           </p>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="{{ route('configuration') }}" class="nav-link @if(Route::is('configuration', 'commision-config.*')) active @endif">
+          <i class="nav-icon far fa-user"></i>
+          <p>
+            Konfigurasi
+          </p>
+        </a>
+      </li>
     </ul>
 </nav>
