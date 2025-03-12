@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\SubscribePackageController;
+use App\Http\Controllers\Admin\UserAffiliateController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -38,6 +39,18 @@ Route::group(['prefix' => 'package', 'as' => 'package.', 'controller' => Subscri
     Route::post('store', 'store')->name('store');
     Route::put('update/{subscribePackage}', 'update')->name('update');
     Route::delete('destroy/{subscribePackage}', 'destroy')->name('destroy');
+});
+
+Route::group(['prefix' => 'user-affiliates', 'as' => 'user-affiliates.', 'controller' => UserAffiliateController::class], function(){
+    Route::get('/', 'index')->name('index');
+    Route::get('create', 'create')->name('create');
+    Route::get('show/{userAffiliate}', 'show')->name('show');
+    Route::get('edit/{userAffiliate}', 'edit')->name('edit');
+    Route::get('proceed/{userAffiliate}', 'proceed')->name('proceed');
+
+    Route::post('store', 'store')->name('store');
+    Route::put('update/{userAffiliate}', 'update')->name('update');
+    Route::delete('destroy/{userAffiliate}', 'destroy')->name('destroy');
 });
 // Auth::routes();
 

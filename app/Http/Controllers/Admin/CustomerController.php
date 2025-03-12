@@ -63,6 +63,10 @@ class CustomerController extends Controller
         $data['prev']  = route('customer.index');
         $data['record'] = $user;
 
+        if (request()->ajax()) {
+            return response()->json($user);
+        }
+
         return view('admin.customer.show', $data);
     }
 

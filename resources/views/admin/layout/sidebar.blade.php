@@ -17,5 +17,13 @@
           </p>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="{{ route('user-affiliates.index') }}" class="nav-link @if(Route::is('user-affiliates.*')) active @endif">
+          <i class="nav-icon far fa-user"></i>
+          <p>
+            Withdraw
+          </p>
+        </a>
+      </li>
     </ul>
 </nav>
