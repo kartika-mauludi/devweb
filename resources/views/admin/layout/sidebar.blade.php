@@ -10,6 +10,14 @@
         </a>
       </li>
       <li class="nav-item">
+        <a href="{{ route('package-record.index') }}" class="nav-link @if(Route::is('package-record.*')) active @endif">
+          <i class="nav-icon far fa-user"></i>
+          <p>
+            Langganan Customer
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
         <a href="{{ route('package.index') }}" class="nav-link @if(Route::is('package.*')) active @endif">
           <i class="nav-icon far fa-user"></i>
           <p>

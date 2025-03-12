@@ -3,7 +3,9 @@
 use App\Http\Controllers\Admin\AffiliateCommisionController;
 use App\Http\Controllers\Admin\ConfigurationController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\SubscribePackageController;
+use App\Http\Controllers\Admin\SubscribeRecordController;
 use App\Http\Controllers\Admin\UserAffiliateController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,7 +37,6 @@ Route::group(['prefix' => 'customer', 'as' => 'customer.', 'controller' => Custo
 Route::group(['prefix' => 'package', 'as' => 'package.', 'controller' => SubscribePackageController::class], function(){
     Route::get('/', 'index')->name('index');
     Route::get('create', 'create')->name('create');
-    Route::get('show/{subscribePackage}', 'show')->name('show');
     Route::get('edit/{subscribePackage}', 'edit')->name('edit');
 
     Route::post('store', 'store')->name('store');
@@ -43,10 +44,19 @@ Route::group(['prefix' => 'package', 'as' => 'package.', 'controller' => Subscri
     Route::delete('destroy/{subscribePackage}', 'destroy')->name('destroy');
 });
 
+Route::group(['prefix' => 'package-record', 'as' => 'package-record.', 'controller' => SubscribeRecordController::class], function(){
+    Route::get('/', 'index')->name('index');
+    Route::get('create', 'create')->name('create');
+    Route::get('edit/{subscribeRecord}', 'edit')->name('edit');
+
+    Route::post('store', 'store')->name('store');
+    Route::put('update/{subscribeRecord}', 'update')->name('update');
+    Route::delete('destroy/{subscribeRecord}', 'destroy')->name('destroy');
+});
+
 Route::group(['prefix' => 'user-affiliates', 'as' => 'user-affiliates.', 'controller' => UserAffiliateController::class], function(){
     Route::get('/', 'index')->name('index');
     Route::get('create', 'create')->name('create');
-    Route::get('show/{userAffiliate}', 'show')->name('show');
     Route::get('edit/{userAffiliate}', 'edit')->name('edit');
     Route::get('proceed/{userAffiliate}', 'proceed')->name('proceed');
 
@@ -55,11 +65,21 @@ Route::group(['prefix' => 'user-affiliates', 'as' => 'user-affiliates.', 'contro
     Route::delete('destroy/{userAffiliate}', 'destroy')->name('destroy');
 });
 
+Route::group(['prefix' => 'payment', 'as' => 'payment.', 'controller' => PaymentController::class], function(){
+    Route::get('/', 'index')->name('index');
+    Route::get('create', 'create')->name('create');
+    Route::get('show/{payment}', 'show')->name('show');
+    Route::get('edit/{payment}', 'edit')->name('edit');
+
+    Route::post('store', 'store')->name('store');
+    Route::put('update/{payment}', 'update')->name('update');
+    Route::delete('destroy/{payment}', 'destroy')->name('destroy');
+});
+
 Route::get('configuration', [ConfigurationController::class, 'index'])->name('configuration');
 
 Route::group(['prefix' => 'commision-config', 'as' => 'commision-config.', 'controller' => AffiliateCommisionController::class], function(){
     Route::get('setting', 'setting')->name('setting');
-
     Route::post('store', 'store')->name('store');
 });
 // Auth::routes();

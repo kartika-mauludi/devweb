@@ -60,6 +60,11 @@ class User extends Authenticatable
         return $this->hasMany(UserAffiliate::class);
     }
 
+    public function subscribeRecord()
+    {
+        return $this->hasMany(SubscribeRecord::class);
+    }
+
     public function scopeCustomer($query)
     {
         $query->where('is_superadmin', false);

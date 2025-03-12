@@ -11,6 +11,7 @@ class SubscribeRecord extends Model
 
     protected $fillable = [
         'subscribe_package_id',
+        'user_id',
         'start_date',
         'end_date'
     ];
@@ -24,5 +25,9 @@ class SubscribeRecord extends Model
     {
         return $this->hasMany(Payment::class);
     }
-
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
