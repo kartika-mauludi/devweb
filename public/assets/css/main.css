@@ -753,8 +753,8 @@ h6 {
   bottom: -15px;
   z-index: 99999;
   background-color: var(--accent-color);
-  width: 44px;
-  height: 44px;
+  width: 54px;
+  height: 54px;
   border-radius: 50px;
   transition: all 0.4s;
 }
@@ -1789,10 +1789,12 @@ section,
   border-radius: 50px;
   transition: none;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 1000;
   font-family: var(--heading-font);
   transition: 0.3s;
   border: 1px solid var(--accent-color);
+  width: 100%;
+  text-align: center;
 }
 
 .pricing .buy-btn:hover {

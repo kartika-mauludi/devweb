@@ -8,6 +8,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/payment/{id}','App\Http\Controllers\PaymentController@index')->name('payment');
+
+
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/home', [App\Http\Controllers\HomeController::class, 'adminhome'])->name("admin.home");
 });
