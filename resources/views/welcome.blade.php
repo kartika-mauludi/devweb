@@ -5,7 +5,7 @@
   
   <main class="main">
     <!-- Hero Section -->
-    <section id="beranda" class="hero section" style="background-image: url('assets/img/bg/bg-blue.jpg');">
+    <section id="beranda" class="hero section" style="background-image: url({{ asset('assets/img/bg/bg-blue.jpg') }});">
 
       <div class="container">
         <div class="row gy-4">
