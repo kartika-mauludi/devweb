@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'nomor',
         'refferal_code',
         'bank_account',
         'bank_name',
