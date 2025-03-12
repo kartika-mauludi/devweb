@@ -9,5 +9,13 @@
           </p>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="{{ route('package.index') }}" class="nav-link @if(Route::is('package.*')) active @endif">
+          <i class="nav-icon far fa-user"></i>
+          <p>
+            Paket Langganan
+          </p>
+        </a>
+      </li>
     </ul>
 </nav>

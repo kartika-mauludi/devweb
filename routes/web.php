@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\SubscribePackageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -26,6 +27,17 @@ Route::group(['prefix' => 'customer', 'as' => 'customer.', 'controller' => Custo
     Route::post('store', 'store')->name('store');
     Route::put('update/{user}', 'update')->name('update');
     Route::delete('destroy/{user}', 'destroy')->name('destroy');
+});
+
+Route::group(['prefix' => 'package', 'as' => 'package.', 'controller' => SubscribePackageController::class], function(){
+    Route::get('/', 'index')->name('index');
+    Route::get('create', 'create')->name('create');
+    Route::get('show/{subscribePackage}', 'show')->name('show');
+    Route::get('edit/{subscribePackage}', 'edit')->name('edit');
+
+    Route::post('store', 'store')->name('store');
+    Route::put('update/{subscribePackage}', 'update')->name('update');
+    Route::delete('destroy/{subscribePackage}', 'destroy')->name('destroy');
 });
 // Auth::routes();
 
