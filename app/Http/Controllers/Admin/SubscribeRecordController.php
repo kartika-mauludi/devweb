@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class SubscribeRecordController extends Controller
 {
-    private $title = 'Master Langganan Customer';
+    private $title = 'Master Langganan';
 
     public function __construct()
     {

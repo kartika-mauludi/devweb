@@ -21,7 +21,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>User</th>
+                                <th>Customer</th>
                                 <th>Amount</th>
                                 <th>Status</th>
                                 <th>Action</th>

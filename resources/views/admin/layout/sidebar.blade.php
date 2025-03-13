@@ -13,7 +13,15 @@
         <a href="{{ route('package-record.index') }}" class="nav-link @if(Route::is('package-record.*')) active @endif">
           <i class="nav-icon far fa-user"></i>
           <p>
-            Langganan Customer
+            Langganan
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ route('payment.index') }}" class="nav-link @if(Route::is('payment.*')) active @endif">
+          <i class="nav-icon far fa-user"></i>
+          <p>
+            Pembayaran
           </p>
         </a>
       </li>
