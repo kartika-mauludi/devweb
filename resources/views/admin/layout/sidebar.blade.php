@@ -10,6 +10,14 @@
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
       <li class="nav-item">
+        <a href="{{ route('dashboard') }}" class="nav-link @if(Route::is('dashboard')) active @endif">
+          <i class="nav-icon fa fa-home"></i>
+          <p>
+            Dashboard
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
         <a href="{{ route('customer.index') }}" class="nav-link @if(Route::is('customer.*')) active @endif">
           <i class="nav-icon fa fa-users"></i>
           <p>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AffiliateCommisionController;
 use App\Http\Controllers\Admin\ConfigurationController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\SubscribePackageController;
 use App\Http\Controllers\Admin\SubscribeRecordController;
@@ -23,6 +24,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::middleware(['auth', 'user'])->group(function () {
     Route::get('/user/home', [App\Http\Controllers\HomeController::class, 'userhome'])->name("user.home");
 });
+
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::group(['prefix' => 'customer', 'as' => 'customer.', 'controller' => CustomerController::class], function(){
     Route::get('/', 'index')->name('index');
