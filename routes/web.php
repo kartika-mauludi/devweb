@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\SubscribePackageController;
 use App\Http\Controllers\Admin\SubscribeRecordController;
+use App\Http\Controllers\Admin\SuperadminController;
 use App\Http\Controllers\Admin\UserAffiliateController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,17 @@ Route::middleware(['auth', 'user'])->group(function () {
 });
 
 Route::group(['prefix' => 'customer', 'as' => 'customer.', 'controller' => CustomerController::class], function(){
+    Route::get('/', 'index')->name('index');
+    Route::get('create', 'create')->name('create');
+    Route::get('show/{user}', 'show')->name('show');
+    Route::get('edit/{user}', 'edit')->name('edit');
+
+    Route::post('store', 'store')->name('store');
+    Route::put('update/{user}', 'update')->name('update');
+    Route::delete('destroy/{user}', 'destroy')->name('destroy');
+});
+
+Route::group(['prefix' => 'superadmin', 'as' => 'superadmin.', 'controller' => SuperadminController::class], function(){
     Route::get('/', 'index')->name('index');
     Route::get('create', 'create')->name('create');
     Route::get('show/{user}', 'show')->name('show');
