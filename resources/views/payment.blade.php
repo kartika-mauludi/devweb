@@ -16,38 +16,25 @@
       <div class="col-md-5 col-lg-4 col-sm-8 order-md-last bg-light ms-4 pt-4 border border-3">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
           <span class="text-primary">Detail Pemesanan</span>
-          <span class="badge bg-primary rounded-pill">3</span>
+          <span class="badge bg-primary rounded-pill"></span>
         </h4>
         <ul class="list-group mb-3">
           <li class="list-group-item d-flex justify-content-between lh-sm">
             <div>
               <h6 class="my-0">Pilihan Paket</h6>
-              <small class="text-muted">Brief description</small>
+              <small class="text-muted">{{ $pack->name }}</small>
             </div>
-            <span class="text-muted">$12</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">Second product</h6>
-              <small class="text-muted">Brief description</small>
-            </div>
-            <span class="text-muted">$8</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">Third item</h6>
-              <small class="text-muted">Brief description</small>
-            </div>
-            <span class="text-muted">$5</span>
+            <span class="text-muted">Rp.</sup>{{ number_format($pack->price , 0, ",", ".")}}</span>
           </li>
          
           <li class="list-group-item d-flex justify-content-between">
-            <span>Total (USD)</span>
-            <strong>$20</strong>
+            <span>Total </span>
+            <strong>Rp.</sup>{{ number_format(($pack->price - $pack->diskon) , 0, ",", ".")}}</strong>
           </li>
         </ul>
           <div class="input-group">
           <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+          <button class="w-100 btn btn-success btn-lg mt-3" type="submit">Ubah Paket</button>
           </div>
 
       </div>

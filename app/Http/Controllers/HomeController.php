@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\SubscribePackagecribe;
 
 class HomeController extends Controller
 {
@@ -21,6 +22,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
+     public function index(){
+        // $packages =  SubscribePackagecribe::all();
+        return view('welcome');
+     }
     public function adminhome()
     {
         return view('admin.home');

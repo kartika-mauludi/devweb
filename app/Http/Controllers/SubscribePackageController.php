@@ -3,18 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SubscribePackage;
+use App\Models\SubscribePackagecribe;
 
-class PaymentController extends Controller
+class SubscribePackageController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index($id)
+    public function index()
     {
-        $pack = SubscribePackage::where('id',$id)->first();
-        // dd($pack);
-        return view('payment',compact('pack'));
+        //
     }
 
     /**

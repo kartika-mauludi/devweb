@@ -1,9 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\SubscribePackage;
 
 Route::get('/', function () {
-    return view('welcome');
+    $packages =  SubscribePackage::all();
+    return view('welcome',compact('packages'));
 });
 
 Auth::routes();
