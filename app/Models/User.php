@@ -3,15 +3,22 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\Passwordreset;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use illuminate\Contracts\Auth\CanResetPassword;
+use illuminate\Contracts\Auth\MustVerifyEmail ;
 
-class User extends Authenticatable
+class User extends Authenticatable implements CanResetPassword
+
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    public function sendPasswordResetNotification($token){
+        $this->notify(new Passwordreset($token));
+    }
     /**
      * The attributes that are mass assignable.
      *
