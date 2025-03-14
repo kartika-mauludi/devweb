@@ -27,4 +27,11 @@ class Payment extends Model
     {
         return $this->belongsTo(SubscribeRecord::class);
     }
+
+    public function grandtotal()
+    {
+        $grandtotal = $this->price - ($this->price * $this->discount/100);
+        
+        return $grandtotal;
+    }
 }
