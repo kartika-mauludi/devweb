@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AffiliateComission;
+use App\Models\MidtranConfig;
 use Illuminate\Http\Request;
 
 class ConfigurationController extends Controller
@@ -19,6 +20,7 @@ class ConfigurationController extends Controller
     {
         $data['title'] = $this->title;
         $data['commisions'] = AffiliateComission::latest()->first();
+        $data['midtrans']   = MidtranConfig::first();
 
         return view('admin.configuration.index', $data);
     }

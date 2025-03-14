@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AffiliateCommisionController;
 use App\Http\Controllers\Admin\ConfigurationController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MidtransConfigController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\SubscribePackageController;
 use App\Http\Controllers\Admin\SubscribeRecordController;
@@ -101,6 +102,11 @@ Route::group(['prefix' => 'payment', 'as' => 'payment.', 'controller' => Payment
 Route::get('configuration', [ConfigurationController::class, 'index'])->name('configuration');
 
 Route::group(['prefix' => 'commision-config', 'as' => 'commision-config.', 'controller' => AffiliateCommisionController::class], function(){
+    Route::get('setting', 'setting')->name('setting');
+    Route::post('store', 'store')->name('store');
+});
+
+Route::group(['prefix' => 'midtrans-config', 'as' => 'midtrans-config.', 'controller' => MidtransConfigController::class], function(){
     Route::get('setting', 'setting')->name('setting');
     Route::post('store', 'store')->name('store');
 });

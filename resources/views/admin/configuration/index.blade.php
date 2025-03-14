@@ -30,6 +30,37 @@
                     </div>
                 </div>
             </div>
+            <div class="col-12 col-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Konfigurasi Midtrans</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="environment" class="form-label">Environment</label>
+                            <input type="text" name="environment" id="environment" class="form-control form-control-sm" value="{{ $midtrans->environment ?? '' }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="sandbox_client_key" class="form-label">Sandbox client key</label>
+                            <input type="text" name="sandbox_client_key" id="sandbox_client_key" class="form-control form-control-sm" value="{{ $midtrans->sandbox_client_key ?? '' }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="sandbox_server_key" class="form-label">Sandbox server key</label>
+                            <input type="text" name="sandbox_server_key" id="sandbox_server_key" class="form-control form-control-sm" value="{{ $midtrans->sandbox_server_key ?? '' }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="production_client_key" class="form-label">Production client key</label>
+                            <input type="text" name="production_client_key" id="production_client_key" class="form-control form-control-sm" value="{{ $midtrans->production_client_key ?? '' }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="production_server_key" class="form-label">Production server key</label>
+                            <input type="text" name="production_server_key" id="production_server_key" class="form-control form-control-sm" value="{{ $midtrans->production_server_key ?? '' }}" readonly>
+                        </div>
+        
+                        <a href="{{ route('midtrans-config.setting') }}" class="btn btn-sm btn-success mt-3">Setting</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
