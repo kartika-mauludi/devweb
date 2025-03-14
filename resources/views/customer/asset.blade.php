@@ -67,7 +67,7 @@
       </nav>
                             <nav class="-mx-3 flex flex-1 justify-end">
 
-                                <a class="btn-getstarted" href="{{ route('logout') }}"
+                                <a class="btn-danger" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}

@@ -198,6 +198,24 @@ h6 {
 }
 
 
+.header .btn-danger,
+.header .btn-danger:focus {
+  color: var(--contrast-color);
+  background: red;
+  font-size: 14px;
+  padding: 8px 25px;
+  margin: 0 0 0 30px;
+  border-radius: 50px;
+  transition: 0.3s;
+}
+
+.header .btn-danger:hover,
+.header .btn-danger:focus:hover {
+  color: var(--contrast-color);
+  background: color-mix(in srgb, var(--accent-color), transparent 15%);
+}
+
+
 .header .btn-login,
 .header .btn-login:focus {
   color: #000;

@@ -3,7 +3,7 @@
 @section('content')
 <div class="mt-5 pt-5"></div>
 <div class="py-5 text-center">
-<h1>Masuk Ke Akun Kamu</h1>
+<h1>Reset Password</h1>
 </div>
 
 <div class="container mt-2">
@@ -57,7 +57,7 @@
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
+                                    {{ __('Ganti Password Anda') }}
                                 </button>
                             </div>
                         </div>
