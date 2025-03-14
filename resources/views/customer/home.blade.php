@@ -1,4 +1,4 @@
-@extends('layouts.asset')
+@extends('customer.asset')
 
 @section('content')
 <div class="container">

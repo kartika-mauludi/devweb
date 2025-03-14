@@ -43,10 +43,15 @@ class LoginController extends Controller
     public function login(Request $request): RedirectResponse
     {   
         $input = $request->all();
+
      
         $this->validate($request, [
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users',
             'password' => 'required',
+        ],[
+            'email.required' => 'email tidak boleh kosong',
+            "email.exists" => "Akun tidak ditemukan",
+            'password.required' => 'password tidak boleh kosong' 
         ]);
      
         if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
@@ -60,7 +65,9 @@ class LoginController extends Controller
             }
         }else{
             return redirect()->route('login')
-                ->with('error','Email-Address And Password Are Wrong.');
+            ->withErrors([
+                'password' => 'password tidak sesuai',
+            ]);
         }
           
     }

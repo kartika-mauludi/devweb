@@ -1,7 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.asset')
 
 @section('content')
-<div class="container">
+<div class="mt-5 pt-5"></div>
+<div class="py-5 text-center">
+<h1>Masuk Ke Akun Kamu</h1>
+</div>
+
+<div class="container mt-2">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -14,7 +19,7 @@
                         <input type="hidden" name="token" value="{{ $token }}">
 
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Alamat Email') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
@@ -62,4 +67,5 @@
         </div>
     </div>
 </div>
+<div class="mb-5 pb-5"></div>
 @endsection
