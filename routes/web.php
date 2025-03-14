@@ -30,6 +30,8 @@ Route::middleware(['auth', 'user'])->group(function () {
     Route::get('/user/home', [App\Http\Controllers\HomeController::class, 'userhome'])->name("user.home");
 });
 
+// Start Admin Page Routes //
+
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::group(['prefix' => 'customer', 'as' => 'customer.', 'controller' => CustomerController::class], function(){
@@ -102,10 +104,5 @@ Route::group(['prefix' => 'commision-config', 'as' => 'commision-config.', 'cont
     Route::get('setting', 'setting')->name('setting');
     Route::post('store', 'store')->name('store');
 });
-// Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-// Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// End Admin Page Route //

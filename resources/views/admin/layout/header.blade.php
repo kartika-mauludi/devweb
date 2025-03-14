@@ -127,9 +127,12 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <span class="dropdown-item dropdown-header">{{ auth()->user()->name ?? 'superadmin' }}</span>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-sign-out-alt mr-2"></i> Logout
-            </a>
+            <form action="{{ route('logout') }}" method="post">
+              @csrf
+              <button type="submit" class="dropdown-item">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+              </button>
+            </form>
           </div>
       </li>
     </ul>
