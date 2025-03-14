@@ -35,6 +35,10 @@
 
                         <div class="row">
                             <div class="col-12 col-sm-6 form-group">
+                                <label for="nomor" class="form-label">Nomor Telpon</label>
+                                <input type="text" class="form-control form-control-sm" value="{{ $record->nomor ?? '' }}">
+                            </div>
+                            <div class="col-12 col-sm-6 form-group">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" name="password" id="password" class="form-control form-control-sm" @if(!isset($record)) required @endif>
                                 @if(isset($record))
