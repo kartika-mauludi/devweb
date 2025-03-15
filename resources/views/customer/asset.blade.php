@@ -25,7 +25,11 @@
   <link href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
 
   <!-- Main CSS File -->
-  <link href="{{ asset('assets/css/main.css')}}" rel="stylesheet">
+  <link href="{{ asset('customer/main.css')}}" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
+  <!-- Select -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
  
  <style>
       .bd-placeholder-img {
@@ -40,6 +44,15 @@
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
         }
+      }
+      /* select2 styling */
+      .select2-container--default .select2-selection--single{
+          padding:6px;
+          height: 37px;
+          width: 100%;
+          position: relative;
+          border:solid 1px #DEE2E6;
+          background-color: #fff;
       }
     </style>
 
@@ -58,10 +71,10 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="{{ url('/#beranda') }}" class="active">Beranda</a></li>
-          <li><a href="{{ url('/#kelebihan') }}">Langganan</a></li>
-          <li><a href="{{ url('/#tentang') }}">Affiliasi</a></li>
-          <li><a href="{{ url('/#harga') }}">Bantuan</a></li>
+          <li><a href="{{ url('/user/home') }}" class="active">Beranda</a></li>
+          <li><a href="{{ url('/user/Langganan') }}">Langganan</a></li>
+          <li><a href="{{ url('/user/afiliasi') }}">Affiliasi</a></li>
+          <li><a href="{{ url('/user/home') }}">Bantuan</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
@@ -81,8 +94,6 @@
     </div>
   </header>
   <a href="https://wa.me/+6285236868125" target="_blank" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-whatsapp"></i></a>
-
-
   @yield('content')
 
 
@@ -147,10 +158,26 @@
   <script src="{{ asset('assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
   <script src="{{ asset('assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js" ></script>
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
 
   <!-- Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
 
+  <!-- Select -->
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+  new DataTable('#example');
+
+  // Select
+  $(document).ready(function() {
+    $('.js-example-basic-single').select2();
+  });
+
+  $('b[role="presentation"]').hide();
+  $('.select2-selection__arrow').append('<i class="fa fa-angle-down"></i>');
+</script>
 
 </body>
 
