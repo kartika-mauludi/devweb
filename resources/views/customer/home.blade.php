@@ -53,7 +53,7 @@
         <div class="row justify-content-center">
           <div class="col-lg-10 content">
             <!-- search card -->
-          <div class="row justify-content-center bg-light rounded bg-light border border-1 shadow-sm p-3 my-5">
+          <!-- <div class="row justify-content-center bg-light rounded bg-light border border-1 shadow-sm p-3 my-5">
             <div class="col">
                 <input class="form-control" type="search" placeholder="Search" aria-label="Search">
             </div>
@@ -81,7 +81,17 @@
             <div class="col d-grid gap-2 mx-auto">
                 <button class="btn btn-outline-primary" type="submit">Search</button>
             </div>
+          </div> -->
+          <div class="container mt-4">
+          <div class="category-filter">
+            <select id="categoryFilter" class="form-control">
+              <option value="">Show All</option>
+              <option value="Edinburgh">Edinburgh</option>
+              <option value="Tokyo">Tokyo</option>
+              <option value="San Francisco">San Francisco</option>
+            </select>
           </div>
+      
             <!-- end search card -->
           <table id="example" class="table table-striped" style="width:100%">
             <thead>
@@ -140,6 +150,34 @@
                     <td>Tokyo</td>
                 
                 </tr>
+                <tr>
+                    <td>Colleen Hurst</td>
+                    <td>Javascript Developer</td>
+                    <td>San Francisco</td>
+                
+                </tr>
+
+                <tr>
+                    <td>Colleen Hurst</td>
+                    <td>Javascript Developer</td>
+                    <td>San Francisco</td>
+                
+                </tr>
+
+                <tr>
+                    <td>Colleen Hurst</td>
+                    <td>Javascript Developer</td>
+                    <td>San Francisco</td>
+                
+                </tr>
+
+                <tr>
+                    <td>Colleen Hurst</td>
+                    <td>Javascript Developer</td>
+                    <td>San Francisco</td>
+                
+                </tr>
+
                 <tr>
                     <td>Colleen Hurst</td>
                     <td>Javascript Developer</td>

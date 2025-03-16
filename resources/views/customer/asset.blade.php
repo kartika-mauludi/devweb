@@ -30,6 +30,7 @@
   <!-- Select -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" /> -->
  
  <style>
       .bd-placeholder-img {
@@ -54,6 +55,17 @@
           border:solid 1px #DEE2E6;
           background-color: #fff;
       }
+
+      select.form-control{
+        display: inline;
+        width: 200px;
+        margin-left: 25px;
+      }
+
+      .dataTables_filter {
+          float: right;
+          text-align: right;
+      }
     </style>
 
 </head>
@@ -75,21 +87,27 @@
           <li><a href="{{ url('/user/Langganan') }}">Langganan</a></li>
           <li><a href="{{ url('/user/afiliasi') }}">Affiliasi</a></li>
           <li><a href="{{ url('/user/home') }}">Bantuan</a></li>
+          <li class="dropdown"><a href="#"><span>{{ auth::user()->name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul style="right: 0; left: auto;">
+              <li style="display: flex; flex-direction: row;"><a class="bi bi-box-arrow-right fs-5" href="#">
+                <span style="font-size: 0.9rem !important;" class="mx-2">Profil</span>
+                </a></li>
+              <li style="display: flex; flex-direction: row;">
+                   <a class="bi bi-box-arrow-right fs-5" href="{{ route('logout') }}"
+                      onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                     <!-- {{ __('Logout') }}  -->
+                       <span style="font-size: 0.9rem !important;" class="mx-2">Logout</span>
+                  </a> 
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                      @csrf
+                  </form>     
+              </li>
+            </ul>
+          </li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
-                            <nav class="-mx-3 flex flex-1 justify-end">
-
-                                <a class="btn-danger" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-                                   
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                            </nav>
+        </nav>
 
     </div>
   </header>
@@ -167,16 +185,80 @@
 
   <!-- Select -->
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <script>
-  new DataTable('#example');
+ 
+  $("document").ready(function () {
+    $("#example").dataTable({
+      "searching": true
+    });
 
-  // Select
-  $(document).ready(function() {
-    $('.js-example-basic-single').select2();
+      var table = $('#example').DataTable();
+
+    $(".dataTables_filter").append($("#categoryFilter"));
+    var categoryIndex = 0;
+    $("#example th").each(function (i) {
+      if ($($(this)).html() == "Website") {
+        categoryIndex = i; return false;
+      }
+    });
+    $.fn.dataTable.ext.search.push(
+      function (settings, data, dataIndex) {
+        var selectedItem = $('#categoryFilter').val()
+        var category = data[categoryIndex];
+        if (selectedItem === "" || category.includes(selectedItem)) {
+          return true;
+        }
+        return false;
+      }
+    );
+  $("#categoryFilter").change(function (e) {
+    table.draw();
+  });
+  table.draw();
   });
 
-  $('b[role="presentation"]').hide();
-  $('.select2-selection__arrow').append('<i class="fa fa-angle-down"></i>');
+   // new DataTable('#example',{
+  //   select: true
+    // initComplete: function () {
+    //     this.api()
+    //         .columns()
+    //         .every(function () {
+    //             let column = this;
+ 
+    //             // Create select element
+    //             let select = document.createElement('select');
+    //             select.add(new Option(''));
+    //             column.footer().replaceChildren(select);
+ 
+    //             // Apply listener for user change in value
+    //             select.addEventListener('change', function () {
+    //                 column
+    //                     .search(select.value, {exact: true})
+    //                     .draw();
+    //             });
+ 
+    //             // Add list of options
+    //             column
+    //                 .data()
+    //                 .unique()
+    //                 .sort()
+    //                 .each(function (d, j) {
+    //                     select.add(new Option(d));
+    //                 });
+    //         });
+    // }
+
+    
+  // });
+  // $(document).ready(function() {
+  //   $('.js-example-basic-single').select2();
+  // });
+
+  // $('b[role="presentation"]').hide();
+  // $('.select2-selection__arrow').append('<i class="fa fa-angle-down"></i>');
+
+
 </script>
 
 </body>

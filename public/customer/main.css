@@ -96,7 +96,10 @@
     color: var(--heading-color);
     font-family: var(--heading-font);
   }
-  
+  .logout{
+    background-color: #df1529;
+    color: #f5f6f8;
+  }
   /* PHP Email Form Messages
   ------------------------------*/
   .php-email-form .error-message {
@@ -234,6 +237,7 @@
   }
   
   @media (max-width: 1200px) {
+
     .header .logo {
       order: 1;
     }
@@ -275,7 +279,7 @@
     .navmenu {
       padding: 0;
     }
-  
+
     .navmenu ul {
       margin: 0;
       padding: 0;
@@ -375,7 +379,6 @@
       left: -100%;
       visibility: visible;
     }
-  
     .navmenu .megamenu {
       position: static;
     }
