@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SubscribePackageController;
 use App\Http\Controllers\Admin\SubscribeRecordController;
 use App\Http\Controllers\Admin\SuperadminController;
 use App\Http\Controllers\Admin\UserAffiliateController;
+use App\Http\Controllers\Customer\ProfilController;
 use Illuminate\Support\Facades\Route;
 use App\Models\SubscribePackage;
 
@@ -34,6 +35,18 @@ Route::middleware(['auth', 'user'])->group(function () {
 // Start Admin Page Routes //
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::group(['prefix' => 'customer/profil', 'as' => 'customer/profil.', 'controller' => ProfilController::class], function(){
+    Route::get('/', 'index')->name('index');
+    Route::get('create', 'create')->name('create');
+    Route::get('show/{user}', 'show')->name('show');
+    Route::get('edit/{user}', 'edit')->name('edit');
+
+    Route::post('store', 'store')->name('store');
+    Route::put('update/{user}', 'update')->name('update');
+    Route::put('updatepass/{user}', 'password')->name('password');
+    Route::delete('destroy/{user}', 'destroy')->name('destroy');
+});
 
 Route::group(['prefix' => 'customer', 'as' => 'customer.', 'controller' => CustomerController::class], function(){
     Route::get('/', 'index')->name('index');

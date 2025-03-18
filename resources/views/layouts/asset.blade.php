@@ -162,7 +162,12 @@
 
   <!-- Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
-
+<!-- <script>
+  function validateNumber(input) {
+  let cleanedValue = input.value.replace(/\D/g, '');
+  input.value = cleanedValue;
+}
+</script> -->
 
 </body>
 

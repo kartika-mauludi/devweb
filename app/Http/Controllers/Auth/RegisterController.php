@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\SubscribeRecord;
+use Session;
 
 class RegisterController extends Controller
 {
@@ -70,12 +72,18 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user =  User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'nomor' => $data['nomor'],
             'password' => Hash::make($data['password']),
         ]);
-
+       
+         SubscribeRecord::create([
+            'user_id' => $user->id,
+            'subscribe_package_id' => Session::get('id')
+        ]);
+        return $user;
         return redirect()->route('user.home');
     }
 }

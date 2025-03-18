@@ -30,8 +30,8 @@
   <!-- Select -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-  <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" /> -->
- 
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
  <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -66,6 +66,64 @@
           float: right;
           text-align: right;
       }
+
+      body{
+    margin-top:20px;
+    color: #1a202c;
+    text-align: left;
+    background-color: #e2e8f0;    
+}
+.main-body {
+    padding: 15px;
+}
+
+.nav-link {
+    color: #4a5568;
+}
+.card {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1rem;
+}
+
+.gutters-sm {
+    margin-right: -8px;
+    margin-left: -8px;
+}
+
+.gutters-sm>.col, .gutters-sm>[class*=col-] {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+.mb-3, .my-3 {
+    margin-bottom: 1rem!important;
+}
+
+.bg-gray-300 {
+    background-color: #e2e8f0;
+}
+.h-100 {
+    height: 100%!important;
+}
+.shadow-none {
+    box-shadow: none!important;
+}
     </style>
 
 </head>
@@ -83,13 +141,13 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="{{ url('/user/home') }}" class="active">Beranda</a></li>
+          <li><a href="{{ url('/user/home') }}" class=" @if(Route::is('user.home')) active @endif">Beranda</a></li>
           <li><a href="{{ url('/user/Langganan') }}">Langganan</a></li>
           <li><a href="{{ url('/user/afiliasi') }}">Affiliasi</a></li>
           <li><a href="{{ url('/user/home') }}">Bantuan</a></li>
-          <li class="dropdown"><a href="#"><span>{{ auth::user()->name }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          <li class="dropdown"><a href="#" class=" @if(Route::is('customer/profil.*')) active @endif"><span>{{ auth::user()->name ?? '' }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul style="right: 0; left: auto;">
-              <li style="display: flex; flex-direction: row;"><a class="bi bi-box-arrow-right fs-5" href="#">
+              <li style="display: flex; flex-direction: row;"><a class="bi bi-person-fill fs-5" href="{{ route('customer/profil.show',$user->id) }}">
                 <span style="font-size: 0.9rem !important;" class="mx-2">Profil</span>
                 </a></li>
               <li style="display: flex; flex-direction: row;">

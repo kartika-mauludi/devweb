@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SubscribePackagecribe;
+use App\Models\SubscribeRecord;
+use auth;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -34,7 +36,14 @@ class HomeController extends Controller
 
     public function userhome()
     {
-        return view('customer.home');
+        $id = auth::user()->id;
+        $user =  User::with('subscribeRecord.subscribePackage')->find($id);
+        $subscribes = subscribeRecord::with('subscribePackage')->where('user_id',$id)->get();
+        foreach($subscribes as $subscribe){
+          $sub =  $subscribe->subscribepackage->name;
+        }
+        // return $subscribes;
+        return view('customer.home',compact('user','sub'));
     }
 
 

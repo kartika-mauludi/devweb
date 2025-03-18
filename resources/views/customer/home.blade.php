@@ -22,7 +22,7 @@
           <div class="col-xl-5 col-lg-6 col-md-6">
             <div class="service-item position-relative">
               <h4>Data Langganan Anda</h4>
-              <h2>1 Bulan</h2>
+              <h2>{{ $sub }}</h2>
               <p>Berakhir pada 27 March 2025, 15:57 (WIB).</p>
             </div>
           </div><!-- End Service Item -->
@@ -52,36 +52,6 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-10 content">
-            <!-- search card -->
-          <!-- <div class="row justify-content-center bg-light rounded bg-light border border-1 shadow-sm p-3 my-5">
-            <div class="col">
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-            </div>
-            <div class="col">
-                <select class="js-example-basic-single select2-container--default" style="width:100%;" name="state">
-                    <option class="select2-selection--single" value="AL">Universitas 1</option>
-                    <option class="select2-selection--single" value="WY">Universitas 2</option>
-                    <option class="select2-selection--single" value="WY">Universitas 3</option>
-                </select>
-            </div>
-            <div class="col">
-                <select class="js-example-basic-single" style="width:100%;" name="state">
-                    <option value="AL">Alabama</option>
-                        ...
-                    <option value="WY">Wyoming</option>
-                </select>
-            </div>
-            <div class="col">
-                <select class="js-example-basic-single" style="width:100%;" name="state">
-                    <option value="AL">Alabama</option>
-                        ...
-                    <option value="WY">Wyoming</option>
-                </select>
-            </div>
-            <div class="col d-grid gap-2 mx-auto">
-                <button class="btn btn-outline-primary" type="submit">Search</button>
-            </div>
-          </div> -->
           <div class="container mt-4">
           <div class="category-filter">
             <select id="categoryFilter" class="form-control">

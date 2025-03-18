@@ -19,7 +19,7 @@
             <div class="row g-3">
               <div class="col-sm-12">
                 <label for="firstName" class="form-label">Nama Lengkap</label>
-                <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" id="nama" placeholder="" value="" required>
+                <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" id="nama" placeholder="Contoh : Bambang " value="" required  oninvalid="this.setCustomValidity('Nama Harus di Isi')" oninput="this.setCustomValidity('')">
                 @error('name')
                   <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>
@@ -28,8 +28,17 @@
               </div>
               <div class="col-12">
                 <label for="email" class="form-label">Alamat Email <span class="text-muted"></span></label>
-                <input type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="you@example.com">
+                <input type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" required  oninvalid="this.setCustomValidity('Email Harus di Isi')" oninput="this.setCustomValidity('')" id="email" placeholder="you@email.com">
                   @error('email')
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $message }}</strong>
+                      </span>
+                  @enderror
+              </div>
+              <div class="col-12">
+                <label for="nomor" class="form-label">Nomor Whatsapp<span class="text-muted"></span></label>
+                <input type="tel" name="nomor" value="{{ old('nomor') }}" class="form-control @error('nomor') is-invalid @enderror" id="nomor" oninput="this.value = this.value.replace(/\D/g, '+');this.setCustomValidity('')" maxlength="15" placeholder="08xxxxxxxxx" required  oninvalid="this.setCustomValidity('Nomor Harus di Isi')">
+                  @error('nomor')
                       <span class="invalid-feedback" role="alert">
                           <strong>{{ $message }}</strong>
                       </span>
@@ -53,6 +62,7 @@
         </div>
         <!-- end of data diri -->
         <!-- Detail Pemesanan -->
+         {{ Session::put('id', $pack->id) }}
         <div class="col-md-4 col-lg-4 col-sm-8 order-md-last bg-light shadow-sm m-2 p-5 border border-1">
           <h4 class="d-flex justify-content-between align-items-center mb-3">
             <span class="text-primary">Detail Pemesanan</span>
