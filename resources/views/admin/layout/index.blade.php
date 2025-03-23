@@ -25,6 +25,8 @@
   <link rel="stylesheet" href="{{ asset('admin/plugins/daterangepicker/daterangepicker.css') }}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('admin/plugins/summernote/summernote-bs4.min.css') }}">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ asset('admin/custom/custom.css') }}">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -135,7 +137,7 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('admin/dist/js/pages/dashboard.js') }}"></script>
 
-@yield('script')
+@stack('script')
 
 </body>
 </html>

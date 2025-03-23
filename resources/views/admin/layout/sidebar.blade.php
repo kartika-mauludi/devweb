@@ -18,6 +18,14 @@
         </a>
       </li>
       <li class="nav-item">
+        <a href="{{ route('universities.index') }}" class="nav-link @if(Route::is('universities.*')) active @endif">
+          <i class="nav-icon fa fa-school"></i>
+          <p>
+            Universitas
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
         <a href="{{ route('customer.index') }}" class="nav-link @if(Route::is('customer.*')) active @endif">
           <i class="nav-icon fa fa-users"></i>
           <p>

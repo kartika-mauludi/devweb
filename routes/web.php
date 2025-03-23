@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\UserAffiliateController;
 use App\Http\Controllers\Customer\ProfilController;
 use App\Http\Controllers\Customer\LanggananController;
 use App\Http\Controllers\Customer\AffiliasiController;
+use App\Http\Controllers\UniversityController;
 // use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Models\SubscribePackage;
@@ -144,5 +145,9 @@ Route::group(['prefix' => 'midtrans-config', 'as' => 'midtrans-config.', 'contro
     Route::get('setting', 'setting')->name('setting');
     Route::post('store', 'store')->name('store');
 });
+
+Route::resource('universities', UniversityController::class);
+
+
 
 // End Admin Page Route //
