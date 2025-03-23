@@ -17,7 +17,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('nomor');
+            $table->string('nomor')->nullable();
+            $table->string('refferal_code')->nullable();
+            // $table->string('bank_account')->nullable();
+            // $table->string('bank_name')->nullable();
+            // $table->tinyInteger('is_superadmin');
             $table->rememberToken();
             $table->timestamps();
         });

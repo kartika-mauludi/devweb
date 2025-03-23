@@ -12,9 +12,14 @@
             </div>
         </div>
     </section><!-- /Hero Section -->
-
+    @if (session('message'))
+            <div class="alert alert-info alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                {{ session('message') }}
+            </div>
+        @endsession
     <!-- Services Section -->
-    <section id="kelebihan" class="services section light-background">
+    <section id="tabel" class="services section light-background">
 
       <!-- Section Title -->
       <div class="container">
@@ -31,7 +36,7 @@
             <div class="service-item position-relative">
               <h4>Komisi Anda</h4>
               <h2 class="mb-3">Rp</h2>
-              <button class="btn btn-primary rounded btn-sm text-white">Mulai Datapkan Komisi</button> <button class="btn btn-primary text-white rounded btn-sm">Tarik Komisi</button>
+              <a href="{{ route('customer/affiliasi.index') }}" class="btn btn-primary rounded btn-sm text-white">Mulai Datapkan Komisi</a>
             </div>
           </div><!-- End Service Item -->
         </div>

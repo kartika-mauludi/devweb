@@ -6,8 +6,7 @@
       <!-- Breadcrumb -->
       <nav aria-label="breadcrumb" class="main-breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item"><a href="javascript:void(0)">User</a></li>
+          <li class="breadcrumb-item"><a href="javascript:void(0">Home</a></li>
           <li class="breadcrumb-item active" aria-current="page">Profile Settings</li>
         </ol>
       </nav>
@@ -69,7 +68,7 @@
                 @endsession
 
               <div class="tab-pane @if(!session('active')) active @else  @endif" id="profil">
-                <h6>Informasi Profil</h6>
+                <h4>Informasi Profil</h4>
                 <hr>
                 <form>
                   <div class="form-group">
@@ -84,10 +83,18 @@
                     <label for="nomor">Nomor Whatsapp</label>
                     <input type="text" class="form-control" id="nomor" value="{{ $user->nomor }}" readonly>
                   </div>
+                  <div class="form-group">
+                    <label for="nomor">Nomor Rekening</label>
+                    <input type="text" class="form-control" id="rekening" value="{{ $user->bank_account }}" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="nomor">Nama Bank</label>
+                    <input type="text" class="form-control" id="bank"  value="{{ $user->bank_name }}" readonly>
+                  </div>
                 </form>
               </div>
               <div class="tab-pane {{ (session('active') == '1') ? 'active' : '' }}" id="akun">
-                <h6>Pengaturan Akun</h6>
+                <h4>Pengaturan Akun</h4>
                 <hr>
                 <form method="POST" action="{{ $url }}">
                 @csrf
@@ -104,11 +111,19 @@
                     <label for="nomor">Nomor Whatsapp</label>
                     <input type="text" class="form-control" id="nomor" name="nomor" value="{{ $user->nomor }}" oninput="this.value = this.value.replace(/\D/g, '+')">
                   </div>
+                  <div class="form-group">
+                    <label for="nomor">Nomor Rekening</label>
+                    <input type="text" class="form-control" id="rekening" name="rekening" value="{{ $user->bank_account }}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="contoh : 5126411">
+                  </div>
+                  <div class="form-group">
+                    <label for="nomor">Nama Bank</label>
+                    <input type="text" class="form-control" id="bank" name="bank" value="{{ $user->bank_name }}" placeholder="contoh : BCA">
+                  </div>
                   <button type="submit" class="btn btn-primary">Update Profile</button>
                 </form>
               </div>
               <div class="tab-pane {{ (session('active') == '2') ? 'active' : '' }}" id="keamanan">
-                <h6>Pengaturan Keamanan</h6>
+                <h4>Pengaturan Keamanan</h4>
                 <hr>
                 <form method="POST" action="{{ $passurl }}">
                     @csrf
@@ -136,7 +151,7 @@
               </div>
              
               <div class="tab-pane {{ (session('active') == '3') ? 'active' : '' }}" id="tagihan">
-                <h6>Tagihan</h6>
+                <h4>Tagihan</h4>
                 <hr>
                 <form>
                   <div class="form-group">
@@ -210,7 +225,33 @@
                             </div>
                           </div>
                         </div>
-                        <div class="tab-pane" id="simple-tabpanel-1" role="tabpanel" aria-labelledby="simple-tab-1">Faktur</div>
+                        <div class="tab-pane" id="simple-tabpanel-1" role="tabpanel" aria-labelledby="simple-tab-1">
+                          Faktur
+                          <table class="table">
+                            <thead>
+                                <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Tanggal</th>
+                                <th scope="col">Jumlah</th>
+                                <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              @foreach($subscribes as $sub)
+                                <tr>
+                                <td scope="row">{{ $sub->subscribePackage->name }}</td>
+                                @foreach ( $user->payments as $payment )
+                                <td>{{ $payment->status }} </td> 
+                                @endforeach
+                                <td>{{$sub->end_date}}</td>
+                                <td>Rp.{{ number_format($sub->subscribePackage->price , 0, ",", ".") }}</td>
+                                 <td><a href="{{ route('customer/profil.invoice',$user->id) }}">Download</a></td>  
+                              </tr>
+                                @endforeach
+                            </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 </form>
@@ -229,3 +270,4 @@
 
 
 @endsection
+

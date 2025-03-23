@@ -10,6 +10,13 @@
       <p class="lead">Isi data diri anda</p>
     </div>
 
+       @if (session('message'))
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                {{ session('message') }}
+            </div>
+        @endsession
+
     <form class="needs-validation" method="POST" action="{{ route('register') }}">
      @csrf
       <div class="row justify-content-center p-3">
@@ -61,8 +68,13 @@
           </div>
         </div>
         <!-- end of data diri -->
-        <!-- Detail Pemesanan -->
-         {{ Session::put('id', $pack->id) }}
+        <!-- Detail Pemesanan  -->
+        {{ Session::put('id', $pack->id) }}
+         {{ Session::put('ref', request('ref')) }}
+         {{ Session::put('price', $pack->price) }}
+         {{ Session::put('discount', $pack->discount) }}
+
+         {{ request('ref') }}
         <div class="col-md-4 col-lg-4 col-sm-8 order-md-last bg-light shadow-sm m-2 p-5 border border-1">
           <h4 class="d-flex justify-content-between align-items-center mb-3">
             <span class="text-primary">Detail Pemesanan</span>
@@ -83,7 +95,7 @@
             </li>
           </ul>
             <div class="input-group">
-            <button class="w-100 btn btn-primary btn-lg rounded" type="submit">Continue to checkout</button>
+            <button class="w-100 btn btn-primary btn-lg rounded" type="submit">Daftar</button>
             <a href="{{ url('/#harga') }}" class="w-100 btn btn-success btn-lg mt-3 rounded" type="submit">Ubah Paket</a>
             </div>
         </div>

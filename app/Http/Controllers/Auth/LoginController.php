@@ -42,9 +42,7 @@ class LoginController extends Controller
 
     public function login(Request $request): RedirectResponse
     {   
-        $input = $request->all();
-
-     
+        $input = $request->all();    
         $this->validate($request, [
             'email' => 'required|email|exists:users',
             'password' => 'required',
@@ -59,7 +57,7 @@ class LoginController extends Controller
             if (auth()->user()->is_superadmin == 1) {
                 return redirect()->route('dashboard');
             }else if (auth()->user()->is_superadmin	== 0) {
-                return redirect()->route('user.home');
+                return redirect()->route('customer.home');
             }else{
                 return redirect()->route('login');
             }

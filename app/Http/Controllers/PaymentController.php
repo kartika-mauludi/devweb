@@ -12,8 +12,8 @@ class PaymentController extends Controller
      */
     public function index($id)
     {
+        // $ref = request()->query('ref');
         $pack = SubscribePackage::where('id',$id)->first();
-        // dd($pack);
         return view('payment',compact('pack'));
     }
 

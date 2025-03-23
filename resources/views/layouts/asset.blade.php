@@ -78,7 +78,7 @@
                                     >
                                 @elseif(auth::user()->is_superadmin == 0)
                                 <a
-                                        href="{{ url('/user/home') }}"
+                                        href="{{ url('/customer/home') }}"
                                         class="btn-getstarted"
                                     >
                                     @endif

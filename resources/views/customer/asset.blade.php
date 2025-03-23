@@ -124,6 +124,44 @@
 .shadow-none {
     box-shadow: none!important;
 }
+
+.tooltip2 {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip2 .tooltiptext {
+  visibility: hidden;
+  width: 140px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -75px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip2 .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip2:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
     </style>
 
 </head>
@@ -141,13 +179,13 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="{{ url('/user/home') }}" class=" @if(Route::is('user.home')) active @endif">Beranda</a></li>
-          <li><a href="{{ url('/user/Langganan') }}">Langganan</a></li>
-          <li><a href="{{ url('/user/afiliasi') }}">Affiliasi</a></li>
+          <li><a href="{{ url('/customer/home') }}" class=" @if(Route::is('customer.home')) active @endif">Beranda</a></li>
+          <li><a href="{{ route('customer/langganan.index') }}" class=" @if(Route::is('customer/langganan.*')) active @endif">Langganan</a></li>
+          <li><a href="{{ route('customer/affiliasi.index') }}"  class=" @if(Route::is('customer/affiliasi.*')) active @endif">Affiliasi</a></li>
           <li><a href="{{ url('/user/home') }}">Bantuan</a></li>
           <li class="dropdown"><a href="#" class=" @if(Route::is('customer/profil.*')) active @endif"><span>{{ auth::user()->name ?? '' }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul style="right: 0; left: auto;">
-              <li style="display: flex; flex-direction: row;"><a class="bi bi-person-fill fs-5" href="{{ route('customer/profil.show',$user->id) }}">
+              <li style="display: flex; flex-direction: row;"><a class="bi bi-person-fill fs-5" href="{{ route('customer/profil.show',auth::user()->id) }}">
                 <span style="font-size: 0.9rem !important;" class="mx-2">Profil</span>
                 </a></li>
               <li style="display: flex; flex-direction: row;">

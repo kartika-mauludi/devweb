@@ -11,6 +11,9 @@ use App\Http\Controllers\Admin\SubscribeRecordController;
 use App\Http\Controllers\Admin\SuperadminController;
 use App\Http\Controllers\Admin\UserAffiliateController;
 use App\Http\Controllers\Customer\ProfilController;
+use App\Http\Controllers\Customer\LanggananController;
+use App\Http\Controllers\Customer\AffiliasiController;
+// use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Models\SubscribePackage;
 
@@ -22,6 +25,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/payment/{id}','App\Http\Controllers\PaymentController@index')->name('payment');
+Route::get('/price','App\Http\Controllers\Auth\RegisterController@price')->name('refferal');
 
 
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -29,7 +33,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'user'])->group(function () {
-    Route::get('/user/home', [App\Http\Controllers\HomeController::class, 'userhome'])->name("user.home");
+    Route::get('/customer/home', [App\Http\Controllers\HomeController::class, 'userhome'])->name("customer.home");
 });
 
 // Start Admin Page Routes //
@@ -45,8 +49,25 @@ Route::group(['prefix' => 'customer/profil', 'as' => 'customer/profil.', 'contro
     Route::post('store', 'store')->name('store');
     Route::put('update/{user}', 'update')->name('update');
     Route::put('updatepass/{user}', 'password')->name('password');
+    Route::get('invoice/{id}','invoice')->name('invoice');
     Route::delete('destroy/{user}', 'destroy')->name('destroy');
 });
+
+
+Route::group(['prefix' => 'customer/langganan', 'as' => 'customer/langganan.', 'controller' => LanggananController::class], function(){
+    Route::get('/', 'langganan')->name('index');
+    Route::get('/upgrade', 'upgrade')->name('upgrade');
+    Route::get('/payment/{id}', 'payment')->name('payment');
+    // Route::get('/newsubscriber','newsubscriber')->name('subscriber');
+    Route::POST('/newsubscriber','newsubscriber')->name('subscriber');
+});
+
+Route::group(['prefix' => 'customer/affiliasi', 'as' => 'customer/affiliasi.', 'controller' => AffiliasiController::class], function(){
+    Route::get('/', 'affiliasi')->name('index');
+    Route::POST('/store','store')->name('store');
+});
+
+
 
 Route::group(['prefix' => 'customer', 'as' => 'customer.', 'controller' => CustomerController::class], function(){
     Route::get('/', 'index')->name('index');

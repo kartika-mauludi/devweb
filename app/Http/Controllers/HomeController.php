@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\SubscribeRecord;
 use auth;
 use App\Models\User;
+use App\Models\Payment;
+use App\Models\SubscribePackage;
 
 class HomeController extends Controller
 {
@@ -29,6 +31,7 @@ class HomeController extends Controller
         // $packages =  SubscribePackagecribe::all();
         return view('welcome');
      }
+
     public function adminhome()
     {
         return view('admin.home');
@@ -42,7 +45,6 @@ class HomeController extends Controller
         foreach($subscribes as $subscribe){
           $sub =  $subscribe->subscribepackage->name;
         }
-        // return $subscribes;
         return view('customer.home',compact('user','sub'));
     }
 
