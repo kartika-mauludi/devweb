@@ -9,6 +9,7 @@ use app\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\SubscribeRecord;
+use Carbon\Carbon;
 
 class ProfilController extends Controller
 {
@@ -51,6 +52,7 @@ class ProfilController extends Controller
         $user = User::with('payments')->where('id',$id)->first();
         $subscribes = subscribeRecord::with('subscribePackage')->where('user_id',$id)->get();
         return view('customer.profil',compact('user','url','passurl','subscribes'));
+        
     }
 
     /**

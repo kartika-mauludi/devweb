@@ -15,6 +15,10 @@ class CheckCsrf extends ValidateCsrfToken
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
+    protected $except = [
+        // 'api/*', // Example: Disable CSRF for API routes
+        '/subscribepayment', // Example: '/posts'
+    ];
     public function handle($request, Closure $next): Response
     {
         if($request->route()->named('logout')) {

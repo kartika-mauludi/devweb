@@ -24,9 +24,13 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
 Route::get('/payment/{id}','App\Http\Controllers\PaymentController@index')->name('payment');
-Route::get('/price','App\Http\Controllers\Auth\RegisterController@price')->name('refferal');
+Route::post('/subscribepayment','App\Http\Controllers\PaymentController@subscribepayment')->name('subscribepayment');
+Route::post('/webhook','App\Http\Controllers\PaymentController@webhook')->name('webhook');
+Route::get('/qris','App\Http\Controllers\PaymentController@qris')->name('qris');
+Route::get('/price','App\Http\Controllers\RegisterController@price')->name('refferal');
+Route::post('/registrasi','App\Http\Controllers\RegisterController@register')->name('registrasi');
+Route::get('payment-callback', 'App\Http\Controllers\PaymentController@callback');
 
 
 Route::middleware(['auth', 'admin'])->group(function () {

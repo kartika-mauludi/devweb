@@ -17,7 +17,7 @@
             </div>
         @endsession
 
-    <form class="needs-validation" method="POST" action="{{ route('register') }}">
+    <form class="needs-validation" method="POST" action="{{ route('registrasi') }}">
      @csrf
       <div class="row justify-content-center p-3">
         <!-- Data Diri -->
@@ -74,7 +74,6 @@
          {{ Session::put('price', $pack->price) }}
          {{ Session::put('discount', $pack->discount) }}
 
-         {{ request('ref') }}
         <div class="col-md-4 col-lg-4 col-sm-8 order-md-last bg-light shadow-sm m-2 p-5 border border-1">
           <h4 class="d-flex justify-content-between align-items-center mb-3">
             <span class="text-primary">Detail Pemesanan</span>
