@@ -27,6 +27,17 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-12 col-sm-6 form-group">
+                            <label for="nomor" class="form-label">Nomor Telpon</label>
+                            <input type="text" name="nomor" id="nomor" class="form-control form-control-sm" value="{{ $record->nomor ?? '' }}" readonly>
+                        </div>
+                        <div class="col-12 col-sm-6 form-group">
+                            <label for="referral_code" class="form-label">Reff. Code</label>
+                            <input type="text" name="referral_code" id="referral_code" class="form-control form-control-sm" value="{{ $record->referral_code ?? '' }}" readonly>
+                        </div>
+                    </div>
+
                     <div class="row mt-3">
                         <div class="col-12">
                             <a href="{{ $url }}" class="btn btn-sm btn-warning">Edit</a>

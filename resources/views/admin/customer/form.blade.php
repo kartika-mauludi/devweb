@@ -36,7 +36,7 @@
                         <div class="row">
                             <div class="col-12 col-sm-6 form-group">
                                 <label for="nomor" class="form-label">Nomor Telpon</label>
-                                <input type="text" class="form-control form-control-sm" value="{{ $record->nomor ?? '' }}">
+                                <input type="text" name="nomor" id="nomor" class="form-control form-control-sm" value="{{ $record->nomor ?? '' }}">
                             </div>
                             <div class="col-12 col-sm-6 form-group">
                                 <label for="password" class="form-label">Password</label>

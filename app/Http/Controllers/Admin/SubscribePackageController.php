@@ -38,6 +38,12 @@ class SubscribePackageController extends Controller
     {
         $input = $request->except('_token');
 
+        $records = SubscribePackage::all();
+
+        if (count($records) >= 3) {
+            return redirect()->route('package.index')->with('message', 'Maximum capacity is reached');
+        }
+
         try{
             SubscribePackage::create($input);
 

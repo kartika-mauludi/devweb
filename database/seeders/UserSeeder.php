@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
             'bank_account' => '1234567890',
             'bank_name' => 'Bank XYZ',
             'is_superadmin' => true,
+            'nomor' => 123
         ]);
 
         User::create([
@@ -33,6 +34,7 @@ class UserSeeder extends Seeder
             'bank_account' => '0987654321',
             'bank_name' => 'Bank ABC',
             'is_superadmin' => false,
+            'nomor' => 123
         ]);
     }
 }
