@@ -11,6 +11,7 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
 
     static $message = [
+        'extendsuccess' => 'Langganan Anda Berhasi Di Perpanjang',
         'createsuccess' => 'Data berhasil ditambahkan',
         'updatesuccess' => 'Data berhasil diperbarui',
         'deletesuccess' => 'Data berhasil dihapus',

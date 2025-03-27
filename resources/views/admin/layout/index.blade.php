@@ -27,6 +27,8 @@
   <link rel="stylesheet" href="{{ asset('admin/plugins/summernote/summernote-bs4.min.css') }}">
   <!-- select2 -->
   <link rel="stylesheet" href="{{ asset('admin/dist/css/select2.min.css') }}">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ asset('admin/custom/custom.css') }}">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -140,7 +142,7 @@
 <!-- Select 2 -->
 <script src="{{ asset('admin/dist/js/select2.min.js') }}"></script>
 
-@yield('script')
+@stack('script')
 
 </body>
 </html>

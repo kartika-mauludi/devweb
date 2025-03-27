@@ -23,10 +23,12 @@ class Payment extends Model
         return $this->belongsTo(User::class);
     }
 
+
     public function subscribeRecord()
     {
         return $this->belongsTo(SubscribeRecord::class);
     }
+
 
     public function grandtotal()
     {

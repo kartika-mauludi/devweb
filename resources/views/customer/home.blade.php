@@ -12,26 +12,51 @@
             </div>
         </div>
     </section><!-- /Hero Section -->
+    @if (session('message'))
+            <div class="alert alert-info alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                {{ session('message') }}
+            </div>
+        @endsession
 
+       
     <!-- Services Section -->
-    <section id="kelebihan" class="services section light-background">
+    <section id="tabel" class="services section light-background">
+    @if($payment->status == "pending")
+    <div class="alert alert-info alert-dismissible">
+      <div class="container">
+        Anda Memiliki Tagihan Pembayaran Yang Belum Diselesaikan Klik Tombol Berikut Untuk Melihat Pembayaran Anda <p>
+          <button class="btn btn-primary my-2">Payment</button>
+        </p>
+        </div>
+    </div>
+    @endif
 
+    @if(now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) <=1 && $payment->status == "completed")
+    <div class="alert alert-dangery alert-dismissible">
+      <div class="container">
+              Waktu Langganan Anda Akan Segera Habis, Silahkan Perpanjang Waktu Langganan Anda <p>
+          <button class="btn btn-primary my-2">Perpanjang Langganan</button>
+        </p>
+        </div>
+    </div>
+    @endif
       <!-- Section Title -->
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xl-5 col-lg-6 col-md-6">
             <div class="service-item position-relative">
-              <h4>Data Langganan Anda</h4>
-              <h2>{{ $sub }}</h2>
-              <p>Berakhir pada 27 March 2025, 15:57 (WIB).</p>
+              <h3>Data Langganan Anda</h3>
+              <h2> {{ $sub->subscribepackage->name }}</h2>
+              <p>Berakhir pada {{ \Carbon\Carbon::parse($sub->end_date)->format("d F Y") }}</p>
             </div>
           </div><!-- End Service Item -->
 
           <div class="col-xl-5 col-lg-6 col-md-6">
             <div class="service-item position-relative">
-              <h4>Komisi Anda</h4>
-              <h2 class="mb-3">Rp</h2>
-              <button class="btn btn-primary rounded btn-sm text-white">Mulai Datapkan Komisi</button> <button class="btn btn-primary text-white rounded btn-sm">Tarik Komisi</button>
+              <h3>Komisi Anda</h3>
+              <h2 class="mb-3">Rp {{ $komisi }}</h2>
+              <a href="{{ route('customer/affiliasi.index') }}" class="btn btn-primary rounded btn-sm text-white">Mulai Datapkan Komisi</a>
             </div>
           </div><!-- End Service Item -->
         </div>
@@ -41,8 +66,10 @@
     </section><!-- /Services Section -->
 
 
+
+@if($payment->status == "completed")
     <!-- About Section -->
-    <section id="tentang" class="about section">
+    <section id="database" class="about section">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
@@ -170,6 +197,8 @@
       </div>
 
     </section><!-- /About Section -->
-
+@endif
 
   </main>
+
+  @endsection

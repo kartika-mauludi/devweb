@@ -11,6 +11,7 @@ class UserAffiliate extends Model
 
     protected $fillable = [
         'user_id',
+        'usernew_id',
         'amount',
         'status'
     ];
@@ -18,6 +19,11 @@ class UserAffiliate extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class,'user_id','usernew_id');
     }
 
 }

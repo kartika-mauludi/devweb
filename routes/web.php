@@ -11,6 +11,10 @@ use App\Http\Controllers\Admin\SubscribeRecordController;
 use App\Http\Controllers\Admin\SuperadminController;
 use App\Http\Controllers\Admin\UserAffiliateController;
 use App\Http\Controllers\Customer\ProfilController;
+use App\Http\Controllers\Customer\LanggananController;
+use App\Http\Controllers\Customer\AffiliasiController;
+use App\Http\Controllers\UniversityController;
+// use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Models\SubscribePackage;
 
@@ -20,21 +24,28 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
 Route::get('/payment/{id}','App\Http\Controllers\PaymentController@index')->name('payment');
+Route::post('/subscribepayment','App\Http\Controllers\PaymentController@subscribepayment')->name('subscribepayment');
+Route::POST('/webhook','App\Http\Controllers\PaymentController@webhook')->name('webhook');
+Route::get('/qris','App\Http\Controllers\PaymentController@qris')->name('qris');
+Route::get('/price','App\Http\Controllers\RegisterController@price')->name('refferal');
+Route::post('/registrasi','App\Http\Controllers\RegisterController@register')->name('registrasi');
+Route::get('payment-callback', 'App\Http\Controllers\PaymentController@callback');
 
 
 Route::middleware(['auth', 'admin'])->group(function () {
+    // Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/admin/home', [App\Http\Controllers\HomeController::class, 'adminhome'])->name("admin.home");
 });
 
 Route::middleware(['auth', 'user'])->group(function () {
-    Route::get('/user/home', [App\Http\Controllers\HomeController::class, 'userhome'])->name("user.home");
+    Route::get('/customer/home', [App\Http\Controllers\HomeController::class, 'userhome'])->name("customer.home");
 });
 
 // Start Admin Page Routes //
 
-Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+// Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
 
 Route::group(['prefix' => 'customer/profil', 'as' => 'customer/profil.', 'controller' => ProfilController::class], function(){
     Route::get('/', 'index')->name('index');
@@ -45,6 +56,7 @@ Route::group(['prefix' => 'customer/profil', 'as' => 'customer/profil.', 'contro
     Route::post('store', 'store')->name('store');
     Route::put('update/{user}', 'update')->name('update');
     Route::put('updatepass/{user}', 'password')->name('password');
+    Route::get('invoice/{id}','invoice')->name('invoice');
     Route::delete('destroy/{user}', 'destroy')->name('destroy');
 });
 
@@ -125,5 +137,9 @@ Route::prefix('admin')->group(function(){
         Route::post('store', 'store')->name('store');
     });
 });
+
+Route::resource('universities', UniversityController::class);
+
+
 
 // End Admin Page Route //

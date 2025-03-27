@@ -9,6 +9,7 @@ use app\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\SubscribeRecord;
+use Carbon\Carbon;
 
 class ProfilController extends Controller
 {
@@ -48,9 +49,10 @@ class ProfilController extends Controller
     {
         $url = route('customer/profil.update',$id);
         $passurl =  route('customer/profil.password',$id);
-        $user = User::where('id',$id)->first();
+        $user = User::with('payments')->where('id',$id)->first();
         $subscribes = subscribeRecord::with('subscribePackage')->where('user_id',$id)->get();
-        return view('customer.profil',compact('id','user','url','passurl','subscribes'));
+        return view('customer.profil',compact('user','url','passurl','subscribes'));
+        
     }
 
     /**
@@ -69,7 +71,9 @@ class ProfilController extends Controller
         $user = User::where('id',$id)->first();
         $user->update([
             'name'  => $request->name,
-            'nomor' => $request->nomor
+            'nomor' => $request->nomor,
+            'bank_account' => $request->rekening,
+            'bank_name' => $request->bank
         ]);
         if($user){
             return back ()->with(['message'=> 'Data Berhasil Diubah','active' => 1]);
@@ -82,10 +86,11 @@ class ProfilController extends Controller
 
  
     public function password(Request $request, $id){
+        // return $request->input();
         $user = User::where('id',$id)->first();
         if (Hash::check($request->passwordold, $user->password)) { 
            
-            $this->validate($request, [
+            $validator = Validator::make($request->input(), [
                 'passwordold' => ['required'],
                 'password' => ['required', 'string', 'min:8', 'confirmed','different:passwordold'],
             ],
@@ -95,6 +100,10 @@ class ProfilController extends Controller
                 'password.required' => 'Password baru tidak boleh kosong',
                 'passwordold.required' => 'Password lama tidak boleh kosong',
             ]);
+
+            if($validator->fails()) {
+                return back ()->with(['active' => 2])->withErrors($validator);
+            }
             
              $user->update([
             'password' => Hash::make($request['password'])
@@ -109,7 +118,7 @@ class ProfilController extends Controller
     }
 
     public function invoice($id){
-        $user = User::with('subscribeRecord.subscribePackage')->where('user_id',$id)->get();
+        $user = User::with('payments.subscribeRecord.subscribePackage')->where('id',$id)->get();
         return $user;
     }
 

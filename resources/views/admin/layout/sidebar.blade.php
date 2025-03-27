@@ -10,10 +10,18 @@
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
       <li class="nav-item">
-        <a href="{{ route('dashboard') }}" class="nav-link @if(Route::is('dashboard')) active @endif">
+        <a href="{{ route('admin.home') }}" class="nav-link @if(Route::is('admin.home')) active @endif">
           <i class="nav-icon fa fa-home"></i>
           <p>
             Dashboard
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ route('universities.index') }}" class="nav-link @if(Route::is('universities.*')) active @endif">
+          <i class="nav-icon fa fa-school"></i>
+          <p>
+            Universitas
           </p>
         </a>
       </li>

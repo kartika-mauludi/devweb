@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\SubscribeRecord;
 use auth;
 use App\Models\User;
+use App\Models\Payment;
+use App\Models\SubscribePackage;
+use App\Models\UserAffiliate;
+
 
 class HomeController extends Controller
 {
@@ -14,6 +18,8 @@ class HomeController extends Controller
      *
      * @return void
      */
+
+     private $title = 'Dashboard';
     public function __construct()
     {
         $this->middleware('auth');
@@ -29,22 +35,38 @@ class HomeController extends Controller
         // $packages =  SubscribePackagecribe::all();
         return view('welcome');
      }
+
     public function adminhome()
     {
-        return view('admin.home');
+        $data['title'] = $this->title;
+        $data['activeCustomer'] = User::customer()->whereHas('subscribeRecord', function($query) {
+            $query->where('end_date', '>', date('Y-m-d'));
+        })->get();
+        $data['inactiveCustomer'] = User::whereHas('subscribeRecord', function($query) {
+            $query->where('end_date', '<=', date('Y-m-d'));
+        })->ordoesntHave('subscribeRecord')->customer()->get();
+        $data['incomes'] = Payment::where('status', 'completed')->get();
+        $data['withdrawRequest'] = UserAffiliate::where('status', 'pending')->get();
+
+        return view('admin.dashboard.index', $data);
     }
 
     public function userhome()
     {
         $id = auth::user()->id;
         $user =  User::with('subscribeRecord.subscribePackage')->find($id);
-        $subscribes = subscribeRecord::with('subscribePackage')->where('user_id',$id)->get();
-        foreach($subscribes as $subscribe){
-          $sub =  $subscribe->subscribepackage->name;
-        }
-        // return $subscribes;
-        return view('customer.home',compact('user','sub'));
+        $subscribes = subscribeRecord::with('subscribePackage')->where('user_id',$id)->latest('id')->first();
+        $paid = UserAffiliate::whereHas('payments', function($query){$query->where('status','completed');})->where('User_id',auth::user()->id)->get();
+        $wd= UserAffiliate::with('user')->where('user_id',auth::user()->id)->where('status','withdraw')->get();
+        $payment = Payment::where('user_id',$id)->first();
+        $data['user'] = $user;
+        $data['komisi'] = $paid->sum('amount') - $wd->sum('amount') ;
+        $data['sub'] = $subscribes;
+        $data['payment'] = $payment;
+        
+        return view('customer.home',$data);
     }
 
+   
 
 }

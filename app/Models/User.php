@@ -29,7 +29,7 @@ class User extends Authenticatable implements CanResetPassword
         'email',
         'password',
         'nomor',
-        'refferal_code',
+        'referral_code',
         'bank_account',
         'bank_name',
         'is_superadmin'

@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Universities extends Model
+class University extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'name',
         'main_url',
