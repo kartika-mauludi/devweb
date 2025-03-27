@@ -174,7 +174,7 @@
       <a href="{{ url('/') }}" class="logo d-flex align-items-center me-auto">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.webp" alt=""> -->
-        <h1 class="sitename">Dataset</h1>
+        <h1 class="sitename">Databaseriset</h1>
       </a>
 
       <nav id="navmenu" class="navmenu">
@@ -182,7 +182,7 @@
           <li><a href="{{ url('/customer/home') }}" class=" @if(Route::is('customer.home')) active @endif">Beranda</a></li>
           <li><a href="{{ route('customer/langganan.index') }}" class=" @if(Route::is('customer/langganan.*')) active @endif">Langganan</a></li>
           <li><a href="{{ route('customer/affiliasi.index') }}"  class=" @if(Route::is('customer/affiliasi.*')) active @endif">Affiliasi</a></li>
-          <li><a href="{{ url('/user/home') }}">Bantuan</a></li>
+          <li><a href="https://wa.me/+6285236868125" target="_blank">Bantuan</a></li>
           <li class="dropdown"><a href="#" class=" @if(Route::is('customer/profil.*')) active @endif"><span>{{ auth::user()->name ?? '' }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul style="right: 0; left: auto;">
               <li style="display: flex; flex-direction: row;"><a class="bi bi-person-fill fs-5" href="{{ route('customer/profil.show',auth::user()->id) }}">
@@ -204,7 +204,6 @@
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
-
     </div>
   </header>
   <a href="https://wa.me/+6285236868125" target="_blank" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-whatsapp"></i></a>
@@ -218,7 +217,7 @@
       <div class="row gy-4">
         <div class="col-lg-4 col-md-6 footer-about">
           <a href="index.html" class="d-flex align-items-center">
-            <span class="sitename">Dataset</span>
+            <span class="sitename">Databaseriset</span>
           </a>
           <div class="footer-contact pt-3">
             <p>A108 Adam Street</p>
@@ -253,7 +252,7 @@
     </div>
 
     <div class="container copyright text-center mt-2">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">Dataset</strong> <span>All Rights Reserved</span></p>
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">Databaseriset</strong> <span>All Rights Reserved</span></p>
     </div>
 
   </footer>

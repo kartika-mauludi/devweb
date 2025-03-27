@@ -89,21 +89,22 @@
 
       <div class="container">
 
-        <div class="row gy-4">
+        <div class="row gy-4 justify-content-center">
 
-          <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-4 content" data-aos="fade-up" data-aos-delay="100">
             <p>
-           <h4><strong>APA ITU DATABASE RISET?</strong> </h4>
+           <h2><strong>APA ITU DATABASE RISET?</strong> </h1>
             </p>
+            <div class="text-justify">
             Databaseriset.com adalah platform penyedia database riset premium. Anda bisa mendownload file PDF dari database berbayar. 
-Dengan databaseriset.com, Anda tidak perlu langganan satu per satu database yang Anda butuhkan. 
-Bisa Anda bayangkan database seperti Scopus, Web of Science, Springer, Elsevier, Sage, Taylor & Francis, Wiley, dan banyak lagi hanya dalam satu langganan. 
-Misi kami adalah database riset dapat diakses oleh mahasiswa, dosen, dan peneliti serta semua pihak yang membutuhkannya, khususnya di Indonesia.
-
+            Dengan databaseriset.com, Anda tidak perlu langganan satu per satu database yang Anda butuhkan. 
+            Bisa Anda bayangkan database seperti Scopus, Web of Science, Springer, Elsevier, Sage, Taylor & Francis, Wiley, dan banyak lagi hanya dalam satu langganan. 
+            Misi kami adalah database riset dapat diakses oleh mahasiswa, dosen, dan peneliti serta semua pihak yang membutuhkannya, khususnya di Indonesia.
+            </div>
           </div>
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-
+              <img src="{{ asset('assets/img/layanan/layanan.png') }}" alt="">
           </div>
 
         </div>
@@ -116,7 +117,7 @@ Misi kami adalah database riset dapat diakses oleh mahasiswa, dosen, dan penelit
 <section id="harga" class="pricing section light-background">
 <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
-    <h2>Harga</h2>
+    <h2>Paket</h2>
     <p></p>
     </div><!-- End Section Title -->
     <div class="container">
@@ -124,7 +125,9 @@ Misi kami adalah database riset dapat diakses oleh mahasiswa, dosen, dan penelit
     @foreach($packages as $pack)
         <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
         <div class="pricing-item">
+        
             <h2>{{ $pack->name }}</h2>
+            <span><s>Rp. 200.000</s></span>
             <h4><sup>Rp.</sup>{{ number_format($pack->price , 0, ",", ".")}}<span></span></h4>
             <small>Promo hemat untuk akses cepat selama sebulan penuh.</small>
             <ul>
@@ -133,9 +136,9 @@ Misi kami adalah database riset dapat diakses oleh mahasiswa, dosen, dan penelit
             <li><i class="bi bi-check"></i> <span>Akses cepat ke database riset premium</span></li>
             <li><i class="bi bi-check"></i> <span>Bantuan fast respon</span></li>
             <li><i class="bi bi-check"></i> <span>Akses cepat ke database riset premium</span></li>
-            @if($pack->id == "2")
+            @if($loop->iteration == "2")
             <li><i class="bi bi-check"></i> <span>Hemat 20% dibandingkan langganan bulanan</span></li>
-            @elseif($pack->id == "3")
+            @elseif($loop->iteration == "3")
             <li><i class="bi bi-check"></i> <span>Hemat 33% dibandingkan langganan bulanan</span></li>
             @endif
             <!-- <li class="na"><i class="bi bi-x"></i> <span>Pharetra massa massa ultricies</span></li>

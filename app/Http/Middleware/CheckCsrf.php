@@ -16,8 +16,9 @@ class CheckCsrf extends ValidateCsrfToken
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     protected $except = [
-        // 'api/*', // Example: Disable CSRF for API routes
-        '/subscribepayment', // Example: '/posts'
+        '/webhook',
+        '/subscribepayment',
+        '/callback'
     ];
     public function handle($request, Closure $next): Response
     {

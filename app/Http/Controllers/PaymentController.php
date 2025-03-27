@@ -33,7 +33,7 @@ class PaymentController extends Controller
 
     public function subscribepayment(Request $request)
     {
-        
+
         $user = User::where('id',$request->user)->first();
         $payment = Payment::find($request->payment);
         $sub = SubscribeRecord::with('subscribePackage')->where('id',$request->sub)->first();
@@ -67,7 +67,6 @@ class PaymentController extends Controller
            $payment->redirect_link = $response->redirect_url;
            $payment->save();
 
-           
            $data['url'] = $response->redirect_url;
            return view('qris',$data);
      
@@ -84,18 +83,24 @@ class PaymentController extends Controller
             'Content-Type' => 'Application/json',
             'Authorization' => "Basic $auth",
            ])->get("https://api.sandbox.midtrans.com/v2/$request->order_id/status");
-
-           $payment = Payment::where("id",$response->order_id)->firstOrFail();
-
+           $response = json_decode($response->body());
+           $payment = Payment::where("order_id",$response->order_id)->firstOrFail();
            if($payment->status === "settlement" || $payment->status === "capture"){
                 return response()->json('payment berhasil');
             }
 
             if( $response->transaction_status === 'capture'){
-                $payment->status = 'complete';
+                $payment->status = 'completed';
 
             } else if( $response->transaction_status === 'settlement'){
-                $payment->status = 'complete';
+                $payment->status = 'completed';
+                $subcribe = SubscribeRecord::where('id',$payment->subscribe_record_id)->first();
+                $pack = SubscribePackage::where('id',$subcribe->subscribe_package_id)->first();
+                $subcribe->start_date = now();
+                $subcribe->end_date = now()->addDays($pack->days);
+                $subcribe->save();
+
+                // return $payment;
             
             }else if( $response->transaction_status === 'pending'){
                 $payment->status = 'pending';
@@ -104,11 +109,36 @@ class PaymentController extends Controller
                 $payment->status = 'failed';
 
             }
-            return response()->json($response);   
+            $payment->save();
+            return "sukses";
+            return redirect()->route('customer.home');
     }
 
     public function callback(Request $request){
-        return $request->all();
+        $payment = Payment::where("order_id",$request->order_id)->firstOrFail();
+        $subcribe = SubscribeRecord::where('user_id',$payment->subscribe_record_id)->first();
+        $pack = SubscribePackage::where('id',$subcribe->subscribe_package_id)->first();
+        $subcribe->start_date = now();
+        $subcribe->end_date = now()->addDays($pack->days);
+        $subcribe->save();
+    
+        if( $request->transaction_status === 'capture'){
+            $payment->status = 'completed';
+
+        } else if( $request->transaction_status === 'settlement'){
+            $payment->status = 'completed';
+        
+        }else if( $request->transaction_status === 'pending'){
+            $payment->status = 'pending';
+
+        }else if( $request->transaction_status === 'expired'){
+            $payment->status = 'failed';
+
+        }
+
+        $payment->save();
+
+        return redirect()->route('customer.home');
     }
 
     /**

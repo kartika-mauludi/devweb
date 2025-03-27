@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Dataset</title>
+  <title>Databaseriset</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -53,7 +53,7 @@
       <a href="{{ url('/') }}" class="logo d-flex align-items-center me-auto">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.webp" alt=""> -->
-        <h1 class="sitename">Dataset</h1>
+        <h1 class="sitename">Databaseriset</h1>
       </a>
 
       <nav id="navmenu" class="navmenu">
@@ -105,7 +105,7 @@
       <div class="row gy-4">
         <div class="col-lg-4 col-md-6 footer-about">
           <a href="index.html" class="d-flex align-items-center">
-            <span class="sitename">Dataset</span>
+            <span class="sitename">Databaseriset</span>
           </a>
           <div class="footer-contact pt-3">
             <p>A108 Adam Street</p>
@@ -118,10 +118,10 @@
         <div class="col-lg-4 col-md-3 footer-links">
           <h4>Useful Links</h4>
           <ul>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Services</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="{{ url('/#beranda') }}" >Beranda</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="{{ url('/#kelebihan') }}">Kelebihan</a></li>
+            <li><i class="bi bi-chevron-right"></i><a href="{{ url('/#tentang') }}">Tentang Kami</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="{{ url('/#layanan') }}">Layanan</a></li>
           </ul>
         </div>
 
@@ -140,7 +140,7 @@
     </div>
 
     <div class="container copyright text-center mt-2">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">Dataset</strong> <span>All Rights Reserved</span></p>
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">Databaseriset</strong> <span>All Rights Reserved</span></p>
     </div>
 
   </footer>

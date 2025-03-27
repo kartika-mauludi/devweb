@@ -66,8 +66,10 @@
     </section><!-- /Services Section -->
 
 
+
+@if($payment->status == "completed")
     <!-- About Section -->
-    <section id="tentang" class="about section">
+    <section id="database" class="about section">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
@@ -195,6 +197,8 @@
       </div>
 
     </section><!-- /About Section -->
-
+@endif
 
   </main>
+
+  @endsection
