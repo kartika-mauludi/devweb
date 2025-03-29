@@ -11,7 +11,12 @@ class UniversityWebsite extends Model
 
     protected $fillable = [
         'university_id',
-        'website_id'
+        'url'
     ];
+
+    public function university()
+    {
+        return $this->belongsTo(University::class);
+    }
 
 }

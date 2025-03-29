@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\University;
+use App\Models\UniversityAccount;
+use App\Models\UniversityWebsite;
 use Illuminate\Http\Request;
 
 class UniversityController extends Controller
@@ -56,4 +58,12 @@ class UniversityController extends Controller
         return redirect()->route('universities.index')->with('message', 'Universitas berhasil dihapus!');
     }
     
+    
+    public function show($id)
+    {
+        $data['title'] = $this->title;
+        $data['university'] = University::with(['accounts', 'websites'])->findOrFail($id);
+    
+        return view('admin.universities.detail', $data);
+    }    
 }

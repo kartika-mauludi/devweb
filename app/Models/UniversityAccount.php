@@ -10,8 +10,8 @@ class UniversityAccount extends Model
     use HasFactory;
 
     protected $fillable = [
-        'university_id',
-        'username',
+        'university_id', 
+        'username', 
         'password'
     ];
 

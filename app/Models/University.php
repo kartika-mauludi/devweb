@@ -18,6 +18,11 @@ class University extends Model
 
     public function websites()
     {
-        return $this->belongsToMany(Website::class, 'university_websites');
+        return $this->hasMany(UniversityWebsite::class);
+    }
+
+    public function accounts()
+    {
+        return $this->hasMany(UniversityAccount::class);
     }
 }

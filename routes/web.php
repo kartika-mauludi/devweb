@@ -14,6 +14,8 @@ use App\Http\Controllers\Customer\ProfilController;
 use App\Http\Controllers\Customer\LanggananController;
 use App\Http\Controllers\Customer\AffiliasiController;
 use App\Http\Controllers\UniversityController;
+use App\Http\Controllers\UniversityAccountController;
+use App\Http\Controllers\UniversityWebsiteController;
 // use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Models\SubscribePackage;
@@ -147,6 +149,9 @@ Route::group(['prefix' => 'midtrans-config', 'as' => 'midtrans-config.', 'contro
 });
 
 Route::resource('universities', UniversityController::class);
+Route::resource('universities.accounts', UniversityAccountController::class);
+Route::resource('universities.websites', UniversityWebsiteController::class);
+
 
 
 
