@@ -1,4 +1,4 @@
-jika pending<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -27,7 +27,7 @@ jika pending<!DOCTYPE html>
             </div>
 			
 			<h3>Hai {{ $user->name  }}</h3>
-			<h4>Kamu menerima email ini karena, Pending</h4>
+			<h4>Kamu menerima email ini karena, Masa Langganan Kamu Mau Habis , silahkan klik tombol berikut untuk memperpanjang masa langganan</h4>
 			<center>
 			<a href="{{ url($url) }}" class="btn m3">Pilih Paket</a> 
 		</center>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
     <!--  All snippets are MIT license http://bootdey.com/license -->
-    <title>Invoice - Bootdey.com</title>
+    <title>Reset Password</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
  <link rel="stylesheet" href="{{ asset('assets/css/mail.css') }}">
@@ -18,7 +18,7 @@
     			<div class="receipt-header">
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="receipt-left">
-							<h2 class="sitename">Dataset</h2>
+							<h2 class="sitename">Databaseriset</h2>
 							<!-- <img class="img-responsive" alt="iamgurdeeposahan" src="https://bootdey.com/img/Content/avatar/avatar6.png" style="width: 71px; border-radius: 43px;"> -->
 						</div>
 					</div>
