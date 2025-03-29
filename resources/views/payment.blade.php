@@ -26,7 +26,7 @@
             <div class="row g-3">
               <div class="col-sm-12">
                 <label for="firstName" class="form-label">Nama Lengkap</label>
-                <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" id="nama" placeholder="Contoh : Bambang " value="" required  oninvalid="this.setCustomValidity('Nama Harus di Isi')" oninput="this.setCustomValidity('')">
+                <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Contoh : Bambang " value="" required  oninvalid="this.setCustomValidity('Nama Harus di Isi')" oninput="this.setCustomValidity('')">
                 @error('name')
                   <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>

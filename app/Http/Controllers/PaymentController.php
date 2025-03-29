@@ -10,6 +10,7 @@ use App\Models\Payment;
 use App\Models\User;
 use App\Models\SubscribeRecord;
 use Midtrans\Snap;
+use Arr;
 
 
 class PaymentController extends Controller
@@ -33,7 +34,6 @@ class PaymentController extends Controller
 
     public function subscribepayment(Request $request)
     {
-
         $user = User::where('id',$request->user)->first();
         $payment = Payment::find($request->payment);
         $sub = SubscribeRecord::with('subscribePackage')->where('id',$request->sub)->first();
@@ -84,50 +84,69 @@ class PaymentController extends Controller
             'Authorization' => "Basic $auth",
            ])->get("https://api.sandbox.midtrans.com/v2/$request->order_id/status");
            $response = json_decode($response->body());
+           $jmlsub = 0;
            $payment = Payment::where("order_id",$response->order_id)->firstOrFail();
+           $sub = SubscribeRecord::where('user_id',$payment->user_id)->get();
+
            if($payment->status === "settlement" || $payment->status === "capture"){
                 return response()->json('payment berhasil');
             }
 
-            if( $response->transaction_status === 'capture'){
+            if(count($sub) > 1){
+                $jmlsub = count($sub)-2;
+            }
+
+            if( $request->transaction_status === 'capture'){
                 $payment->status = 'completed';
 
-            } else if( $response->transaction_status === 'settlement'){
+            } else if( $request->transaction_status === 'settlement'){
                 $payment->status = 'completed';
                 $subcribe = SubscribeRecord::where('id',$payment->subscribe_record_id)->first();
                 $pack = SubscribePackage::where('id',$subcribe->subscribe_package_id)->first();
-                $subcribe->start_date = now();
+                if(count($sub) >= 1){
+                    $subcribe->start_date = $sub[$jmlsub]->end_date;
+                }else{
+                    $subcribe->start_date = now();
+                }
                 $subcribe->end_date = now()->addDays($pack->days);
                 $subcribe->save();
-
-                // return $payment;
+                $message = $this::$message['sukses'];
             
-            }else if( $response->transaction_status === 'pending'){
+            }else if( $request->transaction_status === 'pending'){
                 $payment->status = 'pending';
 
-            }else if( $response->transaction_status === 'expired'){
+            }else if( $request->transaction_status === 'expired'){
                 $payment->status = 'failed';
 
             }
             $payment->save();
-            return "sukses";
-            return redirect()->route('customer.home');
+            // return "sukses";
+            return redirect()->route('customer.home')->with('message', $message);
     }
 
     public function callback(Request $request){
+        $jmlsub = 0;
         $payment = Payment::where("order_id",$request->order_id)->firstOrFail();
-        $subcribe = SubscribeRecord::where('user_id',$payment->subscribe_record_id)->first();
-        $pack = SubscribePackage::where('id',$subcribe->subscribe_package_id)->first();
-        $subcribe->start_date = now();
-        $subcribe->end_date = now()->addDays($pack->days);
-        $subcribe->save();
-    
+        $sub = SubscribeRecord::where('user_id',$payment->user_id)->get();
+      
+        if(count($sub) > 1){
+            $jmlsub = count($sub)-2;
+        }
         if( $request->transaction_status === 'capture'){
             $payment->status = 'completed';
 
         } else if( $request->transaction_status === 'settlement'){
             $payment->status = 'completed';
-        
+            $subcribe = SubscribeRecord::where('id',$payment->subscribe_record_id)->first();
+            $pack = SubscribePackage::where('id',$subcribe->subscribe_package_id)->first();
+            if(count($sub) >= 1){
+                $subcribe->start_date = $sub[$jmlsub]->end_date;
+            }else{
+                $subcribe->start_date = now();
+            }
+            $subcribe->end_date = now()->addDays($pack->days);
+            $subcribe->save();
+            $message = $this::$message['suses'];
         }else if( $request->transaction_status === 'pending'){
             $payment->status = 'pending';
 
@@ -137,8 +156,7 @@ class PaymentController extends Controller
         }
 
         $payment->save();
-
-        return redirect()->route('customer.home');
+        return redirect()->route('customer.home')->with('message', $message);
     }
 
     /**

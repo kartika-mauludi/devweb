@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\SubscribePackage;
 use App\Models\SubscribeRecord;
 use App\Models\Payment;
+use App\Models\User;
+use Illuminate\Support\Facades\Http;
 use Auth;
+use DB;
 use Session;
 
 class LanggananController extends Controller
@@ -19,9 +22,7 @@ class LanggananController extends Controller
 
     public function langganan(){
         $id = Auth::user()->id;
-        // return $id;
         $langganan = Payment::with('subscribeRecord.subscribePackage')->where('user_id',$id)->first();
-    //    return $langganan;
         return view('customer.langganan.index',compact('langganan'));
     }
 
@@ -32,30 +33,49 @@ class LanggananController extends Controller
 
     public function newsubscriber(Request $request){
         
-        return session::get('id_pack');
-        $record = SubscribeRecord::where('user_id',Auth::user()->id)->first();
-        $pack = SubscribePackage::where('id',Session::get('id_pack'))->first();
-        $a = $record->end_date->addDays($pack->days);
-        return $a;
 
-        if($record->end_date < now() ){
+        $record = SubscribeRecord::latest('id')->where('user_id',Auth::user()->id)->first();
+        $pack = SubscribePackage::where('id',Session::get('id_pack'))->first();
+        $user = User::where('email',$request->email)->first();
+
+        $latest = Payment::latest()->first();
+        if (! $latest) {
+            $string= '0000001';
+        }else{
+    
+        $string = preg_replace("/[^0-9\.]/", '', $latest->id_invoice);
+        }
+   
              $input = $request->except('_token');
+             DB::beginTransaction(); 
             try {
-                $record->update(['end_date' => $record->end_date->addDays($pack->days)]);
-                $message = $this::$message['updatesuccess'];
+
+                $sub = SubscribeRecord::where([
+                    'user_id'=> $user->id,
+                    'subscribe_package_id' => Session::get('id_pack'),
+                ]);
+
+                $payment = Payment::create([
+                    'user_id' => $user->id,
+                    'subscribe_record_id' => $sub->id,
+                    'id_invoice' => 'inv-'. sprintf('%06d', $string+1),
+                    'price' => Session::get('price'),
+                    'discount' => Session::get('discount'),
+                    'status' => 'pending'
+                ]);
+                DB::commit();
+                $datas['user'] = $user->id;
+                $datas['payment'] = $payment->id; 
+                $datas['sub'] = $sub->id;
+                $response = Http::post(route('subscribepayment'), $datas);
+                return $response;
+                
             } catch (\Throwable $th) {
-                //throw $th;
+                report($th);
+                $message = $this::$message['error'];
+                return back()->with('message', $message);
             }
-        }
-        elseif($record->end_date > now()){
-            return "sudah exp";
-        }
-        // $input = $request->except('_token');
-        // try {
-        //     //code...
-        // } catch (\Throwable $th) {
-        //     //throw $th;
-        // }
+
     }
 
     public function payment($id){
