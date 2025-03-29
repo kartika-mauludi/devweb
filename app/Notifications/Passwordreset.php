@@ -36,12 +36,6 @@ class Passwordreset extends Notification
      */
     public function toMail(object $notifiable): MailMessage
    {
-        // return (new MailMessage)
-        //     ->subject(Lang::get('Reset Password Notification'))
-        //     ->line(Lang::get('tanks'))
-        //     ->action(Lang::get('Reset Password'), url('password/reset', $this->token))
-        //     ->line(Lang::get('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')]))
-        //     ->line(Lang::get('If you did not request a password reset, no further action is required.'));
        $token = $this->token;
         return (new MailMessage)
         ->view('auth.resetpassword',[

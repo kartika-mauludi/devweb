@@ -15,6 +15,11 @@ class CheckCsrf extends ValidateCsrfToken
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
+    protected $except = [
+        '/webhook',
+        '/subscribepayment',
+        '/callback'
+    ];
     public function handle($request, Closure $next): Response
     {
         if($request->route()->named('logout')) {

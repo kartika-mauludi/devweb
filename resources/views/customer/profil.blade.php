@@ -177,12 +177,14 @@
                             </thead>
                             <tbody>
                               @foreach($subscribes as $sub)
+                               @if($sub->end_date > now())
                                 <tr>
                                 <td scope="row">{{ $sub->subscribePackage->name }}</td>
-                                <td>{{ $sub->start_date }}</td>
-                                <td>{{$sub->end_date}}</td>
+                                <td>{{ \Carbon\Carbon::parse($sub->start_date)->format("d F Y") }}</td>
+                                <td>{{ \Carbon\Carbon::parse($sub->end_date)->format("d F Y")}}</td>
                                 <td>Rp.{{ number_format($sub->subscribePackage->price , 0, ",", ".") }}</td>
                                 </tr>
+                                @endif
                                 @endforeach
                             </tbody>
                             </table>
@@ -203,23 +205,17 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            @foreach($subscribes as $sub)
+                              @if($sub->end_date < now())
                                 <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
+                                <td scope="row">{{ $sub->subscribePackage->name }}</td>
+                                <td>{{ \Carbon\Carbon::parse($sub->start_date)->format("d F Y") }}</td>
+                                <td>{{ \Carbon\Carbon::parse($sub->end_date)->format("d F Y")}}</td>
+                                <td>Rp.{{ number_format($sub->subscribePackage->price , 0, ",", ".") }}</td>
                                 </tr>
-                                <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                </tr>
-                                <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>@twitter</td>
-                                </tr>
+                                @endif
+                              @endforeach
+                             
                             </tbody>
                             </table>
                             </div>
@@ -234,7 +230,7 @@
                                 <th scope="col">Status</th>
                                 <th scope="col">Tanggal</th>
                                 <th scope="col">Jumlah</th>
-                                <th scope="col"></th>
+                                <th scope="col">Invoice</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -244,7 +240,7 @@
                                 @foreach ( $user->payments as $payment )
                                 <td>{{ $payment->status }} </td> 
                                 @endforeach
-                                <td>{{$sub->end_date}}</td>
+                                <td>{{ date_format($sub->created_at, "d F Y")}}</td>
                                 <td>Rp.{{ number_format($sub->subscribePackage->price , 0, ",", ".") }}</td>
                                  <td><a href="{{ route('customer/profil.invoice',$user->id) }}">Download</a></td>  
                               </tr>

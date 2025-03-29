@@ -32,9 +32,9 @@ class LanggananController extends Controller
 
     public function newsubscriber(Request $request){
         
-        return session::get('id');
+        return session::get('id_pack');
         $record = SubscribeRecord::where('user_id',Auth::user()->id)->first();
-        $pack = SubscribePackage::where('id',Session::get('id'))->first();
+        $pack = SubscribePackage::where('id',Session::get('id_pack'))->first();
         $a = $record->end_date->addDays($pack->days);
         return $a;
 

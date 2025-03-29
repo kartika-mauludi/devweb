@@ -4,13 +4,13 @@
 
 
 
-<main class="main">
+<main class="main my-5">
 
 <section id="harga" class="pricing section light-background">
 <!-- Section Title -->
     <div class="container section-title" data-aos="fade-up">
-    <h2>Harga</h2>
-    <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+    <h2>PIlih Paket Langgangan</h2>
+    <p></p>
     </div><!-- End Section Title -->
     <div class="container">
     <div class="row gy-4">

@@ -28,11 +28,11 @@
                   </div>
                   <div class="form-group">
                     <label for="bio">Tanggal Langganan</label>
-                    <input type="text" class="form-control" id="tanggal" aria-describedby="tanggal" placeholder="Enter your fullname" value="{{ ($langganan->subscriberecord->start_date == null) ? 'Menunggu Pembayaran': $langganan->subscriberecord->start_date }}" readonly>
+                    <input type="text" class="form-control" id="tanggal" aria-describedby="tanggal" placeholder="Enter your fullname" value="{{ ($langganan->subscriberecord->start_date == null) ? 'Menunggu Pembayaran': \Carbon\Carbon::parse($langganan->subscriberecord->start_date)->format("d F Y") }}" readonly>
                     </div>
                     <div class="form-group">
                     <label for="bio">Tanggal Kadaluarsa</label>
-                    <input type="text" class="form-control" id="tanggal" aria-describedby="tanggal" placeholder="Enter your fullname" value="{{ ($langganan->subscriberecord->end_date == null) ? 'Menunggu Pembayaran': $langganan->subscriberecord->end_date }}" readonly>
+                    <input type="text" class="form-control" id="tanggal" aria-describedby="tanggal" placeholder="Enter your fullname" value="{{ ($langganan->subscriberecord->end_date == null) ? 'Menunggu Pembayaran': \Carbon\Carbon::parse($langganan->subscriberecord->end_date)->format("d F Y") }}" readonly>
                     </div>
                   <div class="form-group">
                     <label for="url">Status</label>

@@ -28,7 +28,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 mb-4">
                     <div class="service-item position-relative">
                     <h3>Total Komisi Rp. <span> {{  number_format( $paid->sum('amount') + $pending->sum('amount') - $wd->sum('amount')  , 0, ",", ".") }} </span> </h3>
-                    <h5 id="link">Link Afiliasi Anda :  <span id="pwd_spn" class="link-span"><a href="">{{  route('refferal', ['ref' => auth()->user()->refferal_code]) }}</a></span>
+                    <h5 id="link">Link Afiliasi Anda :  <span id="pwd_spn" class="link-span"><a href="">{{  route('refferal', ['ref' => auth()->user()->referral_code]) }}</a></span>
                     <div class="tooltip2">
                         <button class="btn btn-success text-white rounded btn-sm" onclick="copy()" onmouseout="outFunc()">
                         <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
@@ -92,7 +92,7 @@
         <h5 class="modal-title" id="exampleModalLabel">Data Penarikan</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="{{ route('customer/affiliasi.store',['ref' => auth()->user()->refferal_code]) }}" method="POST" onsubmit="return validateWithdrawal(event)">
+      <form action="{{ route('customer/affiliasi.store',['ref' => auth()->user()->referral_code]) }}" method="POST" onsubmit="return validateWithdrawal(event)">
       @csrf
       <div class="modal-body">
         <div class="form-group">

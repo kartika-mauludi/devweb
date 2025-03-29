@@ -16,11 +16,16 @@
             <h3>{{ $pack->name }}</h3>
             <h4><sup>Rp.</sup>{{ number_format($pack->price , 0, ",", ".")}}<span></span></h4>
             <ul>
-            <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
-            <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
-            <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
-            <li class="na"><i class="bi bi-x"></i> <span>Pharetra massa massa ultricies</span></li>
-            <li class="na"><i class="bi bi-x"></i> <span>Massa ultricies mi quis hendrerit</span></li>
+            <li><i class="bi bi-check"></i> <span>Akses 700+ database riset premium</span></li>
+            <li><i class="bi bi-check"></i> <span>Pembaruan otomatis</span></li>
+            <li><i class="bi bi-check"></i> <span>Akses cepat ke database riset premium</span></li>
+            <li><i class="bi bi-check"></i> <span>Bantuan fast respon</span></li>
+            <li><i class="bi bi-check"></i> <span>Akses cepat ke database riset premium</span></li>
+            @if($pack->id == "2")
+            <li><i class="bi bi-check"></i> <span>Hemat 20% dibandingkan langganan bulanan</span></li>
+            @elseif($pack->id == "3")
+            <li><i class="bi bi-check"></i> <span>Hemat 33% dibandingkan langganan bulanan</span></li>
+            @endif
             </ul>
             <a href="{{ route('customer/langganan.payment',$pack->id) }}" class="buy-btn">Pilih Paket</a>
         </div>
