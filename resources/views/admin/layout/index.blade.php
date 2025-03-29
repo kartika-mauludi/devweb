@@ -3,7 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>Databaseriset | Dashboard</title>
+
+  <link rel="icon" type="image/png" href="{{ asset('icons/favicon.png') }}">
+  <link rel="icon" type="image/x-icon" href="{{ asset('icons/favicon.ico') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('icons/apple-touch-icon.png') }}">
+  <link rel="icon" sizes="32x32" href="{{ asset('icons/favicon-32x32.png') }}">
+  <link rel="icon" sizes="16x16" href="{{ asset('icons/favicon-16x16.png') }}">
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -16,7 +22,7 @@
   <!-- iCheck -->
   <link rel="stylesheet" href="{{ asset('admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
   <!-- JQVMap -->
-  <link rel="stylesheet" href="{{ asset('admin/plugins/jqvmap/jqvmap.min.css') }}">
+  <!-- <link rel="stylesheet" href="{{ asset('admin/plugins/jqvmap/jqvmap.min.css') }}"> -->
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('admin/dist/css/adminlte.min.css') }}">
   <!-- overlayScrollbars -->
@@ -25,8 +31,10 @@
   <link rel="stylesheet" href="{{ asset('admin/plugins/daterangepicker/daterangepicker.css') }}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('admin/plugins/summernote/summernote-bs4.min.css') }}">
+  <!-- Data table -->
+  <link rel="stylesheet" href="{{ asset('admin/dist/css/datatable.min.css') }}">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="{{ asset('admin/custom/custom.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/custom/custom.css?v=1.0') }}">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -117,8 +125,8 @@
 <!-- Sparkline -->
 <script src="{{ asset('admin/plugins/sparklines/sparkline.js') }}"></script>
 <!-- JQVMap -->
-<script src="{{ asset('admin/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
-<script src="{{ asset('admin/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
+<!-- <script src="{{ asset('admin/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script> -->
 <!-- jQuery Knob Chart -->
 <script src="{{ asset('admin/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
 <!-- daterangepicker -->
@@ -135,7 +143,9 @@
 <!-- AdminLTE for demo purposes -->
 <!-- <script src="dist/js/demo.js"></script> -->
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{ asset('admin/dist/js/pages/dashboard.js') }}"></script>
+<!-- <script src="{{ asset('admin/dist/js/pages/dashboard.js') }}"></script>   -->
+<!-- Data table -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
 @stack('script')
 

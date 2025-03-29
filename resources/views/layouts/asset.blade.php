@@ -16,8 +16,11 @@
   <link href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
 
   <!-- Favicons -->
-  <link href="{{ asset('assets/img/favicon.png')}}" rel="icon">
-  <link href="{{ asset('assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+  <link rel="icon" type="image/png" href="{{ asset('icons/favicon.png') }}">
+  <link rel="icon" type="image/x-icon" href="{{ asset('icons/favicon.ico') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('icons/apple-touch-icon.png') }}">
+  <link rel="icon" sizes="32x32" href="{{ asset('icons/favicon-32x32.png') }}">
+  <link rel="icon" sizes="16x16" href="{{ asset('icons/favicon-16x16.png') }}">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">

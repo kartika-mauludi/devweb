@@ -1,4 +1,28 @@
 /* Custom styling */
+.fs-10 {
+    font-size: 10px !important
+}
+
+.fs-12{
+    font-size: 12px !important
+}
+
+.fs-14{
+    font-size: 14px !important
+}
+
+.fit {
+    width: 1px !important;
+}
+
 .gap-5 {
     gap: 5px;
+}
+
+table thead {
+    background-color: #F0F2F3 !important;
+}
+
+.gap-5 .btn {
+    border-radius: 0.25rem !important;
 }

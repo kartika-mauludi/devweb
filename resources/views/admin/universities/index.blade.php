@@ -16,44 +16,42 @@
                 <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#addUniversityModal">Tambah</button>
             </div>
 
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-sm table-bordered table-hover">
-                        <thead>
+            <div class="p-3 table-responsive">
+                <table id="tbl-university" class="table table-sm table-bordered table-hover datatable w-100">
+                    <thead>
+                        <tr>
+                            <th class="fit text-center">No.</th>
+                            <th>Nama Universitas</th>
+                            <th>Main URL</th>
+                            <th>Signin URL</th>
+                            <th>Signout URL</th>
+                            <th class="fit text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($records as $index => $university)
                             <tr>
-                                <th>#</th>
-                                <th>Nama Universitas</th>
-                                <th>Main URL</th>
-                                <th>Signin URL</th>
-                                <th>Signout URL</th>
-                                <th>Aksi</th>
+                                <td class="fit text-center">{{ $index + 1 }}.</td>
+                                <td class="text-nowrap"><a href="/universities/{{ $university->id }}">{{ $university->name }}</a></td>
+                                <td><a href="{{ $university->main_url }}" target="_blank">{{ $university->main_url }}</a></td>
+                                <td><a href="{{ $university->signin_url }}" target="_blank">{{ $university->signin_url }}</a></td>
+                                <td><a href="{{ $university->signout_url }}" target="_blank">{{ $university->signout_url }}</a></td>
+                                <td class="fit text-center">
+                                    <div class="btn-group d-flex gap-5">
+                                        <button class="btn btn-sm btn-warning" onclick="editUniversity({{ $university }})" data-toggle="modal" data-target="#editUniversityModal">
+                                            Edit
+                                        </button>
+                                        <form action="{{ route('universities.destroy', $university->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($records as $index => $university)
-                                <tr>
-                                    <td>{{ $index + 1 }}</td>
-                                    <td><a href="/universities/{{ $university->id }}">{{ $university->name }}</a></td>
-                                    <td><a href="{{ $university->main_url }}" target="_blank">{{ $university->main_url }}</a></td>
-                                    <td><a href="{{ $university->signin_url }}" target="_blank">{{ $university->signin_url }}</a></td>
-                                    <td><a href="{{ $university->signout_url }}" target="_blank">{{ $university->signout_url }}</a></td>
-                                    <td>
-                                        <div class="btn-group d-flex gap-5">
-                                            <button class="btn btn-sm btn-warning" onclick="editUniversity({{ $university }})" data-toggle="modal" data-target="#editUniversityModal">
-                                                Edit
-                                            </button>
-                                            <form action="{{ route('universities.destroy', $university->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -140,8 +138,18 @@
 
 @push('script')
 <script>
-    console.log('ahahaha');
-    
+    $(document).ready(function () {
+        $('#tbl-university').DataTable({
+            responsive: true,
+            pageLength: 10,
+            ordering: false,
+            lengthMenu: [10, 25, 50, 100],
+            initComplete: function () {
+                $(this).wrap('<div class="table-responsive"></div>');
+            }
+        });
+    });
+
     function editUniversity(university) {
         $('#edit_id').val(university.id);
         $('#edit_name').val(university.name);

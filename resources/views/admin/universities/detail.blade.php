@@ -6,29 +6,36 @@
 
         <div class="card">
             <div class="card-header">
-                <h5>Detail Universitas: {{ $university->name }}</h5>
-                <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#addAccountModal">Tambah Akun</button>
-                <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#addWebsiteModal">Tambah Website</button>
+                <div class="d-flex align-items-center flex-column flex-column flex-md-row justify-content-md-between">
+                    <h5 class="font-weight-bold mb-0">Detail Universitas: {{ $university->name }}</h5>
+                    <a href="/universities" class="btn btn-sm btn-warning">
+                        <i class="fa fa-arrow-left fs-12"></i>
+                        Kembali
+                    </a>
+                </div>
             </div>
 
             <div class="card-body">
-                <h6>Akun Universitas:</h6>
-                <table class="table table-sm table-bordered table-hover">
+                <div class="d-flex align-items-center flex-column flex-md-row mb-2 justify-content-md-between">
+                    <p class="mb-0 font-weight-bold">Daftar Akun</p>
+                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#addAccountModal">Tambah Akun</button>
+                </div>
+                <table id="tbl-university-account" class="table table-sm table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th class="fit">No.</th>
                             <th>Username</th>
                             <th>Password</th>
-                            <th>Aksi</th>
+                            <th class="fit text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($university->accounts as $index => $account)
                             <tr>
-                                <td>{{ $index + 1 }}</td>
+                                <td class="fit text-center">{{ $index + 1 }}.</td>
                                 <td>{{ $account->username }}</td>
                                 <td>{{ $account->password }}</td>
-                                <td>
+                                <td class="fit">
                                     <form action="{{ route('universities.accounts.destroy', [$university->id, $account->id]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
                                         @csrf
                                         @method('DELETE')
@@ -40,21 +47,26 @@
                     </tbody>
                 </table>
 
-                <h6>Website Universitas:</h6>
-                <table class="table table-sm table-bordered table-hover">
+                <hr>
+
+                <div class="d-flex align-items-center flex-column flex-md-row mb-2 justify-content-md-between">
+                    <p class="mb-0 font-weight-bold">Daftar Website</p>
+                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#addWebsiteModal">Tambah Website</button>
+                </div>
+                <table id="tbl-university-website" class="table table-sm table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th class="fit text-center">No.</th>
                             <th>Website</th>
-                            <th>Aksi</th>
+                            <th class="fit text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($university->websites as $index => $website)
                             <tr>
-                                <td>{{ $index + 1 }}</td>
+                                <td class="fit text-center">{{ $index + 1 }}.</td>
                                 <td>{{ $website->website_id }}</td>
-                                <td>
+                                <td class="fit">
                                     <form action="{{ route('universities.websites.destroy', [$university->id, $website->id]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
                                         @csrf
                                         @method('DELETE')
@@ -124,3 +136,42 @@
     </div>
 </div>
 @endsection
+
+
+@push('script')
+<script>
+    $(document).ready(function () {
+        $('#tbl-university-account').DataTable({
+            responsive: true,
+            pageLength: 10,
+            ordering: false,
+            lengthMenu: [10, 25, 50, 100],
+            initComplete: function () {
+                $(this).wrap('<div class="table-responsive"></div>');
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $('#tbl-university-website').DataTable({
+            responsive: true,
+            pageLength: 10,
+            ordering: false,
+            lengthMenu: [10, 25, 50, 100],
+            initComplete: function () {
+                $(this).wrap('<div class="table-responsive"></div>');
+            }
+        });
+    });
+
+    function editUniversity(university) {
+        $('#edit_id').val(university.id);
+        $('#edit_name').val(university.name);
+        $('#edit_main_url').val(university.main_url);
+        $('#edit_signin_url').val(university.signin_url);
+        $('#edit_signout_url').val(university.signout_url);
+
+        $('#editUniversityForm').attr('action', '/universities/' + university.id);
+    }
+</script>
+@endpush
