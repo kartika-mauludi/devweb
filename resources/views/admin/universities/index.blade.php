@@ -29,27 +29,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($records as $index => $university)
-                            <tr>
-                                <td class="fit text-center">{{ $index + 1 }}.</td>
-                                <td class="text-nowrap"><a href="/universities/{{ $university->id }}">{{ $university->name }}</a></td>
-                                <td><a href="{{ $university->main_url }}" target="_blank">{{ $university->main_url }}</a></td>
-                                <td><a href="{{ $university->signin_url }}" target="_blank">{{ $university->signin_url }}</a></td>
-                                <td><a href="{{ $university->signout_url }}" target="_blank">{{ $university->signout_url }}</a></td>
-                                <td class="fit text-center">
-                                    <div class="btn-group d-flex gap-5">
-                                        <button class="btn btn-sm btn-warning" onclick="editUniversity({{ $university }})" data-toggle="modal" data-target="#editUniversityModal">
-                                            Edit
-                                        </button>
-                                        <form action="{{ route('universities.destroy', $university->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -66,12 +45,12 @@
                 <h5 class="modal-title">Tambah Universitas</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <form action="{{ route('universities.store') }}" method="POST">
+            <form action="{{ route('universities.store') }}" method="POST" id="addUniversityForm">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Nama Universitas</label>
-                        <input type="text" name="name" class="form-control" required>
+                        <input type="text" name="name" class="form-control" required autofocus>
                     </div>
                     <div class="form-group">
                         <label>Main URL</label>
@@ -110,7 +89,7 @@
                     <input type="hidden" id="edit_id">
                     <div class="form-group">
                         <label>Nama Universitas</label>
-                        <input type="text" name="name" id="edit_name" class="form-control" required>
+                        <input type="text" name="name" id="edit_name" class="form-control" required autofocus>
                     </div>
                     <div class="form-group">
                         <label>Main URL</label>
@@ -139,25 +118,149 @@
 @push('script')
 <script>
     $(document).ready(function () {
-        $('#tbl-university').DataTable({
-            responsive: true,
-            pageLength: 10,
+        var table = $('#tbl-university').DataTable({
+            processing: true,
             ordering: false,
-            lengthMenu: [10, 25, 50, 100],
+            serverSide: false,
+            ajax: "{{ route('universities.data') }}",
+            columns: [
+                { 
+                    data: null, render: (data, type, row, meta) => {
+                        return `<div class="text-center">${meta.row + 1}.</div>`;
+                    } 
+                },
+                { 
+                    data: 'name', 
+                    render: (data, type, row) => `<a href="/universities/${row.id}" class="text-nowrap">${data}</a>`
+                },
+                { 
+                    data: 'main_url', 
+                    render: (data) => data ? `<a href="${data}" target="_blank">${data}</a>` : '-'
+                },
+                { 
+                    data: 'signin_url', 
+                    render: (data) => data ? `<a href="${data}" target="_blank">${data}</a>` : '-'
+                },
+                { 
+                    data: 'signout_url', 
+                    render: (data) => data ? `<a href="${data}" target="_blank">${data}</a>` : '-'
+                },
+                { 
+                    data: 'id', 
+                    render: function(data, type, row) {
+                        return `
+                            <div class="btn-group d-flex gap-5">
+                                <button class="btn btn-sm btn-warning edit-btn" data-id="${data}">Edit</button>
+                                <button class="btn btn-sm btn-danger delete-btn" data-id="${data}">Hapus</button>
+                            </div>`;
+                    }
+                }
+            ],
             initComplete: function () {
                 $(this).wrap('<div class="table-responsive"></div>');
             }
         });
+
+        $('#tbl-university').on('click', '.edit-btn', function () {
+            var id = $(this).data('id');
+            showLoading();
+            $.get(`/universities/${id}/edit`, function (university) {
+                closeLoading();
+                $('#edit_id').val(university.id);
+                $('#edit_name').val(university.name);
+                $('#edit_main_url').val(university.main_url);
+                $('#edit_signin_url').val(university.signin_url);
+                $('#edit_signout_url').val(university.signout_url);
+                $('#editUniversityForm').attr('action', '/universities/' + university.id);
+                $('#editUniversityModal').modal('show');
+            });
+        });
+
+        $('#tbl-university').on('click', '.delete-btn', function () {
+            var id = $(this).data('id');
+            Swal.fire({
+                title: 'Yakin ingin menghapus?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    showLoading();
+                    $.ajax({
+                        url: `/universities/${id}`,
+                        type: 'DELETE',
+                        data: { _token: '{{ csrf_token() }}' },
+                        success: function (response) {
+                            closeLoading();
+                            if (response.status == 200) {
+                                Swal.fire('Berhasil!', response.message, 'success');
+                            } else {
+                                Swal.fire('Gagal!', response.message, 'error');
+                            }
+                            table.ajax.reload();
+                        },
+                        error: function () {
+                            closeLoading();
+                            Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus data.', 'error');
+                        }
+                    });
+                }
+            });
+        });
+
+        $('#addUniversityForm').on('submit', function (e) {
+            e.preventDefault();
+            showLoading();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    closeLoading();
+                    if (response.status == 200) {
+                        Swal.fire('Berhasil!', response.message, 'success');
+                    } else {
+                        Swal.fire('Gagal!', response.message, 'error');
+                    }
+                    $('#addUniversityModal').modal('hide');
+                    $('#addUniversityForm').trigger('reset');
+                    table.ajax.reload();
+                },
+                error: function () {
+                    closeLoading();
+                    Swal.fire('Gagal!', 'Terjadi kesalahan saat menambah data.', 'error');
+                }
+            });
+        });
+
+
+        $('#editUniversityForm').on('submit', function (e) {
+            e.preventDefault();
+            showLoading();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'PUT',
+                data: $(this).serialize(),
+                success: function (response) {
+                    closeLoading();
+                    if (response.status == 200) {
+                        Swal.fire('Berhasil!', response.message, 'success');
+                    } else {
+                        Swal.fire('Gagal!', response.message, 'error');
+                    }
+                    $('#editUniversityModal').modal('hide');
+                    table.ajax.reload();
+                },
+                error: function () {
+                    closeLoading();
+                    Swal.fire('Gagal!', 'Terjadi kesalahan saat memperbarui data.', 'error');
+                }
+            });
+        });
+
     });
-
-    function editUniversity(university) {
-        $('#edit_id').val(university.id);
-        $('#edit_name').val(university.name);
-        $('#edit_main_url').val(university.main_url);
-        $('#edit_signin_url').val(university.signin_url);
-        $('#edit_signout_url').val(university.signout_url);
-
-        $('#editUniversityForm').attr('action', '/universities/' + university.id);
-    }
 </script>
 @endpush
+

@@ -34,7 +34,7 @@
   <!-- Data table -->
   <link rel="stylesheet" href="{{ asset('admin/dist/css/datatable.min.css') }}">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="{{ asset('admin/custom/custom.css?v=1.0') }}">
+  <link rel="stylesheet" href="{{ asset('admin/custom/css/custom.css?v=1.0') }}">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -145,7 +145,11 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!-- <script src="{{ asset('admin/dist/js/pages/dashboard.js') }}"></script>   -->
 <!-- Data table -->
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="{{ asset('admin/dist/js/datatable.min.js') }}"></script>
+<!-- Custom -->
+<script src="{{ asset('admin/custom/js/custom.js?v=1.0') }}"></script>
+<!-- Sweer alert -->
+<script src="{{ asset('admin/dist/js/sweetalert.min.js') }}"></script>
 
 @stack('script')
 
