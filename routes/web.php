@@ -154,9 +154,11 @@ Route::group(['prefix' => 'midtrans-config', 'as' => 'midtrans-config.', 'contro
     Route::post('store', 'store')->name('store');
 });
 
+Route::get('/universities/data', [UniversityController::class, 'getData'])->name('universities.data');
 Route::resource('universities', UniversityController::class);
 Route::resource('universities.accounts', UniversityAccountController::class);
 Route::resource('universities.websites', UniversityWebsiteController::class);
+
 
 
 

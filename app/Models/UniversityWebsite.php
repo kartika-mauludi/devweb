@@ -11,6 +11,7 @@ class UniversityWebsite extends Model
 
     protected $fillable = [
         'university_id',
+        'title',
         'url'
     ];
 
