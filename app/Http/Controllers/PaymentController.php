@@ -9,18 +9,33 @@ use Midtrans\Config;
 use App\Models\Payment;
 use App\Models\User;
 use App\Models\SubscribeRecord;
+use App\Models\MidtranConfig;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\invoice;
+use App\Mail\expired;
+use App\Mail\pending;
 use Midtrans\Snap;
 use Arr;
 
 
 class PaymentController extends Controller
 {
+    protected $server_key;
+    protected $client_key;
     public function __construct()
     {
-        Config::$serverKey = config('Midtrans.server_key');
-        Config::$isProduction = config('Midtrans.is_production');
-        Config::$isSanitized = config('Midtrans.is_sanitized');
-        Config::$is3ds = config('Midtrans.is_3ds');
+        $midtras = MidtranConfig::firstOrFail();
+        if($midtras->environment == "sandbox"){
+            $server_key = $midtras->sandbox_server_key;
+            $client_key = $midtras->sandbox_client_key;
+        }
+        if($midtras->environment == "production"){
+            $server_key = $midtras->production_server_key;
+            $client_key = $midtras->production_client_key;
+        }
+
+        $this->server_key = $server_key;
+        $this->client_key = $client_key;
     }
     /**
      * Display a listing of the resource.
@@ -34,41 +49,47 @@ class PaymentController extends Controller
 
     public function subscribepayment(Request $request)
     {
-        $user = User::where('id',$request->user)->first();
-        $payment = Payment::find($request->payment);
-        $sub = SubscribeRecord::with('subscribePackage')->where('id',$request->sub)->first();
-        $params = array(
-            "payment_type" => "qris",
-            'transaction_details' => [
-                'order_id' => rand(),
-                'gross_amount' => $sub->subscribePackage->price,
-            ],
-            'customer_details' => [
-                'first_name' => $user->name,
-                'email' => $user->email,
-                'phone' => $user->nomor,
-            ],
-            'item_details' => [
-                    "id" => $sub->subscribePackage->id,
-                    "price" => $sub->subscribePackage->price,
-                    "quantity" => 1,
-                    "name" => $sub->subscribePackage->name
-            ]
-        );
-           $auth = Base64_encode(env('MIDTRANS_SERVER_KEY')); 
-           $response = Http::withHeaders([
-            'Accept' => 'Application/json',
-            'Content-Type' => 'Application/json',
-            'Authorization' => "Basic $auth",
-           ])->post('https://app.sandbox.midtrans.com/snap/v1/transactions',$params);
-          
-           $response = json_decode($response->body());
-           $payment->order_id = $params['transaction_details']['order_id'];
-           $payment->redirect_link = $response->redirect_url;
-           $payment->save();
-
-           $data['url'] = $response->redirect_url;
-           return view('qris',$data);
+        try {
+            $user = User::where('id',$request->user)->first();
+            $payment = Payment::find($request->payment);
+            $sub = SubscribeRecord::with('subscribePackage')->where('id',$request->sub)->first();
+            $params = array(
+                "payment_type" => "qris",
+                'transaction_details' => [
+                    'order_id' => rand(),
+                    'gross_amount' => $sub->subscribePackage->price,
+                ],
+                'customer_details' => [
+                    'first_name' => $user->name,
+                    'email' => $user->email,
+                    'phone' => $user->nomor,
+                ],
+                'item_details' => [
+                        "id" => $sub->subscribePackage->id,
+                        "price" => $sub->subscribePackage->price,
+                        "quantity" => 1,
+                        "name" => $sub->subscribePackage->name
+                ]
+            );
+               $auth = Base64_encode($this->server_key); 
+               $response = Http::withHeaders([
+                'Accept' => 'Application/json',
+                'Content-Type' => 'Application/json',
+                'Authorization' => "Basic $auth",
+               ])->post('https://app.sandbox.midtrans.com/snap/v1/transactions',$params);
+               $response = json_decode($response->body());
+               $payment->order_id = $params['transaction_details']['order_id'];
+               $payment->redirect_link = $response->redirect_url;
+               $payment->save();
+               $data['url'] = $response->redirect_url;
+               return view('qris',$data);
+               
+        } catch (\Throwable $th) {
+            report($th);
+            $message = $this::$message['error'];
+            return redirect()->route('customer.home')->with('message', $message);
+        }
+       
      
     }
 
@@ -87,6 +108,7 @@ class PaymentController extends Controller
            $jmlsub = 0;
            $payment = Payment::where("order_id",$response->order_id)->firstOrFail();
            $sub = SubscribeRecord::where('user_id',$payment->user_id)->get();
+           $user = User::find($payment->user_id);
 
            if($payment->status === "settlement" || $payment->status === "capture"){
                 return response()->json('payment berhasil');
@@ -110,12 +132,35 @@ class PaymentController extends Controller
                 }
                 $subcribe->end_date = now()->addDays($pack->days);
                 $subcribe->save();
+
+                $data = [
+                    'name' => $user->name,
+                    'email'=> $user->email,
+                    'invoice_id' => $payment->id_invoice,
+                    'paket' => $subcribe->subscribePackage->name,
+                    'start_date' => $subcribe->start_date,
+                    'end_date' => $subcribe->end_date,
+                    'price' => $subcribe->subscribePackage->price,
+                    'status' => $payment->status
+                ];
+                Mail::to($user->email)->send(new invoice($data));
+
                 $message = $this::$message['sukses'];
             
             }else if( $request->transaction_status === 'pending'){
+
+                $data =[
+                    'name' => $user->name
+                ];
+                Mail::to($user->email)->send(new pending($data));
+
                 $payment->status = 'pending';
 
             }else if( $request->transaction_status === 'expired'){
+                $data =[
+                    'name' => $user->name
+                ];
+                Mail::to($user->email)->send(new expired($data));
                 $payment->status = 'failed';
 
             }
@@ -128,6 +173,7 @@ class PaymentController extends Controller
         $jmlsub = 0;
         $payment = Payment::where("order_id",$request->order_id)->firstOrFail();
         $sub = SubscribeRecord::where('user_id',$payment->user_id)->get();
+        $user = User::find($payment->user_id);
       
         if(count($sub) > 1){
             $jmlsub = count($sub)-2;
@@ -146,16 +192,43 @@ class PaymentController extends Controller
             }
             $subcribe->end_date = now()->addDays($pack->days);
             $subcribe->save();
+
+            $data = [
+                'name' => $user->name,
+                'email'=> $user->email,
+                'invoice_id' => $payment->id_invoice,
+                'paket' => $subcribe->subscribePackage->name,
+                'start_date' => $subcribe->start_date,
+                'end_date' => $subcribe->end_date,
+                'price' => $subcribe->subscribePackage->price,
+                'status' => $payment->status
+            ];
+            Mail::to($user->email)->send(new invoice($data));
+
             $message = $this::$message['suses'];
+
         }else if( $request->transaction_status === 'pending'){
+            $data =[
+                'name' => $user->name
+            ];
+            Mail::to($user->email)->send(new pending($data));
+
             $payment->status = 'pending';
 
         }else if( $request->transaction_status === 'expired'){
+
+            $data =[
+                'name' => $user->name
+            ];
+            Mail::to($user->email)->send(new expired($data));
+
             $payment->status = 'failed';
 
         }
-
         $payment->save();
+
+       
+
         return redirect()->route('customer.home')->with('message', $message);
     }
 

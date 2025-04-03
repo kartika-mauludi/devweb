@@ -15,6 +15,7 @@ use App\Http\Controllers\Customer\LanggananController;
 use App\Http\Controllers\Customer\AffiliasiController;
 use App\Http\Controllers\UniversityController;
 // use App\Http\Controllers\Auth\RegisterController;
+// use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Route;
 use App\Models\SubscribePackage;
 
@@ -31,6 +32,8 @@ Route::get('/qris','App\Http\Controllers\PaymentController@qris')->name('qris');
 Route::get('/price','App\Http\Controllers\RegisterController@price')->name('refferal');
 Route::post('/registrasi','App\Http\Controllers\RegisterController@register')->name('registrasi');
 Route::get('payment-callback', 'App\Http\Controllers\PaymentController@callback');
+Route::get('download/{id}','App\Http\Controllers\PdfController@download')->name('download');
+Route::get('email','App\Http\Controllers\EmailController@pending')->name('email');
 
 
 Route::middleware(['auth', 'admin'])->group(function () {

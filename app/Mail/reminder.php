@@ -9,10 +9,9 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class pending extends Mailable
+class reminder extends Mailable
 {
     use Queueable, SerializesModels;
-
     public $data;
 
     /**
@@ -29,7 +28,7 @@ class pending extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Pending',
+            subject: 'Reminder',
         );
     }
 
@@ -39,7 +38,7 @@ class pending extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'customer.mail.pending',
+            view: 'customer.mail.reminder',
         );
     }
 

@@ -1,4 +1,4 @@
-jika pending<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -19,21 +19,17 @@ jika pending<!DOCTYPE html>
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="receipt-left">
 							<h2 class="sitename">Databaseriset</h2>
-							<!-- <img class="img-responsive" alt="iamgurdeeposahan" src="https://bootdey.com/img/Content/avatar/avatar6.png" style="width: 71px; border-radius: 43px;"> -->
 						</div>
 					</div>
 				
 				</div>
             </div>
 			
-			<h3>Hai {{ $user->name  }}</h3>
-			<h4>Kamu menerima email ini karena, Pending</h4>
-			<center>
-			<a href="{{ url($url) }}" class="btn m3">Pilih Paket</a> 
-		</center>
-
-			<h4>Link Reset Password ini tidak akan bisa digunakan setelah</h4> 
-			<h4>Jika kamu tidak meminta reset password tidak perlu melakukan apa - apa</h4>
+			<h3>Hai {{ $data['name']  }}</h3>
+			<h4>Kamu menerima email ini karena, Kamu masih belum melakukan pembayaran</h4>
+			
+			<h4>Silahkan melanjutkan pembayaran kamu</h4> 
+			<h4><p class="text-center">Jika Anda memiliki pertanyaan, hubungi kami melalui WhatsApp di <a href="https://wa.me/6285236868125">+62 852-3686-8125</a></p></h4>
 
 			
         </div>    

@@ -236,13 +236,12 @@
                             <tbody>
                               @foreach($subscribes as $sub)
                                 <tr>
-                                <td scope="row">{{ $sub->subscribePackage->name }}</td>
-                                @foreach ( $user->payments as $payment )
-                                <td>{{ $payment->status }} </td> 
-                                @endforeach
+                                @php $jml = $loop->iteration - 1 @endphp
+                                <td scope="row">@if($jml >= 0){{ $user->payments[$jml]->order_id ?? ''  }} @endif</td>
+                                <td>@if($jml >= 0){{ $user->payments[$jml]->status ?? '' }} @endif </td> 
                                 <td>{{ date_format($sub->created_at, "d F Y")}}</td>
                                 <td>Rp.{{ number_format($sub->subscribePackage->price , 0, ",", ".") }}</td>
-                                 <td><a href="{{ route('customer/profil.invoice',$user->id) }}">Download</a></td>  
+                                 <td> <button onclick="openPrintPage()">Download</button> </td>  
                               </tr>
                                 @endforeach
                             </tbody>
@@ -261,7 +260,10 @@
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 
-	
+<script>
+    function openPrintPage() {
+        window.open('{{ route('customer/profil.invoice',$user->id) }}', '_blank');
+    }
 </script>
 
 
