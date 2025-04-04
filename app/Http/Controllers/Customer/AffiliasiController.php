@@ -27,7 +27,6 @@ class AffiliasiController extends Controller
         $data['paid'] = UserAffiliate::whereHas('payments', function($query){$query->where('status','completed');})->where('User_id',auth::user()->id)->get();
         $data['wd'] = UserAffiliate::with('user')->where('user_id',auth::user()->id)->where('status','withdraw')->get();
         $data['refferal'] = User::where('id',auth::user()->id)->first();
-        // return $data['refferal'];
         return view('customer.affiliasi.index',$data);
    
        

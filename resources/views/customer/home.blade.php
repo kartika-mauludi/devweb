@@ -204,7 +204,8 @@
       </div>
 
     </section><!-- /About Section -->
-@endif
+
+    @endif
 
   </main>
 

@@ -12,13 +12,13 @@ use Illuminate\Queue\SerializesModels;
 class invoice extends Mailable
 {
     use Queueable, SerializesModels;
-    public $emailData;
+    public $data;
     /**
      * Create a new message instance.
      */
-    public function __construct($emailData)
+    public function __construct($data)
     {
-        $this->emailData = $emailData;
+        $this->data = $data;
     }
 
     /**

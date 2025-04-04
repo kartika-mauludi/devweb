@@ -125,7 +125,7 @@
   </main>
 
 <script>
- const MIN_WITHDRAWAL = 10000;
+ const MIN_WITHDRAWAL = 100000;
 function copy() {
     var span = document.getElementById("pwd_spn");
     var copyText = document.createElement("textarea");

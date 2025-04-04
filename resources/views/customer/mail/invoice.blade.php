@@ -1,9 +1,9 @@
-ini invoice<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice - Toolify.id</title>
+    <title>Invoice - Databaseriset</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
@@ -17,6 +17,13 @@ ini invoice<!DOCTYPE html>
 			color: #333333;
 			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 		}
+        .bd-inv{
+            border-top: 6px solid #0135A3;
+            border-bottom: 9px solid #0135A3;
+        }
+        .bd-inv-header{
+            border-top: 10px solid #007BFF;
+        }
         @media print {
             /* Reset body styles for print */
             body {
@@ -33,6 +40,13 @@ ini invoice<!DOCTYPE html>
 				width: 210mm;
 				height: 290mm;
             } 
+            .bd-inv{
+            border-top: 8px solid #000;
+            border-bottom: 10px solid #000;
+            }
+            .bd-inv-header{
+                border-top: 10px solid #ac242f;
+            }
             /* Table styles for print */
             table {
                 page-break-inside: avoid;
@@ -54,9 +68,9 @@ ini invoice<!DOCTYPE html>
             <hr class="text-success">
             <div class="invoice-header mb-3">
                 <h5 class="mb-3">Invoice To:</h5>
-                <p><strong>Nama:</strong> Andre</p>
-                <p><strong>Email:</strong> andre@gmail.com</p>
-                <p><strong>Invoice ID:</strong> INV-1742651791</p> 
+                <p><strong>Nama:</strong> {{ $data['name'] }}</p>
+                <p><strong>Email:</strong> {{ $data['email'] }}</p>
+                <p><strong>Invoice ID:</strong> {{ $data['invoice_id'] }}</p> 
             </div>
             
             <table class="table">
@@ -68,15 +82,15 @@ ini invoice<!DOCTYPE html>
                 <tbody>
                     <tr>
                         <td>Paket</td> 
-                        <td>Paket 1 Bulan</td>
+                        <td>{{ $data['paket'] }}</td>
                     </tr>
                     <tr>
                         <td>Tanggal Mulai</td>
-                        <td>-</td>
+                        <td>{{ \Carbon\Carbon::parse($data['start_date'])->format("d F Y") }}</td>
                     </tr>
                     <tr>
                         <td>Tanggal Berakhir</td>
-                        <td>-</td>
+                        <td>{{ \Carbon\Carbon::parse($data['end_date'])->format("d F Y") }}</td>
                     </tr>
                     <tr>
                         <td>Metode Pembayaran</td>
@@ -84,47 +98,19 @@ ini invoice<!DOCTYPE html>
                     </tr>
                     <tr>
                         <td>Total Harga</td>
-                        <td>Rp 50.265</td>
+                        <td>Rp. {{ number_format($data['price'] , 0, ",", ".") }}</td>
                     </tr>
                     <tr>
                         <td>Status Pembayaran:</td>
-                        <td>Pending</td>
+                        <td>{{ $data['status'] }}</td>
                     </tr>
-                    <tr>
-                        <td>Status Langganan</td>
-                        <td>Pending</td>
-                    </tr>
+                 
                 </tbody>
             </table>
             <hr class="text-success">
             <p class="text-center">Terima kasih telah berlangganan di Databaseriset.com</p>
-            <p class="text-center">Jika Anda memiliki pertanyaan, hubungi kami melalui WhatsApp di <a href="https://wa.me/6287770507775">+62 877-7050-7775</a></p>
+            <p class="text-center">Jika Anda memiliki pertanyaan, hubungi kami melalui WhatsApp di <a href="https://wa.me/6285236868125">+62 852-3686-8125</a></p>
         </div>
     </main>
-
-    <script>
-const element = document.querySelector('.invoice');
-    const opt = {
-        margin: [0, 0, 0, 0],
-        filename: 'invoice.pdf',
-        image: {
-            type: 'jpg',
-            quality: 1
-        },
-        html2canvas: {
-            scale: 2,
-            bottom: 20
-        },
-        jsPDF: {
-            unit: 'in',
-            format: 'a4',
-            orientation: 'portrait'
-        }
-    };
-
-    document.addEventListener('DOMContentLoaded', function() {
-        html2pdf().set(opt).from(element).save();
-    }); 
-    </script>
 </body>
 </html>

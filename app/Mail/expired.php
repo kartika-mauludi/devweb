@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class pending extends Mailable
+class expired extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -29,7 +29,7 @@ class pending extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Pending',
+            subject: 'Expired',
         );
     }
 
@@ -39,7 +39,7 @@ class pending extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'customer.mail.pending',
+            view: 'customer.mail.expired',
         );
     }
 
