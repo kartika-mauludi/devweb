@@ -15,7 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\Admin::class,
             'user' => \App\Http\Middleware\User::class,
         ]);
-        $middleware->web(replace: [
+        $middleware->web(append: [
+            \App\Http\Middleware\EnsureSessionIsValid::class,
+        ], 
+        replace: [
             Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class =>
             App\Http\Middleware\CheckCsrf::class
         ]);

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+
 
 class LoginController extends Controller
 {
@@ -54,9 +57,22 @@ class LoginController extends Controller
      
         if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
         {
-            if (auth()->user()->is_superadmin == 1) {
+            $user = auth()->user();
+
+            $currentSessionId = Session::getId();
+        
+            $lastSessionId = $user->last_session_id;
+        
+            if ($lastSessionId && $lastSessionId !== $currentSessionId) {
+                DB::table('sessions')->where('id', $lastSessionId)->delete();
+            }
+        
+            $user->last_session_id = $currentSessionId;
+            $user->save();
+
+            if ($user->is_superadmin == 1) {
                 return redirect()->route('admin.home');
-            }else if (auth()->user()->is_superadmin	== 0) {
+            }else if ($user->is_superadmin	== 0) {
                 return redirect()->route('customer.home');
             }else{
                 return redirect()->route('login');

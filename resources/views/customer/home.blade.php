@@ -22,7 +22,7 @@
        
     <!-- Services Section -->
     <section id="tabel" class="services section light-background">
-    @if($payment->status == "pending")
+    @if($payment && $payment->status == "pending")
     <div class="alert alert-info alert-dismissible">
       <div class="container">
         Anda Memiliki Tagihan Pembayaran Yang Belum Diselesaikan Klik Tombol Berikut Untuk Melihat Pembayaran Anda <p>
@@ -32,7 +32,7 @@
     </div>
     @endif
 
-    @if(now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) <=3 && $payment->status == "completed")
+    @if($sub && now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) <=3 && $payment->status == "completed")
     <div class="alert alert-dangery alert-dismissible">
       <div class="container">
               Waktu Langganan Anda Akan Segera Habis, Silahkan Perpanjang Waktu Langganan Anda <p>
@@ -44,6 +44,8 @@
       <!-- Section Title -->
       <div class="container">
         <div class="row justify-content-center">
+
+        @if ($sub)
           <div class="col-xl-6 col-lg-6 col-md-6">
             <div class="service-item position-relative">
               {{ now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) }}
@@ -51,13 +53,14 @@
             <h3 style="text:red">Anda Belum Berlangganan</h3>
               <h5 class="my-3">Pilih Paket Untuk Menikmati Layanan Kami</h5>
               <p> <a href="{{ route('customer/langganan.index') }}" class="btn btn-primary">langganan Sekarang</a> </p>
-             @elseif(\Carbon\Carbon::parse($sub->end_date) >= now() && $payment->status == "completed" )
+            @elseif(\Carbon\Carbon::parse($sub->end_date) >= now() && $payment->status == "completed" )
               <h3>Data Langganan Anda</h3>
               <h2> {{ $sub->subscribepackage->name }}</h2>
               <p>Berakhir pada {{ \Carbon\Carbon::parse($sub->end_date)->format("d F Y") }}</p>
               @endif
             </div>
           </div><!-- End Service Item -->
+        @endif
 
           <div class="col-xl-6 col-lg-6 col-md-6">
             <div class="service-item position-relative">
@@ -74,7 +77,7 @@
 
 
 
-@if($payment->status == "completed")
+@if($payment && $payment->status == "completed")
     <!-- About Section -->
     <section id="database" class="about section">
 
