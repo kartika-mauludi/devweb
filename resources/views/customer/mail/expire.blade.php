@@ -27,13 +27,9 @@
             </div>
 			
 			<h3>Hai {{ $user->name  }}</h3>
-			<h4>Kamu menerima email ini karena, QRIS pembayaran kamu sudah expired, silahkan klik tombol berikut untuk pil</h4>
-			<center>
-			<a href="{{ url($url) }}" class="btn m3">Pilih Paket</a> 
-		</center>
-
-			<h4>Link Reset Password ini tidak akan bisa digunakan setelah</h4> 
-			<h4>Jika kamu tidak meminta reset password tidak perlu melakukan apa - apa</h4>
+			<h4>Kamu menerima email ini karena, QRIS pembayaran kamu sudah expired</h4>
+			<h4>Jika kamu ingin melanjutkan pembayaran silahkan login dan memilih paket langganan </h4> 
+			<h4><p class="text-center">Jika Anda memiliki pertanyaan, hubungi kami melalui WhatsApp di <a href="https://wa.me/6285236868125">+62 852-3686-8125</a></p></h4>
 
 			
         </div>    

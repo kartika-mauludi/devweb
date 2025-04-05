@@ -9,6 +9,7 @@ use app\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\SubscribeRecord;
+use App\Models\Payment;
 use Carbon\Carbon;
 
 class ProfilController extends Controller
@@ -118,8 +119,23 @@ class ProfilController extends Controller
     }
 
     public function invoice($id){
-        $user = User::with('payments.subscribeRecord.subscribePackage')->where('id',$id)->get();
-        return $user;
+        $payment = Payment::latest('id')->where("user_id", $id)->first();
+        $subscribe = SubscribeRecord::with("subscribePackage")->where("user_id", $payment->user_id)->first();
+        $user = User::find($id);
+
+        $data = [
+            'name' => $user->name,
+            'email'=> $user->email,
+            'invoice_id' => $payment->id_invoice,
+            'paket' => $subscribe->subscribePackage->name,
+            'start_date' => $subscribe->start_date,
+            'end_date' => $subscribe->end_date,
+            'price' => $subscribe->subscribePackage->price,
+            'status' => $payment->status
+        ];
+
+        return view("customer.invoice",$data);
+
     }
 
     /**

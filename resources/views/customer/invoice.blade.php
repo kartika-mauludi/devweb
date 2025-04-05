@@ -1,244 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="utf-8">
-    <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
-    <!--  All snippets are MIT license http://bootdey.com/license -->
-    <title>Invoice - Bootdey.com</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-   
-	<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"
-	integrity="sha512-MpDFIChbcXl2QgipQrt1VcPHMldRILetapBl5MPCA9Y8r7qvlwx1/Mc9hNTzY+kS5kX6PdoDq41ws1HiVNLdZA=="
-	crossorigin="anonymous"
-	referrerpolicy="no-referrer"
-	></script>
- <style type="text/css">
-    	body{
-background:#eee;
-/* margin-top:20px; */
-}
-.text-danger strong {
-        	color: #9f181c;
-		}
-		.receipt-main {
-			background: #ffffff none repeat scroll 0 0;
-			border-bottom: 12px solid #333333;
-			border-top: 12px solid #9f181c;
-			/* margin-top: 50px; */
-			/* margin-bottom: 50px; */
-			padding: 40px 30px !important;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - Databaseriset</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        .invoice-header p { 
+            line-height: 1;
+            font-size: 15px; 
+        }
+        .invoice {
 			position: relative;
-			box-shadow: 0 1px 21px #acacac;
+            padding: 2rem;
 			color: #333333;
-			font-family: open sans;
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 		}
-		.receipt-main p {
-			color: #333333;
-			font-family: open sans;
-			line-height: 1.42857;
-		}
-		.receipt-footer h1 {
-			font-size: 15px;
-			font-weight: 400 !important;
-			margin: 0 !important;
-		}
-		.receipt-main::after {
-			background: #414143 none repeat scroll 0 0;
-			content: "";
-			height: 5px;
-			left: 0;
-			position: absolute;
-			right: 0;
-			top: -13px;
-		}
-		.receipt-main thead {
-			background: #414143 none repeat scroll 0 0;
-		}
-		.receipt-main thead th {
-			color:#fff;
-		}
-		.receipt-right h5 {
-			font-size: 16px;
-			font-weight: bold;
-			margin: 0 0 7px 0;
-		}
-		.receipt-right p {
-			font-size: 12px;
-			margin: 0px;
-		}
-		.receipt-right p i {
-			text-align: center;
-			width: 18px;
-		}
-		.receipt-main td {
-			padding: 9px 20px !important;
-		}
-		.receipt-main th {
-			padding: 13px 20px !important;
-		}
-		.receipt-main td {
-			font-size: 13px;
-			font-weight: initial !important;
-		}
-		.receipt-main td p:last-child {
-			margin: 0;
-			padding: 0;
-		}	
-		.receipt-main td h2 {
-			font-size: 20px;
-			font-weight: 900;
-			margin: 0;
-			text-transform: uppercase;
-		}
-		.receipt-header-mid .receipt-left h1 {
-			font-weight: 100;
-			margin: 34px 0 0;
-			text-align: right;
-			text-transform: uppercase;
-		}
-		.receipt-header-mid {
-			margin: 24px 0;
-			overflow: hidden;
-		}
-		
-		#container {
-			background-color: #dcdcdc;
-		}
+        .bd-inv{
+            border-top: 6px solid #0135A3;
+            border-bottom: 9px solid #0135A3;
+        }
+        .bd-inv-header{
+            border-top: 10px solid #007BFF;
+        }
+        @media print {
+            /* Reset body styles for print */
+            body {
+                background: #fff !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                justify-content: center;
+            }
+            /* Main receipt styles for print */
+            .invoice {
+                box-shadow: none !important;
+                margin: 0 !important; 
+                page-break-after: avoid;
+				width: 210mm;
+				height: 290mm;
+            } 
+            .bd-inv{
+            border-top: 8px solid #000;
+            border-bottom: 10px solid #000;
+            }
+            .bd-inv-header{
+                border-top: 10px solid #ac242f;
+            }
+            /* Table styles for print */
+            table {
+                page-break-inside: avoid;
+            }
+            
+            /* Ensure images print properly */
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
     </style>
 </head>
 <body>
-	<!-- <div id="my-element"> -->
-		
-        <div class="receipt-main col-xs-12 col-sm-12 col-md-12">
-            <div class="row">
-    			<div class="receipt-header">
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="receipt-left">
-							<img class="img-responsive" alt="iamgurdeeposahan" src="https://bootdey.com/img/Content/avatar/avatar6.png" style="width: 71px; border-radius: 43px;">
-						</div>
-					</div>
-					<div class="col-xs-6 col-sm-6 col-md-6 text-right">
-						<div class="receipt-right">
-							<h5>Company Name.</h5>
-							<p>+1 3649-6589 <i class="fa fa-phone"></i></p>
-							<p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bcdfd3d1ccddd2c5fcdbd1ddd5d092dfd3d1">[email&#160;protected]</a> <i class="fa fa-envelope-o"></i></p>
-							<p>USA <i class="fa fa-location-arrow"></i></p>
-						</div>
-					</div>
-				</div>
+    <main class="container mt-5 invoice" id="invoice">
+        <div class="card p-4">
+            <h2 class="text-center text-success">Databaseriset.com</h2>
+            <h4 class="text-center">Invoice</h4>
+            <hr class="text-success">
+            <div class="invoice-header mb-3">
+                <h5 class="mb-3">Invoice To:</h5>
+                <p><strong>Nama:</strong> {{ $name }}</p>
+                <p><strong>Email:</strong> {{ $email}}</p>
+                <p><strong>Invoice ID:</strong> {{ $invoice_id }}</p> 
             </div>
-			
-			<div class="row">
-				<div class="receipt-header receipt-header-mid">
-					<div class="col-xs-8 col-sm-8 col-md-8 text-left">
-						<div class="receipt-right">
-							<h5>Customer Name </h5>
-							<p><b>Mobile :</b> +1 12345-4569</p>
-							<p><b>Email :</b> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="83e0f6f0f7eceee6f1c3e4eee2eaefade0ecee">[email&#160;protected]</a></p>
-							<p><b>Address :</b> New York, USA</p>
-						</div>
-					</div>
-					<div class="col-xs-4 col-sm-4 col-md-4">
-						<div class="receipt-left">
-							<h3>INVOICE # 102</h3>
-						</div>
-					</div>
-				</div>
-            </div>
-			
-            <div>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Description</th>
-                            <th>Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="col-md-9">Payment for August 2016</td>
-                            <td class="col-md-3"><i class="fa fa-inr"></i> 15,000/-</td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-9">Payment for June 2016</td>
-                            <td class="col-md-3"><i class="fa fa-inr"></i> 6,00/-</td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-9">Payment for May 2016</td>
-                            <td class="col-md-3"><i class="fa fa-inr"></i> 35,00/-</td>
-                        </tr>
-                        <tr>
-                            <td class="text-right">
-                            <p>
-                                <strong>Total Amount: </strong>
-                            </p>
-                            <p>
-                                <strong>Late Fees: </strong>
-                            </p>
-							<p>
-                                <strong>Payable Amount: </strong>
-                            </p>
-							<p>
-                                <strong>Balance Due: </strong>
-                            </p>
-							</td>
-                            <td>
-                            <p>
-                                <strong><i class="fa fa-inr"></i> 65,500/-</strong>
-                            </p>
-                            <p>
-                                <strong><i class="fa fa-inr"></i> 500/-</strong>
-                            </p>
-							<p>
-                                <strong><i class="fa fa-inr"></i> 1300/-</strong>
-                            </p>
-							<p>
-                                <strong><i class="fa fa-inr"></i> 9500/-</strong>
-                            </p>
-							</td>
-                        </tr>
-                        <tr>
-                           
-                            <td class="text-right"><h2><strong>Total: </strong></h2></td>
-                            <td class="text-left text-danger"><h2><strong><i class="fa fa-inr"></i> 31.566/-</strong></h2></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-			
-			<div class="row">
-				<div class="receipt-header receipt-header-mid receipt-footer">
-					<div class="col-xs-8 col-sm-8 col-md-8 text-left">
-						<div class="receipt-right">
-							<p><b>Date :</b> 15 Aug 2016</p>
-							<h5 style="color: rgb(140, 140, 140);">Thanks for shopping.!</h5>
-						</div>
-					</div>
-					<div class="col-xs-4 col-sm-4 col-md-4">
-						<div class="receipt-left">
-							<h1>Stamp</h1>
-						</div>
-					</div>
-				</div>
-            </div>
-        </div>    
-	</div>
-</div>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script>
-	const element = document.querySelector('#my-element');
-	html2pdf(element)
-	// const options = {
-	// 	filename: 'my-document.pdf',
-	// 	margin: 0.5,
-	// 	image: { type: 'jpeg', quality: 0.98 },
-	// 	html2canvas: { scale: 1 },
-	// 	jsPDF: { unit: 'in', format: 'A4', orientation: 'portrait' },
-	// };
-	// html2pdf().set(options).from(element).save();
-</script>
+            
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><h5>Deskripsi</h5></th>
+                        <th><h5>Detail</h5></th>
+                    </tr>
+                <tbody>
+                    <tr>
+                        <td>Paket</td> 
+                        <td>{{ $paket }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tanggal Mulai</td>
+                        <td>{{ \Carbon\Carbon::parse($start_date)->format("d F Y") }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tanggal Berakhir</td>
+                        <td>{{ \Carbon\Carbon::parse($end_date)->format("d F Y") }}</td>
+                    </tr>
+                    <tr>
+                        <td>Metode Pembayaran</td>
+                        <td>QRIS [ ALL PAYMENT ]</td>
+                    </tr>
+                    <tr>
+                        <td>Total Harga</td>
+                        <td>Rp. {{ number_format($price , 0, ",", ".") }}</td>
+                    </tr>
+                    <tr>
+                        <td>Status Pembayaran:</td>
+                        <td>{{ $status }}</td>
+                    </tr>
+                 
+                </tbody>
+            </table>
+            <hr class="text-success">
+            <p class="text-center">Terima kasih telah berlangganan di Databaseriset.com</p>
+            <p class="text-center">Jika Anda memiliki pertanyaan, hubungi kami melalui WhatsApp di <a href="https://wa.me/6285236868125">+62 852-3686-8125</a></p>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const element = document.querySelector('.invoice');
+
+            html2pdf(element, {
+                margin: 10,
+                filename: 'laporan.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).then(() => {
+                setTimeout(() => {
+                    window.close(); // Tutup halaman setelah cetak
+                }, 1000);
+            });
+        });
+    </script>
 </body>
 </html>
