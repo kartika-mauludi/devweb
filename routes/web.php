@@ -158,6 +158,8 @@ Route::group(['prefix' => 'midtrans-config', 'as' => 'midtrans-config.', 'contro
 });
 
 Route::get('/universities/data', [UniversityController::class, 'getData'])->name('universities.data');
+Route::post('/universities/{id}/accounts/import', [UniversityAccountController::class, 'import']);
+Route::post('/universities/{id}/websites/import', [UniversityWebsiteController::class, 'import']);
 Route::resource('universities', UniversityController::class);
 Route::resource('universities.accounts', UniversityAccountController::class);
 Route::resource('universities.websites', UniversityWebsiteController::class);

@@ -8,7 +8,7 @@ function showLoading() {
         imageUrl: '/assets/img/Spinner-1s-151px.svg',
         imageWidth: 100,
         imageHeight: 100,
-        allowOutsideClick: false,
+        // allowOutsideClick: false,
         showConfirmButton: false
     });
 }
