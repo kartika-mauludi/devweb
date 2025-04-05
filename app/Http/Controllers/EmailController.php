@@ -55,18 +55,12 @@ class EmailController extends Controller
                 $univid = $univ_id[$a[$i]];
                 $universiti[] = University::where('id',$univid)->pluck('name');
             }
-
-            // return $universiti;
             $data = $universiti;
             foreach ($data as $key => $value) {
               return  $data[$key] = $value;
             }
-
-
-            Mail::to('ludi@gmail.com')->send(new pending($data));
-            return "sukses";
-
-            // return "akun ".$universiti." kosong silahkan hubungi admin";
+            // Mail::to('ludi@gmail.com')->send(new pending($data));
+            // return "sukses";
         }
         else{
             return $akun;
@@ -81,19 +75,22 @@ class EmailController extends Controller
     private function cek_id($id_univ){
     
     $user_akun = User::all()->where('akun_id','!=','')->pluck('akun_id');
+    $account = UniversityAccount::where('university_id',$id_univ)->pluck('id');
+    $jumlah_akun = count($account);
       
-    if(!empty($user_akun)){
-        $account = UniversityAccount::where('university_id',$id_univ)->pluck('id');
+    if(collect($user_akun)->flatten()->filter()->isEmpty()){
+        for($i = 0; $i <= $jumlah_akun; $i++){
+            $id_akun_univ = UniversityAccount::where('university_id',$id_univ)->pluck('id')->first();
+            return $id_akun_univ;
+        }
+
+    }else{      
         foreach ($user_akun as $id){
           foreach ($id as $i) {
             $akun_user[] = $i;
           }
         }
-
-
-
        $next_id = array_values(array_unique($akun_user));
-       $jumlah_akun = count($account);
        $count = array_count_values($akun_user);
 
         foreach($count as $item => $jumlah){
@@ -116,10 +113,14 @@ class EmailController extends Controller
                 return $id_akun_univ;
             }
             else{
-            return "masih ada sisa";
+                for($i = 0; $i <= $jumlah_akun; $i++){
+                    $id_akun_univ = UniversityAccount::where('university_id',$id_univ)->pluck('id')->first();
+                    return $id_akun_univ;
+                }
             }
         }
      }
+    
     }
 
 

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\invoice;
 use App\Mail\expired;
 use App\Mail\pending;
+use Auth;
 use Midtrans\Snap;
 use Arr;
 
@@ -86,8 +87,9 @@ class PaymentController extends Controller
                return view('qris',$data);
         } catch (\Throwable $th) {
             report($th);
-            $message = $this::$message['error'];
-            return redirect()->route('customer.home')->with('message', $message);
+            $error = $this::$message['error'];
+            Auth::loginUsingId($request->user);
+            return redirect()->route('customer.home')->with('message', $error);
         }
        
      

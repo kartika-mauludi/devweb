@@ -26,7 +26,7 @@ Route::get('/', function () {
     return view('welcome',compact('packages'));
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);
 Route::get('/payment/{id}','App\Http\Controllers\PaymentController@index')->name('payment');
 Route::post('/subscribepayment','App\Http\Controllers\PaymentController@subscribepayment')->name('subscribepayment');
 Route::POST('/webhook','App\Http\Controllers\PaymentController@webhook')->name('webhook');

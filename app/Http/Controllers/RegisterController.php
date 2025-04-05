@@ -113,7 +113,6 @@ class RegisterController extends Controller
                 $datas['payment'] = $payment->id; 
                 $datas['sub'] = $sub->id;
                 $response = Http::post(route('subscribepayment'), $datas);
-
                 return $response;
 
              } catch(\Exception $exp){
@@ -131,40 +130,51 @@ class RegisterController extends Controller
 
         $user_akun = User::all()->where('akun_id','!=','')->pluck('akun_id');
         $account = UniversityAccount::where('university_id',$id_univ)->pluck('id');
-
-        foreach ($user_akun as $id){
-          foreach ($id as $i) {
-            $akun_user[] = $i;
-          }
-        }
-
-       $next_id = array_values(array_unique($akun_user));
-       $jumlah_akun = count($account);
-       $count = array_count_values($akun_user);
-
-        foreach($count as $item => $jumlah){
-            $id_akun[] = ['item' => $item, 'jumlah' => $jumlah];
-        }
-
-        for($i = 0; $i <= $jumlah_akun; $i++){
-            if($id_akun[$i]['jumlah'] > 1){
-                for($x = 0; $x <= $jumlah_akun; $x++){
-                    $filtered = array_filter($count, function ($value) {
-                        return $value < 2;
-                    });
-                }
-                foreach($filtered as $id_ak => $jml){
-                    $id_ak = ['id' => $id_ak, 'jumlah' => $jml];
-                }
-                if(empty($id_ak)){
-                  $id_akun_univ = UniversityAccount::whereNotIn('id',$next_id)->where('university_id',$id_univ)->pluck('id')->first();
-                } 
+        $jumlah_akun = count($account);
+          
+        if(collect($user_akun)->flatten()->filter()->isEmpty()){
+            for($i = 0; $i <= $jumlah_akun; $i++){
+                $id_akun_univ = UniversityAccount::where('university_id',$id_univ)->pluck('id')->first();
                 return $id_akun_univ;
             }
-            else{
-            return "masih ada sisa";
+    
+        }else{      
+            foreach ($user_akun as $id){
+              foreach ($id as $i) {
+                $akun_user[] = $i;
+              }
             }
-        }
+           $next_id = array_values(array_unique($akun_user));
+           $count = array_count_values($akun_user);
+    
+            foreach($count as $item => $jumlah){
+                $id_akun[] = ['item' => $item, 'jumlah' => $jumlah];
+            }
+    
+            for($i = 0; $i <= $jumlah_akun; $i++){
+                if($id_akun[$i]['jumlah'] > 1){
+                    for($x = 0; $x <= $jumlah_akun; $x++){
+                        $filtered = array_filter($count, function ($value) {
+                            return $value < 2;
+                        });
+                    }
+                    foreach($filtered as $id_ak => $jml){
+                        $id_ak = ['id' => $id_ak, 'jumlah' => $jml];
+                    }
+                    if(empty($id_ak)){
+                      $id_akun_univ = UniversityAccount::whereNotIn('id',$next_id)->where('university_id',$id_univ)->pluck('id')->first();
+                    } 
+                    return $id_akun_univ;
+                }
+                else{
+                    for($i = 0; $i <= $jumlah_akun; $i++){
+                        $id_akun_univ = UniversityAccount::where('university_id',$id_univ)->pluck('id')->first();
+                        return $id_akun_univ;
+                    }
+                }
+            }
+         }
+        
     }
 
     public function price(){
