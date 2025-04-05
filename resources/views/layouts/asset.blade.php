@@ -16,11 +16,8 @@
   <link href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
 
   <!-- Favicons -->
-  <link rel="icon" type="image/png" href="{{ asset('icons/favicon.png') }}">
-  <link rel="icon" type="image/x-icon" href="{{ asset('icons/favicon.ico') }}">
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('icons/apple-touch-icon.png') }}">
-  <link rel="icon" sizes="32x32" href="{{ asset('icons/favicon-32x32.png') }}">
-  <link rel="icon" sizes="16x16" href="{{ asset('icons/favicon-16x16.png') }}">
+  <link href="{{ asset('assets/img/favicon.png')}}" rel="icon">
+  <link href="{{ asset('assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -99,7 +96,7 @@
                         @endif
     </div>
   </header>
-  <a href="https://wa.me/+6285236868125" target="_blank" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-whatsapp"></i></a>
+  <a href="https://wa.me/{{ $user->nomor ?? "+6285236868125"}}" target="_blank" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-whatsapp"></i></a>
 
 
   @yield('content')

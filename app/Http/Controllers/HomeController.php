@@ -9,6 +9,10 @@ use App\Models\User;
 use App\Models\Payment;
 use App\Models\SubscribePackage;
 use App\Models\UserAffiliate;
+use App\Models\University;
+use App\Models\UniversityAccount;
+use App\Models\UniversityWebsite;
+use App\Models\Website;
 
 
 class HomeController extends Controller
@@ -59,10 +63,20 @@ class HomeController extends Controller
         $paid = UserAffiliate::whereHas('payments', function($query){$query->where('status','completed');})->where('User_id',auth::user()->id)->get();
         $wd= UserAffiliate::with('user')->where('user_id',auth::user()->id)->where('status','withdraw')->get();
         $payment = Payment::where('user_id',$id)->first();
+        $admin = User::where('is_superadmin',1)->first();
+        $univ = University::all();
+        $akun = UniversityAccount::with('university')->get();
+        $website = Website::with('universities')->get();
+
+        // return $website->universities[0]->name;
+
+        $data['admin'] = $admin;
         $data['user'] = $user;
         $data['komisi'] = $paid->sum('amount') - $wd->sum('amount') ;
         $data['sub'] = $subscribes;
         $data['payment'] = $payment;
+        $data['univs'] = $univ;
+        $data['websites'] = $website;
         
         return view('customer.home',$data);
     }

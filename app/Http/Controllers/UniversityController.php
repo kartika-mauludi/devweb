@@ -90,6 +90,7 @@ class UniversityController extends Controller
     
     public function destroy(University $university)
     {
+        // return $university;
         $result = $university->delete();
 
         $status = 400;

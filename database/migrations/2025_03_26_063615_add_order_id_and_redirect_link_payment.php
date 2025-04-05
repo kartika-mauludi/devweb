@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('payment', function (Blueprint $table) {
+        Schema::table('payments', function (Blueprint $table) {
             $table->string('order_id')->nullable()->unique();
             $table->string('redirect_link')->nullable();
         });
@@ -22,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('payment', function (Blueprint $table) {
+        Schema::table('payments', function (Blueprint $table) {
             $table->dropColumn(['order_id', 'redirect_link']);
         });
     }
