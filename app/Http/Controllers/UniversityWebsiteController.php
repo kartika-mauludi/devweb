@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\UniversityWebsite;
 use Illuminate\Http\Request;
-
+use Symfony\Component\HttpFoundation\StreamedResponse;
 class UniversityWebsiteController extends Controller
 {
     public function index($universityId)
@@ -94,4 +94,57 @@ class UniversityWebsiteController extends Controller
         ]);
     }
 
+    public function import(Request $request, $universityId)
+    {
+        $data = $request->input('data');
+
+        if (!is_array($data) || empty($data)) {
+            return response()->json(['status' => 400, 'message' => 'Data tidak valid!']);
+        }
+
+        $response = new StreamedResponse(function () use ($data, $universityId) {
+            $insertedCount = 0;
+            $updatedCount = 0;
+
+            foreach ($data as $index => $item) {
+                if (!isset($item['title']) || !isset($item['url'])) {
+                    echo json_encode(['status' => 400, 'message' => 'Format data tidak valid!']);
+                    ob_flush();
+                    flush();
+                    return;
+                }
+
+                $record = UniversityWebsite::updateOrCreate(
+                    ['university_id' => $universityId, 'title' => $item['title']],
+                    ['url' => $item['url']]
+                );
+
+                if ($record->wasRecentlyCreated) {
+                    $insertedCount++;
+                } else {
+                    $updatedCount++;
+                }
+
+                echo json_encode([
+                    'status' => 200,
+                    'message' => 'Mengimport data...',
+                    'progress' => ($index + 1) . '/' . count($data),
+                    'procesed' => $insertedCount + $updatedCount
+                ]) . "\n";
+                ob_flush();
+                flush();
+            }
+
+            echo json_encode([
+                'status' => 200,
+                'message' => 'Import selesai!',
+                'procesed' => $insertedCount + $updatedCount
+            ]) . "\n";
+            ob_flush();
+            flush();
+        });
+
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 }

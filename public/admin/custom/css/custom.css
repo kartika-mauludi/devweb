@@ -12,6 +12,7 @@
 }
 
 .fit {
+    max-width: fit-content !important;
     width: 1px !important;
 }
 
@@ -25,4 +26,8 @@ table thead {
 
 .gap-5 .btn {
     border-radius: 0.25rem !important;
+}
+
+.mh-65vh {
+    max-height: 65vh;
 }
