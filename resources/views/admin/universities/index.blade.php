@@ -131,7 +131,7 @@
                 },
                 { 
                     data: 'name', 
-                    render: (data, type, row) => `<a href="/universities/${row.id}" class="text-nowrap">${data}</a>`
+                    render: (data, type, row) => `<a href="{{ url('/universities' )}}/${row.id}" class="text-nowrap">${data}</a>`
                 },
                 { 
                     data: 'main_url', 

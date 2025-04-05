@@ -79,17 +79,18 @@ class EmailController extends Controller
     }
 
     private function cek_id($id_univ){
-
-        $user_akun = User::all()->where('akun_id','!=','')->pluck('akun_id');
+    
+    $user_akun = User::all()->where('akun_id','!=','')->pluck('akun_id');
+      
+    if(!empty($user_akun)){
         $account = UniversityAccount::where('university_id',$id_univ)->pluck('id');
-
         foreach ($user_akun as $id){
           foreach ($id as $i) {
             $akun_user[] = $i;
           }
         }
 
-        return $akun_user;
+
 
        $next_id = array_values(array_unique($akun_user));
        $jumlah_akun = count($account);
@@ -118,6 +119,7 @@ class EmailController extends Controller
             return "masih ada sisa";
             }
         }
+     }
     }
 
 
