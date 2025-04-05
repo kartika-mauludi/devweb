@@ -63,12 +63,12 @@ class LoginController extends Controller
         
             $lastSessionId = $user->last_session_id;
         
-            if ($lastSessionId && $lastSessionId !== $currentSessionId) {
+            if ($user->is_superadmin == 0 && $lastSessionId && $lastSessionId !== $currentSessionId) {
                 DB::table('sessions')->where('id', $lastSessionId)->delete();
             }
-        
+            
             $user->last_session_id = $currentSessionId;
-            $user->save();
+            $user->save();            
 
             if ($user->is_superadmin == 1) {
                 return redirect()->route('admin.home');
