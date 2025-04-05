@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
     <!--  All snippets are MIT license http://bootdey.com/license -->
-    <title>Reminder</title>
+    <title>Info</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
  <link rel="stylesheet" href="{{ asset('assets/css/mail.css') }}">
@@ -26,16 +26,16 @@
 				</div>
             </div>
 			
-			<h3>Hai {{ $user->name  }}</h3>
-			<h4>Kamu menerima email ini karena, Masa Langganan Kamu Mau Habis , silahkan klik tombol berikut untuk memperpanjang masa langganan</h4>
-			<center>
-			<a href="{{ url($url) }}" class="btn m3">Pilih Paket</a> 
-		</center>
+			<h3>Warning</h3>
+			<h4>
+                akun
+                @foreach ($data as $key => $value) 
+                     {{ $data[$key] = $value }}
+                 @endforeach
+                 kosong dimohon untuk cek ketersediaan akun yang ada.
 
-			<h4>Link Reset Password ini tidak akan bisa digunakan setelah</h4> 
-			<h4>Jika kamu tidak meminta reset password tidak perlu melakukan apa - apa</h4>
-
-			
+            </h4>
+		
         </div>    
 	</div>
 </div>

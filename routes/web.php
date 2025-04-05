@@ -35,7 +35,7 @@ Route::get('/price','App\Http\Controllers\RegisterController@price')->name('reff
 Route::post('/registrasi','App\Http\Controllers\RegisterController@register')->name('registrasi');
 Route::get('payment-callback', 'App\Http\Controllers\PaymentController@callback');
 Route::get('download/{id}','App\Http\Controllers\PdfController@download')->name('download');
-Route::get('email','App\Http\Controllers\EmailController@pending')->name('email');
+Route::get('email','App\Http\Controllers\EmailController@invoice')->name('email');
 
 
 Route::middleware(['auth', 'admin'])->group(function () {

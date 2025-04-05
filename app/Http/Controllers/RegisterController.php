@@ -46,7 +46,12 @@ class RegisterController extends Controller
             return back ()->withErrors($validator);
         }
 
-        $univs = University::all();
+       
+
+        DB::beginTransaction(); 
+        try {
+
+            $univs = University::all();
             foreach ($univs as $univ){
                 $akun[] = $this->cek_id($univ->id);
                 $univ_id[] = $univ->id;
@@ -61,7 +66,6 @@ class RegisterController extends Controller
 
                 $data = $universiti;
                 Mail::to('ludi@gmail.com')->send(new info($data));
-    
             }
             else{
                 $kode = Str::random(10);  
@@ -73,12 +77,7 @@ class RegisterController extends Controller
                         'password' => Hash::make($data['password']),
                         'akun_id' => $akun
                     ]);
-            } 
-
-        DB::beginTransaction(); 
-        try {
-
-            
+            }
                 $ref = Session::get('ref');
                 if($ref){
                     $useraffiliate = User::where('referral_code',$ref)->first();

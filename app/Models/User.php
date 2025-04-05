@@ -32,7 +32,8 @@ class User extends Authenticatable implements CanResetPassword
         'referral_code',
         'bank_account',
         'bank_name',
-        'is_superadmin'
+        'is_superadmin',
+        'akun_id'
     ];
 
     /**
@@ -55,6 +56,7 @@ class User extends Authenticatable implements CanResetPassword
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'akun_id' => 'array',
         ];
     }
 
