@@ -13,20 +13,26 @@ class EnsureSessionIsValid
     {
         if (Auth::check()) {
             $user = Auth::user();
-            $currentSessionId = Session::getId();
             
+            if ($user->is_superadmin) {
+                return $next($request);
+            }
+    
+            $currentSessionId = Session::getId();
+    
             if ($user->last_session_id && $user->last_session_id !== $currentSessionId) {
                 Auth::logout();
                 Session::invalidate();
                 Session::regenerateToken();
-
+    
                 return redirect()->route('login')->withErrors([
                     'message' => 'Akun Anda login di perangkat lain.',
                 ]);
             }
         }
-
+    
         return $next($request);
     }
+    
 }
 
