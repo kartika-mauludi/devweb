@@ -84,8 +84,8 @@ class LanggananController extends Controller
     }
 
     public function qris($id){
+       
         $payment = Payment::latest('id')->where('user_id', $id)->first();
-        
         return view('customer.qris',compact('payment'));
         
     }

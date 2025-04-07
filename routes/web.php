@@ -47,10 +47,7 @@ Route::middleware(['auth', 'user'])->group(function () {
     Route::get('/customer/home', [App\Http\Controllers\HomeController::class, 'userhome'])->name("customer.home");
 });
 
-// Start Admin Page Routes //
-
-// Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
+// route customer
 
 Route::group(['prefix' => 'customer/profil', 'as' => 'customer/profil.', 'controller' => ProfilController::class], function(){
     Route::get('/', 'index')->name('index');
@@ -64,6 +61,27 @@ Route::group(['prefix' => 'customer/profil', 'as' => 'customer/profil.', 'contro
     Route::get('invoice/{id}','invoice')->name('invoice');
     Route::delete('destroy/{user}', 'destroy')->name('destroy');
 });
+
+
+Route::group(['prefix' => 'customer/langganan', 'as' => 'customer/langganan.', 'controller' => LanggananController::class], function(){
+    Route::get('/', 'langganan')->name('index');
+    Route::get('/upgrade', 'upgrade')->name('upgrade');
+    Route::get('/payment/{id}', 'payment')->name('payment');
+    Route::get('/qris/{id}','qris')->name('qris');
+    Route::POST('/newsubscriber','newsubscriber')->name('subscriber');
+});
+
+Route::group(['prefix' => 'customer/affiliasi', 'as' => 'customer/affiliasi.', 'controller' => AffiliasiController::class], function(){
+    Route::get('/', 'affiliasi')->name('index');
+    Route::POST('/store','store')->name('store');
+});
+
+// end route customer
+
+
+// Start Admin Page Routes //
+// Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
 
 Route::prefix('admin')->group(function(){
     Route::group(['prefix' => 'customer', 'as' => 'customer.', 'controller' => CustomerController::class], function(){

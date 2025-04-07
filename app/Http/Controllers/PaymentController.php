@@ -87,7 +87,7 @@ class PaymentController extends Controller
                return view('qris',$data);
         } catch (\Throwable $th) {
             report($th);
-            $error = $this::$message['error'];
+            $error = $this::$message['error_payment'];
             Auth::loginUsingId($request->user);
             return redirect()->route('customer.home')->with('message', $error);
         }

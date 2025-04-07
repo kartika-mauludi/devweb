@@ -15,6 +15,7 @@ class Controller extends BaseController
         'createsuccess' => 'Data berhasil ditambahkan',
         'updatesuccess' => 'Data berhasil diperbarui',
         'deletesuccess' => 'Data berhasil dihapus',
-        'error' => 'Terjadi kesalahan sistem, hubungi administrator'
+        'error' => 'Terjadi kesalahan sistem, hubungi administrator',
+        'error_payment' => 'Terjadi kesalahan pada pembayaran, hubungi administrator'
     ];
 }

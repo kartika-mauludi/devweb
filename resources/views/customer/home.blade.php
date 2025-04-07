@@ -19,27 +19,39 @@
             </div>
         @endsession
 
-        @if (session('error'))
+        @if (session('error_payment'))
             <div class="alert alert-danger alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                {{ session('error') }}
+                {{ session('error_payment') }}
             </div>
         @endsession
-
-
-       
     <!-- Services Section -->
     <section id="tabel" class="services section light-background">
-    @if($payment && $payment->status == "pending")
+    @if($payment && $payment->status == "pending" && !empty($payment->redirect_link))
+      <div class="alert alert-danger alert-dismissible">
+        <div class="container">
+          Anda Memiliki Tagihan Pembayaran Yang Belum Diselesaikan Klik Tombol Berikut Untuk Melihat Pembayaran Anda <p>
+            <a href="{{ route('customer/langganan.qris',$payment->user_id) }}" class="btn btn-primary my-2">Payment</a>
+          </p>
+          </div>
+      </div>
+    @elseif($payment && $payment->status == "pending" && empty($payment->redirect_link))
     <div class="alert alert-info alert-dismissible">
-      <div class="container">
-        Anda Memiliki Tagihan Pembayaran Yang Belum Diselesaikan Klik Tombol Berikut Untuk Melihat Pembayaran Anda <p>
-          <a href="" class="btn btn-primary my-2">Payment</a>
-        </p>
-        </div>
+        <div class="container">
+         Ada masalah ketika registrasi anda sehingga pembayaran anda tidak terdeteksi, silahkan hubungi admin atau klik menu langgalan untuk berlangganan <p>
+            <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary my-2">Mulai Berlangganan</a>
+          </p>
+          </div>
     </div>
+    @elseif($payment && $payment->status == "failed")
+    <div class="alert alert-info alert-dismissible">
+        <div class="container">
+          Kamu belum berlangganan, mari mulai berlangganan untuk menikmati fitur dari kami <p>
+            <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary my-2">Mulai Berlangganan</a>
+          </p>
+          </div>
+      </div>
     @endif
-
     @if($sub && now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) <=3 && $payment->status == "completed")
     <div class="alert alert-dangery alert-dismissible">
       <div class="container">
@@ -56,7 +68,7 @@
         @if ($sub)
           <div class="col-xl-6 col-lg-6 col-md-6">
             <div class="service-item position-relative">
-              {{ now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) }}
+              <!-- {{ now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) }} -->
             @if(\Carbon\Carbon::parse($sub->end_date) < now())
             <h3 style="text:red">Anda Belum Berlangganan</h3>
               <h5 class="my-3">Pilih Paket Untuk Menikmati Layanan Kami</h5>
