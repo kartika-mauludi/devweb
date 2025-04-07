@@ -36,10 +36,36 @@
         user-select: none;
       }
 
+      #menu-dekstop {
+        display: inline;
+      }
+
+      #menu-mobile {
+          display: none;
+        }
+      
+      @media(max-width:768px){
+        .header .logo {
+          order: 1;
+        }
+        #menu-dekstop {
+          display: none;
+        }
+
+        #menu-mobile {
+          display: flex;
+        }
+
+        
+      }
       @media (min-width: 768px) {
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
         }
+       
+        
+
+       
       }
     </style>
 
@@ -57,14 +83,14 @@
       </a>
 
       <nav id="navmenu" class="navmenu">
-        <l>
+        <ul>
           <li><a href="{{ url('/#beranda') }}" class="active">Beranda</a></li>
           <li><a href="{{ url('/#kelebihan') }}">Kelebihan</a></li>
           <li><a href="{{ url('/#tentang') }}">Tentang Kami</a></li>
           <li><a href="{{ url('/#harga') }}">Harga</a></li>
           <li><a href="{{ url('/#layanan') }}">Layanan</a></li>
           <li><a href="{{ route('login') }}" class="login-a">Masuk</a></li>
-          <li><a class="btn-getstarted" href="{{ url('/#harga') }}">Coba Sekarang</a></li>
+          <li><a href="{{ url('/#harga') }}" id="menu-mobile">Coba Sekarang</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
@@ -75,14 +101,15 @@
                                 @if(auth::user()->is_superadmin == 1)
                                     <a href="{{ url('/admin/home')}}" class="btn-getstarted">
                                 @elseif(auth::user()->is_superadmin == 0)
-                                <a href="{{ url('/customer/home') }}" class="btn-getstarted" >
+                                <a href="{{ url('/customer/home') }}" class="btn-getstarted">
                                     @endif
                                         Dashboard
                                     </a>
+                                   
                                 @else
                                 <a class="btn-login" href="{{ route('login') }}">Masuk</a>
                               
-                                <a class="btn-getstarted" href="{{ url('/#harga') }}">Coba Sekarang</a>
+                                <a class="btn-getstarted" id="menu-dekstop" href="{{ url('/#harga') }}">Coba Sekarang</a>
                                  
                                 @endauth
                             </nav>
