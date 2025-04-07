@@ -82,7 +82,14 @@ class RegisterController extends Controller
                 if($ref){
                     $useraffiliate = User::where('referral_code',$ref)->first();
                     $komisi = AffiliateComission::latest()->first();
-                    UserAffiliate::Create(['user_id' => $useraffiliate->id,'usernew_id' => $user->id , 'status'=>'pending','amount'=>$komisi->amount]);
+                    $subscribe = SubscribePackage::where('id',Session::get('id'))->first;
+                    if($komisi->type == "percentage"){
+                        $persentase = $komisi->amount;
+                        $amount = 
+
+                    }
+
+                    UserAffiliate::Create(['user_id' => $useraffiliate->id,'usernew_id' => $user->id , 'status'=>'pending','amount'=>$amount]);
                 };
 
                  $sub = SubscribeRecord::create([

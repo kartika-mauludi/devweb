@@ -36,7 +36,7 @@
                         </button>
                     </div>   
                 </h5>
-                    <h5>Dapatkan Rp. {{  number_format($komisi->amount , 0, ",", ".") }} untuk setiap teman yang berhasil memulai langganan bulan pertama mereka melalui Anda! </h5>
+                    <h5>Dapatkan @if($komisi->type == 'fixed') Rp. {{  number_format(optional($komisi)->amount ?? 10000 , 0, ",", ".") }} @elseif($komisi->type == 'percentage') {{  number_format(optional($komisi)->amount ?? 10000 , 0, ",", ".") }}% @endif untuk setiap teman yang berhasil memulai langganan bulan pertama mereka melalui Anda! </h5>
                     </div>
                 </div><!-- End Service Item --> 
               
@@ -63,7 +63,7 @@
 <!-- Button trigger modal -->
 
 <!-- Modal Notif -->
- @if($paid->sum('amount') - $wd->sum('amount') < 10000)
+ @if($paid->sum('amount') - $wd->sum('amount') < 100000)
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -72,7 +72,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Saldo Komisi Harus Lebih Dari Rp. 10.000 Untuk Bisa Di Tarik
+        Saldo Komisi Harus Lebih Dari Rp. 100.000 Untuk Bisa Di Tarik
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -83,7 +83,7 @@
 
 <!--  end Modal Notif  -->
 
-@elseif($paid->sum('amount') - $wd->sum('amount') > 10000)
+@elseif($paid->sum('amount') - $wd->sum('amount') > 100000)
 <!-- Modal withdraw -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
