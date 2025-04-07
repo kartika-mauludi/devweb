@@ -169,6 +169,7 @@
                             Swal.fire("Selesai!", `Berhasil mengimport ${insertedCount} dari ${tableData.length} data.`, "success");
                             $("#importWebsiteModal").modal("hide");
                             tableImportWebsite.clear().draw();
+                            websiteTable.ajax.reload();
                             return;
                         }
 

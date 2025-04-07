@@ -75,7 +75,6 @@
     var universityId = "{{ $university->id }}";
 
     var accountTable = $('#tbl-university-account').DataTable({
-        responsive: true,
         ordering:false,
         ajax: `/universities/${universityId}/accounts`,
         columns: [
@@ -103,7 +102,6 @@
     });
 
     var websiteTable = $('#tbl-university-website').DataTable({
-        responsive: true,
         ordering:false,
         ajax: `/universities/${universityId}/websites`,
         columns: [

@@ -166,6 +166,7 @@
                             Swal.fire("Selesai!", `Berhasil mengimport ${insertedCount} dari ${tableData.length} data.`, "success");
                             $("#importAccountModal").modal("hide");
                             tableImportAccount.clear().draw();
+                            accountTable.ajax.reload();
                             return;
                         }
 
