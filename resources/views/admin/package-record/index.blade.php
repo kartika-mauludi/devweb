@@ -32,8 +32,8 @@
                             @foreach ($records as $record)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $record->user->name }}</td>
-                                    <td>{{ $record->subscribePackage->name }}</td>
+                                    <td>{{ $record->user->name ?? '' }}</td>
+                                    <td>{{ $record->subscribePackage->name ?? '' }}</td>
                                     <td>{{ $record->start_date }}</td>
                                     <td>{{ $record->end_date }}</td>
                                     <td>

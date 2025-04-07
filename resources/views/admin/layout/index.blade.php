@@ -33,6 +33,8 @@
   <link rel="stylesheet" href="{{ asset('admin/plugins/summernote/summernote-bs4.min.css') }}">
   <!-- Data table -->
   <link rel="stylesheet" href="{{ asset('admin/dist/css/datatable.min.css') }}">
+  <!-- select2 -->
+  <link rel="stylesheet" href="{{ asset('admin/dist/css/select2.min.css') }}">
   <!-- Custom CSS -->
   <link rel="stylesheet" href="{{ asset('admin/custom/css/custom.css?v=1.0') }}">
 </head>
@@ -150,6 +152,9 @@
 <script src="{{ asset('admin/custom/js/custom.js?v=1.0') }}"></script>
 <!-- Sweer alert -->
 <script src="{{ asset('admin/dist/js/sweetalert.min.js') }}"></script>
+
+<!-- Select 2 -->
+<script src="{{ asset('admin/dist/js/select2.min.js') }}"></script>
 
 @stack('script')
 
