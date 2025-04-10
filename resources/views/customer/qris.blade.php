@@ -2,11 +2,10 @@
 
 @section('content')
 
-
-
-<main class="hero">
+<!-- <main class="hero"> -->
 @if(!empty($payment->redirect_link) )
-<section id="tabel" class="services section light-background">
+<iframe class="hero"src="{{ $payment->redirect_link }}" width="100%" height="900"></iframe>
+@else
     <div class="alert alert-info alert-dismissible">
         <div class="container">
          Ada masalah ketika registrasi anda sehingga pembayaran anda tidak terdeteksi, silahkan hubungi admin atau klik menu langgalan untuk berlangganan <p>
@@ -14,11 +13,9 @@
           </p>
           </div>
     </div>
-</section>
 @endif
 
-
-</main>
+<!-- </main> -->
 
 
 @endsection

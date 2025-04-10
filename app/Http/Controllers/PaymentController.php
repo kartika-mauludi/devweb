@@ -82,13 +82,13 @@ class PaymentController extends Controller
                $payment->order_id = $params['transaction_details']['order_id'];
                $payment->redirect_link = $response->redirect_url;
                $payment->save();
-    
                $data['url'] = $response->redirect_url;
                return view('qris',$data);
         } catch (\Throwable $th) {
             report($th);
             $error = $this::$message['error_payment'];
             Auth::loginUsingId($request->user);
+            // return $error;
             return redirect()->route('customer.home')->with('message', $error);
         }
        

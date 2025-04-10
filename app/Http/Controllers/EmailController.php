@@ -13,6 +13,7 @@ use App\Mail\expired;
 use App\Mail\info;
 use App\Models\UniversityAccount;
 use App\Models\SubscribeRecord;
+use Illuminate\Support\Arr;
 
 class EmailController extends Controller
 {
@@ -42,29 +43,32 @@ class EmailController extends Controller
 
         // return "sukses";
 
+        // $univs = University::all();
+        // foreach ($univs as $univ){
+        //     $akun[] = $this->cek_id($univ->id);
+        //     $univ_id[] = $univ->id;
+        // }
 
-        $univs = University::all();
-        foreach ($univs as $univ){
-            $akun[] = $this->cek_id($univ->id);
-            $univ_id[] = $univ->id;
-        }
+        // // return $univ_id;
 
-        if($a = array_keys($akun, null, true)){
-            // return $a;
-            for($i = 0; $i < count($a); $i++){
-                $univid = $univ_id[$a[$i]];
-                $universiti[] = University::where('id',$univid)->pluck('name');
-            }
-            $data = $universiti;
-            foreach ($data as $key => $value) {
-              return  $data[$key] = $value;
-            }
-            // Mail::to('ludi@gmail.com')->send(new pending($data));
-            // return "sukses";
-        }
-        else{
-            return $akun;
-        }
+        // if($a = array_keys($akun, null, true)){
+        //     // return $a;
+        //     for($i = 0; $i < count($a); $i++){
+        //         $univid = $univ_id[$a[$i]];
+        //         $universiti[] = University::where('id',$univid)->pluck('name');
+        //     }
+
+        //     $data = $universiti;
+        //     return $data;
+        //     // Mail::to('ludi@gmail.com')->send(new info($data));
+        // }
+        // else{
+        //     return $akun;
+        // }
+
+
+        return view('test');
+        return redirect()->away('https://weblogin.asu.edu/cas/login?service=https%3A%2F%2Fshibboleth2.asu.edu%2Fidp%2FAuthn%2FExternal%3Fconversation%3De1s1&entityId=https%3A%2F%2Fwww.tandfonline.com%2Fshibboleth');
 
     
        
@@ -73,53 +77,63 @@ class EmailController extends Controller
     }
 
     private function cek_id($id_univ){
-    
-    $user_akun = User::all()->where('akun_id','!=','')->pluck('akun_id');
-    $account = UniversityAccount::where('university_id',$id_univ)->pluck('id');
-    $jumlah_akun = count($account);
+        
+        $user_akun = User::all()->where('akun_id','!=','')->pluck('akun_id');
+        $account = UniversityAccount::where('university_id',$id_univ)->pluck('id');
+        $jumlah_akun = count($account);
       
-    if(collect($user_akun)->flatten()->filter()->isEmpty()){
-        for($i = 0; $i <= $jumlah_akun; $i++){
-            $id_akun_univ = UniversityAccount::where('university_id',$id_univ)->pluck('id')->first();
-            return $id_akun_univ;
-        }
+          
+        if(collect($user_akun)->flatten()->filter()->isEmpty()){
+            $list_akun_univ = UniversityAccount::where('university_id',$id_univ)->pluck('id')->first();
+            return $id_akun_univ = $list_akun_univ ;
+    
+        }else{  
 
-    }else{      
-        foreach ($user_akun as $id){
-          foreach ($id as $i) {
-            $akun_user[] = $i;
-          }
-        }
-       $next_id = array_values(array_unique($akun_user));
-       $count = array_count_values($akun_user);
+              for($i = 0; $i <= $jumlah_akun; $i++){
+                $universitas = University::where('id',$id_univ)->first();
+              }
+                $batas = $universitas->batasan;
 
-        foreach($count as $item => $jumlah){
-            $id_akun[] = ['item' => $item, 'jumlah' => $jumlah];
-        }
+                // Ambil semua akun_id dari user
+                $akun_user_raw = User::where('akun_id', '!=', '')
+                            ->pluck('akun_id')
+                            ->toArray();
 
-        for($i = 0; $i <= $jumlah_akun; $i++){
-            if($id_akun[$i]['jumlah'] > 1){
-                for($x = 0; $x <= $jumlah_akun; $x++){
-                    $filtered = array_filter($count, function ($value) {
-                        return $value < 2;
-                    });
+                // return $akun_user_raw;
+
+                // Flatten array akun_id
+                $flattened = Arr::flatten($akun_user_raw);
+
+                $account_id = array_values(array_unique($flattened));
+
+
+                // Hitung jumlah pemakaian per akun
+                $count = array_count_values($flattened);
+
+
+                // Filter akun yang belum melebihi batas
+                $filtered = array_filter($count, function ($val, $id) use ($batas, $account) {
+                    return $val < $batas && in_array($id, $account->toArray());
+                }, ARRAY_FILTER_USE_BOTH);
+
+               
+
+                if (!empty($filtered)) {
+                // Ambil ID akun pertama yang masih di bawah batas
+                $next_available_id = array_key_first($filtered);
+                return $next_available_id;
+                } else {
+                // Ambil akun yang belum pernah dipakai sama sekali
+                $account_used = array_unique($flattened); // array 1 dimensi, jadi aman
+                $id_akun_univ = UniversityAccount::where('university_id', $id_univ)
+                    ->whereNotIn('id', $account_used)
+                    ->pluck('id')
+                    ->first();
+
+                return $id_akun_univ ?? null;
                 }
-                foreach($filtered as $id_ak => $jml){
-                    $id_ak = ['id' => $id_ak, 'jumlah' => $jml];
-                }
-                if(empty($id_ak)){
-                  $id_akun_univ = UniversityAccount::whereNotIn('id',$next_id)->where('university_id',$id_univ)->pluck('id')->first();
-                } 
-                return $id_akun_univ;
-            }
-            else{
-                for($i = 0; $i <= $jumlah_akun; $i++){
-                    $id_akun_univ = UniversityAccount::where('university_id',$id_univ)->pluck('id')->first();
-                    return $id_akun_univ;
-                }
-            }
+         
         }
-     }
     
     }
 
@@ -152,5 +166,10 @@ class EmailController extends Controller
         } catch (\Throwable $th) {
             return "gagal";
         }
+    }
+
+
+    public function tessend(Request $request){
+        return $request;
     }
 }

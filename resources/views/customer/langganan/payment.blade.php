@@ -11,6 +11,14 @@
         </ol>
       </nav>
 
+      @if (session('message'))
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                {{ session('message') }}
+            </div>
+        @endsession
+
+
     <form class="needs-validation" method="POST" action="{{ route('customer/langganan.subscriber') }}">
      @csrf
       <div class="row justify-content-center p-3">

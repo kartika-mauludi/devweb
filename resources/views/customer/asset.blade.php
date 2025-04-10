@@ -282,36 +282,35 @@
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <script>
- 
-  $("document").ready(function () {
-    $("#example").dataTable({
-      "searching": true
-    });
-
-      var table = $('#example').DataTable();
-
-    $(".dataTables_filter").append($("#categoryFilter"));
-    var categoryIndex = 0;
-    $("#example th").each(function (i) {
-      if ($($(this)).html() == "Website") {
-        categoryIndex = i; return false;
-      }
-    });
-    $.fn.dataTable.ext.search.push(
-      function (settings, data, dataIndex) {
-        var selectedItem = $('#categoryFilter').val()
-        var category = data[categoryIndex];
-        if (selectedItem === "" || category.includes(selectedItem)) {
-          return true;
+    $("document").ready(function () {
+      $("#filterTable").dataTable({
+        "searching": true
+      });
+      var table = $('#filterTable').DataTable();
+      $("#filterTable_filter.dataTables_filter").append($("#categoryFilter"));
+      var categoryIndex = 0;
+      $("#filterTable th").each(function (i) {
+        if ($($(this)).html() == "Universitas") {
+          categoryIndex = i; return false;
         }
-        return false;
-      }
-    );
-  $("#categoryFilter").change(function (e) {
-    table.draw();
-  });
-  table.draw();
-  });
+      });
+      $.fn.dataTable.ext.search.push(
+        function (settings, data, dataIndex) {
+          var selectedItem = $('#categoryFilter').val()
+          var category = data[categoryIndex];
+          if (selectedItem === "all" || selectedItem === "show" || category.includes(selectedItem)) {
+            return true;
+          } 
+          return false;
+        }
+      );
+      $("#categoryFilter").change(function (e) {
+        table.draw();
+      });
+
+      table.draw();
+    });
+
 
    // new DataTable('#example',{
   //   select: true

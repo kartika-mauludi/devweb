@@ -37,20 +37,19 @@ class LanggananController extends Controller
         $record = SubscribeRecord::latest('id')->where('user_id',Auth::user()->id)->first();
         $pack = SubscribePackage::where('id',Session::get('id_pack'))->first();
         $user = User::where('email',$request->email)->first();
+        
 
         $latest = Payment::latest()->first();
         if (! $latest) {
             $string= '0000001';
         }else{
-    
         $string = preg_replace("/[^0-9\.]/", '', $latest->id_invoice);
         }
-   
+
              $input = $request->except('_token');
              DB::beginTransaction(); 
             try {
-
-                $sub = SubscribeRecord::where([
+                $sub = SubscribeRecord::create([
                     'user_id'=> $user->id,
                     'subscribe_package_id' => Session::get('id_pack'),
                 ]);
@@ -72,7 +71,7 @@ class LanggananController extends Controller
                 
             } catch (\Throwable $th) {
                 report($th);
-                $message = $this::$message['error'];
+                $message = $this::$message['error_payment'];
                 return back()->with('message', $message);
             }
 

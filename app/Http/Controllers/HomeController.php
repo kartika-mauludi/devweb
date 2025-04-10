@@ -65,10 +65,11 @@ class HomeController extends Controller
         $payment = Payment::where('user_id',$id)->first();
         $admin = User::where('is_superadmin',1)->first();
         $univ = University::all();
-        $akun = UniversityAccount::with('university')->get();
-        $website = UniversityWebsite::with('university')->get();
+        // $akun = UniversityAccount::with('university')->get();
+        $website = Website::with('universities')->get();
+        $akun = UniversityAccount::with('university')->wherein('id',$user->akun_id)->get();
 
-        // return $website->universities[0]->name;
+        // return $website;
 
         $data['admin'] = $admin;
         $data['user'] = $user;
@@ -77,6 +78,7 @@ class HomeController extends Controller
         $data['payment'] = $payment;
         $data['univs'] = $univ;
         $data['websites'] = $website;
+        $data['akuns'] = $akun;
         
         return view('customer.home',$data);
     }

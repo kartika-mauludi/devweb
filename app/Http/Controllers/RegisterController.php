@@ -22,6 +22,7 @@ use App\Mail\info;
 use Session;
 use DB;
 use Auth;
+use Illuminate\Support\Arr;
 
 
 class RegisterController extends Controller
@@ -85,11 +86,12 @@ class RegisterController extends Controller
                     $subscribe = SubscribePackage::where('id',Session::get('id'))->first;
                     if($komisi->type == "percentage"){
                         $persentase = $komisi->amount;
-                        $amount = 
-
+                        $komisi_amount = $persentase/100 * $subscribe->price;
                     }
-
-                    UserAffiliate::Create(['user_id' => $useraffiliate->id,'usernew_id' => $user->id , 'status'=>'pending','amount'=>$amount]);
+                    else if($komisi->type == "fixed"){
+                        $komisi_amount = $komisi->amount;
+                    }
+                    UserAffiliate::Create(['user_id' => $useraffiliate->id,'usernew_id' => $user->id , 'status'=>'pending','amount'=>round($komisi_amount, 1)]);
                 };
 
                  $sub = SubscribeRecord::create([
@@ -138,49 +140,59 @@ class RegisterController extends Controller
         $user_akun = User::all()->where('akun_id','!=','')->pluck('akun_id');
         $account = UniversityAccount::where('university_id',$id_univ)->pluck('id');
         $jumlah_akun = count($account);
+      
           
         if(collect($user_akun)->flatten()->filter()->isEmpty()){
-            for($i = 0; $i <= $jumlah_akun; $i++){
-                $id_akun_univ = UniversityAccount::where('university_id',$id_univ)->pluck('id')->first();
-                return $id_akun_univ;
-            }
+            $list_akun_univ = UniversityAccount::where('university_id',$id_univ)->pluck('id')->first();
+            return $id_akun_univ = $list_akun_univ ;
     
-        }else{      
-            foreach ($user_akun as $id){
-              foreach ($id as $i) {
-                $akun_user[] = $i;
+        }else{  
+
+              for($i = 0; $i <= $jumlah_akun; $i++){
+                $universitas = University::where('id',$id_univ)->first();
               }
-            }
-           $next_id = array_values(array_unique($akun_user));
-           $count = array_count_values($akun_user);
-    
-            foreach($count as $item => $jumlah){
-                $id_akun[] = ['item' => $item, 'jumlah' => $jumlah];
-            }
-    
-            for($i = 0; $i <= $jumlah_akun; $i++){
-                if($id_akun[$i]['jumlah'] > 1){
-                    for($x = 0; $x <= $jumlah_akun; $x++){
-                        $filtered = array_filter($count, function ($value) {
-                            return $value < 2;
-                        });
-                    }
-                    foreach($filtered as $id_ak => $jml){
-                        $id_ak = ['id' => $id_ak, 'jumlah' => $jml];
-                    }
-                    if(empty($id_ak)){
-                      $id_akun_univ = UniversityAccount::whereNotIn('id',$next_id)->where('university_id',$id_univ)->pluck('id')->first();
-                    } 
-                    return $id_akun_univ;
+                $batas = $universitas->batasan;
+
+                // Ambil semua akun_id dari user
+                $akun_user_raw = User::where('akun_id', '!=', '')
+                            ->pluck('akun_id')
+                            ->toArray();
+
+                // return $akun_user_raw;
+
+                // Flatten array akun_id
+                $flattened = Arr::flatten($akun_user_raw);
+
+                $account_id = array_values(array_unique($flattened));
+
+
+                // Hitung jumlah pemakaian per akun
+                $count = array_count_values($flattened);
+
+
+                // Filter akun yang belum melebihi batas
+                $filtered = array_filter($count, function ($val, $id) use ($batas, $account) {
+                    return $val < $batas && in_array($id, $account->toArray());
+                }, ARRAY_FILTER_USE_BOTH);
+
+               
+
+                if (!empty($filtered)) {
+                // Ambil ID akun pertama yang masih di bawah batas
+                $next_available_id = array_key_first($filtered);
+                return $next_available_id;
+                } else {
+                // Ambil akun yang belum pernah dipakai sama sekali
+                $account_used = array_unique($flattened); // array 1 dimensi, jadi aman
+                $id_akun_univ = UniversityAccount::where('university_id', $id_univ)
+                    ->whereNotIn('id', $account_used)
+                    ->pluck('id')
+                    ->first();
+
+                return $id_akun_univ ?? null;
                 }
-                else{
-                    for($i = 0; $i <= $jumlah_akun; $i++){
-                        $id_akun_univ = UniversityAccount::where('university_id',$id_univ)->pluck('id')->first();
-                        return $id_akun_univ;
-                    }
-                }
-            }
-         }
+         
+        }
         
     }
 
