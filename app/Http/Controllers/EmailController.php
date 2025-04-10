@@ -43,28 +43,32 @@ class EmailController extends Controller
 
         // return "sukses";
 
-        $univs = University::all();
-        foreach ($univs as $univ){
-            $akun[] = $this->cek_id($univ->id);
-            $univ_id[] = $univ->id;
-        }
+        // $univs = University::all();
+        // foreach ($univs as $univ){
+        //     $akun[] = $this->cek_id($univ->id);
+        //     $univ_id[] = $univ->id;
+        // }
 
-        // return $univ_id;
+        // // return $univ_id;
 
-        if($a = array_keys($akun, null, true)){
-            // return $a;
-            for($i = 0; $i < count($a); $i++){
-                $univid = $univ_id[$a[$i]];
-                $universiti[] = University::where('id',$univid)->pluck('name');
-            }
+        // if($a = array_keys($akun, null, true)){
+        //     // return $a;
+        //     for($i = 0; $i < count($a); $i++){
+        //         $univid = $univ_id[$a[$i]];
+        //         $universiti[] = University::where('id',$univid)->pluck('name');
+        //     }
 
-            $data = $universiti;
-            return $data;
-            // Mail::to('ludi@gmail.com')->send(new info($data));
-        }
-        else{
-            return $akun;
-        }
+        //     $data = $universiti;
+        //     return $data;
+        //     // Mail::to('ludi@gmail.com')->send(new info($data));
+        // }
+        // else{
+        //     return $akun;
+        // }
+
+
+        return view('test');
+        return redirect()->away('https://weblogin.asu.edu/cas/login?service=https%3A%2F%2Fshibboleth2.asu.edu%2Fidp%2FAuthn%2FExternal%3Fconversation%3De1s1&entityId=https%3A%2F%2Fwww.tandfonline.com%2Fshibboleth');
 
     
        
@@ -162,5 +166,10 @@ class EmailController extends Controller
         } catch (\Throwable $th) {
             return "gagal";
         }
+    }
+
+
+    public function tessend(Request $request){
+        return $request;
     }
 }

@@ -36,6 +36,7 @@ Route::post('/registrasi','App\Http\Controllers\RegisterController@register')->n
 Route::get('payment-callback', 'App\Http\Controllers\PaymentController@callback');
 Route::get('download/{id}','App\Http\Controllers\PdfController@download')->name('download');
 Route::get('email','App\Http\Controllers\EmailController@invoice')->name('email');
+Route::get('akun','App\Http\Controllers\EmailController@tessend')->name('tessend');
 
 
 Route::middleware(['auth', 'admin'])->group(function () {

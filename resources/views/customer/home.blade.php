@@ -97,7 +97,7 @@
 
 
 
-@if($payment && $payment->status == "completed")
+
     <!-- About Section -->
     <section id="database" class="about section">
 
@@ -112,112 +112,48 @@
           <div class="container mt-4">
           <div class="category-filter">
             <select id="categoryFilter" class="form-control">
+              <option value="show" hidden selected class="bg-muted text-secondary"><i class="fas fa-filter"></i> Filter by University</option>
               <option value="">Show All</option>
-              <option value="Edinburgh">Edinburgh</option>
-              <option value="Tokyo">Tokyo</option>
-              <option value="San Francisco">San Francisco</option>
+              @foreach ( $univs as $univ )
+               <option value="{{ $univ->name }}">{{ $univ->name }}</option>
+              @endforeach
             </select>
           </div>
       
             <!-- end search card -->
-          <table id="example" class="table table-striped" style="width:100%">
+          <table id="filterTable" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Universitas</th>
                     <th>Website</th>
+                    <th>Universitas</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
+              @foreach ($websites as $web )
+              <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    @foreach ( $akuns as $akun )
+                        @foreach ( $web->universities as $univ )
+                        @if($akun->university->id == $univ->id)
+                          <td><a href="{{ url('akun/') }}?username={{ $akun->username }}&pass={{ $akun->password }}">{{ $web->name }}</a></td>
+                        @endif
+                        @endforeach
+                      
+                       @endforeach
+                    @foreach ( $web->universities as $univ )
+                       <td>{{ $univ->name }}</td>
+                    @endforeach
+                   
+                </tr>
+              @endforeach
                 
-                </tr>
-                <tr>
-                    <td>Garrett Winters</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                
-                </tr>
-                <tr>
-                    <td>Ashton Cox</td>
-                    <td>Junior Technical Author</td>
-                    <td>San Francisco</td>
-                
-                </tr>
-                <tr>
-                    <td>Cedric Kelly</td>
-                    <td>Senior Javascript Developer</td>
-                    <td>Edinburgh</td>
-            
-                </tr>
-                <tr>
-                    <td>Airi Satou</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                
-                </tr>
-                <tr>
-                    <td>Brielle Williamson</td>
-                    <td>Integration Specialist</td>
-                    <td>New York</td>
-            
-                </tr>
-                <tr>
-                    <td>Herrod Chandler</td>
-                    <td>Sales Assistant</td>
-                    <td>San Francisco</td>
-            
-                </tr>
-                <tr>
-                    <td>Rhona Davidson</td>
-                    <td>Integration Specialist</td>
-                    <td>Tokyo</td>
-                
-                </tr>
-                <tr>
-                    <td>Colleen Hurst</td>
-                    <td>Javascript Developer</td>
-                    <td>San Francisco</td>
-                
-                </tr>
-
-                <tr>
-                    <td>Colleen Hurst</td>
-                    <td>Javascript Developer</td>
-                    <td>San Francisco</td>
-                
-                </tr>
-
-                <tr>
-                    <td>Colleen Hurst</td>
-                    <td>Javascript Developer</td>
-                    <td>San Francisco</td>
-                
-                </tr>
-
-                <tr>
-                    <td>Colleen Hurst</td>
-                    <td>Javascript Developer</td>
-                    <td>San Francisco</td>
-                
-                </tr>
-
-                <tr>
-                    <td>Colleen Hurst</td>
-                    <td>Javascript Developer</td>
-                    <td>San Francisco</td>
-                
-                </tr>
-            
             </tbody>
             <tfoot>
                 <tr>
                     <th>No</th>
-                    <th>Universitas</th>
                     <th>Website</th>
+                    <th>Universitas</th>
                 
                 </tr>
             </tfoot>
@@ -228,7 +164,6 @@
 
     </section><!-- /About Section -->
 
-    @endif
 
   </main>
 
