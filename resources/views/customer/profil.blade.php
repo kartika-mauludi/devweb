@@ -236,12 +236,13 @@
                             <tbody>
                               @foreach($subscribes as $sub)
                                 <tr>
+                                  
                                 @php $jml = $loop->iteration - 1 @endphp
                                 <td scope="row">@if($jml >= 0){{ $user->payments[$jml]->order_id ?? ''  }} @endif</td>
                                 <td>@if($jml >= 0){{ $user->payments[$jml]->status ?? '' }} @endif </td> 
                                 <td>{{ date_format($sub->created_at, "d F Y")}}</td>
                                 <td>Rp.{{ number_format($sub->subscribePackage->price , 0, ",", ".") }}</td>
-                                 <td> <button onclick="openPrintPage()">Download</button> </td>  
+                                 <td> <button onclick="openPrintPage({{ $sub->id }})">Download {{ $sub->id }}</button> </td>  
                               </tr>
                                 @endforeach
                             </tbody>
