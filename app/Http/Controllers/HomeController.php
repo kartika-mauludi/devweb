@@ -66,8 +66,11 @@ class HomeController extends Controller
         $admin = User::where('is_superadmin',1)->first();
         $univ = University::all();
         // $akun = UniversityAccount::with('university')->get();
-        $website = Website::with('universities')->get();
-        $akun = UniversityAccount::with('university')->wherein('id',$user->akun_id)->get();
+        $website = UniversityWebsite::with('university')->get();
+        $akun = [];
+        if ($user['akun_id']) {
+            $akun = UniversityAccount::with('university')->wherein('id',$user->akun_id)->get();
+        }
 
         // return $website;
 

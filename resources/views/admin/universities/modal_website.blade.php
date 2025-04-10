@@ -1,33 +1,4 @@
 
-<!-- Modal Tambah Akun -->
-<div class="modal fade" id="addAccountModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Tambah Akun Universitas</h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <form action="{{ route('universities.accounts.store', $university->id) }}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" name="username" class="form-control" required autofocus>
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="text" name="password" class="form-control" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Simpan</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <!-- Modal Tambah Website -->
 <div class="modal fade" id="addWebsiteModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -46,6 +17,36 @@
                     <div class="form-group">
                         <label for="web-url">Link</label>
                         <input id="web-url" type="url" name="url" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Simpan</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit Website -->
+<div class="modal fade" id="editWebsiteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Website Universitas</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="{{ route('universities.websites.store', $university->id) }}" method="PUT">
+                @csrf
+                <input type="hidden" name="_method">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="web-title-edit">Judul</label>
+                        <input id="web-title-edit" type="text" name="title" class="form-control" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="web-url-edit">Link</label>
+                        <input id="web-url-edit" type="url" name="url" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -92,6 +93,8 @@
 
         $('#tbl-university-website').on('click', '.edit-website', function () {
             let websiteId = $(this).data('id');
+            console.log('AHAHAH');
+            
 
             $.get(`/universities/${universityId}/websites/${websiteId}/edit`, function (data) {
                 $('#editWebsiteModal input[name="title"]').val(data.title);

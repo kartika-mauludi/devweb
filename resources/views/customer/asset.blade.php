@@ -271,6 +271,8 @@
   <script src="{{ asset('assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
   <script src="{{ asset('assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+  <script src="{{ asset('customer/js/x-frame-bypass.js') }}"></script>
+  <script src="https://unpkg.com/@ungap/custom-elements-builtin"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
   <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js" ></script>
   <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
@@ -351,6 +353,33 @@
 
   // $('b[role="presentation"]').hide();
   // $('.select2-selection__arrow').append('<i class="fa fa-angle-down"></i>');
+
+  $('#loginModal').on('show.bs.modal', function (e) {
+    const button = $(e.relatedTarget); // tombol yang diklik
+    const url = button.data('url');    // ambil nilai data-url
+    console.log(url);
+    $('#loginFrame').attr('src', url); // set ke iframe
+
+    console.log('AAAAA' + $('#loginFrame').attr('src'));
+    
+    
+  });
+
+  $('#loginFrame').on('load', function () {
+    const currentUrl = this.contentWindow.location.href;
+
+    console.log('User is logged in, redirected to:', currentUrl);
+  });
+
+  window.addEventListener('message', function (event) {
+  console.log('Redirected to:', event.data);
+});
+
+
+
+  $('#loginModal').on('hidden.bs.modal', function () {
+    $('#loginFrame').attr('src', ''); // kosongkan saat modal ditutup
+  });
 
 
 </script>

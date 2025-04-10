@@ -121,48 +121,42 @@
           </div>
       
             <!-- end search card -->
-          <table id="filterTable" class="table table-striped" style="width:100%">
+            <table id="filterTable" class="display w-100">
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Website</th>
-                    <th>Universitas</th>
+                    <th>Nama Universitas</th>
+                    <th>Judul</th>
+                    <th>URL Website</th>
                 </tr>
             </thead>
             <tbody>
-              @foreach ($websites as $web )
-              <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    @foreach ( $akuns as $akun )
-                        @foreach ( $web->universities as $univ )
-                        @if($akun->university->id == $univ->id)
-                          <td><a href="{{ url('akun/') }}?username={{ $akun->username }}&pass={{ $akun->password }}">{{ $web->name }}</a></td>
-                        @endif
-                        @endforeach
-                      
-                       @endforeach
-                    @foreach ( $web->universities as $univ )
-                       <td>{{ $univ->name }}</td>
-                    @endforeach
-                   
-                </tr>
-              @endforeach
-                
+                @foreach ($websites as $index => $web)
+                    <tr>
+                        <td class="text-nowrap">{{ $web->university->name ?? 'Tidak Diketahui' }}</td>
+                        <td class="text-nowrap">{{ $web->title ?? 'Tidak Diketahui' }}</td>
+                        <td><a href="#" data-url="{{ $web->url }}" data-bs-toggle="modal" data-bs-target="#loginModal">{{ $web->url }}</a></td>
+                    </tr>
+                @endforeach
             </tbody>
-            <tfoot>
-                <tr>
-                    <th>No</th>
-                    <th>Website</th>
-                    <th>Universitas</th>
-                
-                </tr>
-            </tfoot>
           </table>
+
           </div>
         </div>
       </div>
 
     </section><!-- /About Section -->
+
+    <div id="loginModal" class="modal fade" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <iframe id="loginFrame" is="x-frame-bypass" style="height: 80vh;" src=""></iframe>
+        </div>
+      </div>
+    </div>
 
 
   </main>
