@@ -235,14 +235,14 @@
                             </thead>
                             <tbody>
                               @foreach($subscribes as $sub)
-                                <tr>
+                               <tr>
                                   
                                 @php $jml = $loop->iteration - 1 @endphp
-                                <td scope="row">@if($jml >= 0){{ $user->payments[$jml]->order_id ?? ''  }} @endif</td>
-                                <td>@if($jml >= 0){{ $user->payments[$jml]->status ?? '' }} @endif </td> 
-                                <td>{{ date_format($sub->created_at, "d F Y")}}</td>
-                                <td>Rp.{{ number_format($sub->subscribePackage->price , 0, ",", ".") }}</td>
-                                 <td> <button onclick="openPrintPage({{ $sub->id }})">Download {{ $sub->id }}</button> </td>  
+                                  <td scope="row">@if($jml >= 0){{ $user->payments[$jml]->order_id ?? ''  }} @endif</td>
+                                  <td>@if($jml >= 0){{ $user->payments[$jml]->status ?? '' }} @endif </td> 
+                                  <td>{{ date_format($sub->created_at, "d F Y")}}</td>
+                                  <td>Rp.{{ number_format($sub->subscribePackage->price , 0, ",", ".") }}</td>
+                                  <td> <button onclick="openPrintPage({{ $user->id }},{{ $sub->id }})">Download</button> </td>  
                               </tr>
                                 @endforeach
                             </tbody>
@@ -262,11 +262,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    function openPrintPage() {
-        window.open('{{ route('customer/profil.invoice',$user->id) }}', '_blank');
+    function openPrintPage(id_user, id_sub) {
+        // window.open('', '_blank');
+        let url = "{{ route('customer/profil.invoice', ['id_user' => ':id_user', 'id_sub' => ':id_sub']) }}";
+        url = url.replace(':id_user', id_user).replace(':id_sub', id_sub);
+        window.open(url, '_blank');
     }
 </script>
-
 
 @endsection
 

@@ -59,7 +59,7 @@ Route::group(['prefix' => 'customer/profil', 'as' => 'customer/profil.', 'contro
     Route::post('store', 'store')->name('store');
     Route::put('update/{user}', 'update')->name('update');
     Route::put('updatepass/{user}', 'password')->name('password');
-    Route::get('invoice/{id}','invoice')->name('invoice');
+    Route::get('invoice/{id_user}/{id_sub}','invoice')->name('invoice');
     Route::delete('destroy/{user}', 'destroy')->name('destroy');
 });
 

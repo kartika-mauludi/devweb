@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('user_affiliates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('usernew_id')->nullable();
             $table->decimal('amount', 10, 2);
             $table->enum('status', ['pending', 'withdraw'])->default('pending');
             $table->timestamps();

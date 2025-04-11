@@ -119,12 +119,10 @@ class ProfilController extends Controller
        
     }
 
-    public function invoice($id){
-        $payment = Payment::latest('id')->where("user_id", $id)->first();
-        $subscribe = SubscribeRecord::with("subscribePackage")->where("user_id", $payment->user_id)->get();
-        $user = User::find($id);
-
-        return $subscribe;
+    public function invoice($id_user, $id_sub){
+        $payment = Payment::latest('id')->where("subscribe_record_id", $id_sub)->first();
+        $subscribe = SubscribeRecord::with("subscribePackage")->where("id", $id_sub)->first();
+        $user = User::find($id_user);
     
         $data = [
             'name' => $user->name,
@@ -136,8 +134,8 @@ class ProfilController extends Controller
             'price' => $subscribe->subscribePackage->price,
             'status' => $payment->status
         ];
-
-        // return view("customer.invoice",$data);
+        // return $data;
+        return view("customer.invoice",$data);
 
     }
 

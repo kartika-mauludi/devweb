@@ -86,11 +86,11 @@
                     </tr>
                     <tr>
                         <td>Tanggal Mulai</td>
-                        <td>{{ \Carbon\Carbon::parse($start_date)->format("d F Y") }}</td>
+                        <td>@if($start_date != null){{ \Carbon\Carbon::parse($start_date)->format("d F Y") }}@else ---------  @endif</td>
                     </tr>
                     <tr>
                         <td>Tanggal Berakhir</td>
-                        <td>{{ \Carbon\Carbon::parse($end_date)->format("d F Y") }}</td>
+                        <td>@if($end_date != null) {{ \Carbon\Carbon::parse($end_date)->format("d F Y") }}@else --------- @endif</td>
                     </tr>
                     <tr>
                         <td>Metode Pembayaran</td>
@@ -113,7 +113,7 @@
         </div>
     </main>
 
-    <script>
+    <!-- <script>
         document.addEventListener("DOMContentLoaded", function() {
             const element = document.querySelector('.invoice');
 
@@ -129,6 +129,6 @@
                 }, 1000);
             });
         });
-    </script>
+    </script> -->
 </body>
 </html>

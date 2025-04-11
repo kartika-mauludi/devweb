@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('universities', function (Blueprint $table) {
-            $table->integer('batasan')->nullable();
+        Schema::table('user_affiliates', function (Blueprint $table) {
+            $table->foreignId('usernew_id')->nullable();
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('universities', function (Blueprint $table) {
+        Schema::table('user_affiliates', function (Blueprint $table) {
             //
         });
     }
