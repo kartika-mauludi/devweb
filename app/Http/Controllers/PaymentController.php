@@ -25,16 +25,23 @@ class PaymentController extends Controller
     protected $client_key;
     public function __construct()
     {
-        $midtras = MidtranConfig::firstOrFail();
-        if($midtras->environment == "sandbox"){
+        $midtras = MidtranConfig::first(); // Jangan pakai firstOrFail() kalau mau handle manual
+
+        if (!$midtras) {
+            $message = $this::$message['error'];
+            return back()->with('message',$message);
+        }
+    
+        if ($midtras->environment === "sandbox") {
             $server_key = $midtras->sandbox_server_key;
             $client_key = $midtras->sandbox_client_key;
-        }
-        if($midtras->environment == "production"){
+        } elseif ($midtras->environment === "production") {
             $server_key = $midtras->production_server_key;
             $client_key = $midtras->production_client_key;
+        } else {
+            abort(500, 'Invalid environment value in Midtrans configuration');
         }
-
+    
         $this->server_key = $server_key;
         $this->client_key = $client_key;
     }
@@ -101,7 +108,7 @@ class PaymentController extends Controller
     }
 
     public function webhook(Request $request){
-        $auth = Base64_encode(env('MIDTRANS_SERVER_KEY')); 
+        $auth = Base64_encode(env($this->server_key)); 
         $response = Http::withHeaders([
             'Content-Type' => 'Application/json',
             'Authorization' => "Basic $auth",
@@ -134,7 +141,6 @@ class PaymentController extends Controller
                 }
                 $subcribe->end_date = now()->addDays($pack->days);
                 $subcribe->save();
-
                 $data = [
                     'name' => $user->name,
                     'email'=> $user->email,
@@ -146,11 +152,8 @@ class PaymentController extends Controller
                     'status' => $payment->status
                 ];
                 Mail::to($user->email)->send(new invoice($data));
-
                 $message = $this::$message['sukses'];
-            
             }else if( $request->transaction_status === 'pending'){
-
                 $data =[
                     'name' => $user->name
                 ];
@@ -164,16 +167,15 @@ class PaymentController extends Controller
                 ];
                 Mail::to($user->email)->send(new expired($data));
                 $payment->status = 'failed';
-
             }
             $payment->save();
-            // return "sukses";
             return redirect()->route('customer.home')->with('message', $message);
     }
 
     public function callback(Request $request){
+        // return $request;
         $jmlsub = 0;
-        $payment = Payment::where("order_id",$request->order_id)->firstOrFail();
+        $payment = Payment::where("order_id",$request->order_id)->first();
         $sub = SubscribeRecord::where('user_id',$payment->user_id)->get();
         $user = User::find($payment->user_id);
       
@@ -207,7 +209,7 @@ class PaymentController extends Controller
             ];
             Mail::to($user->email)->send(new invoice($data));
 
-            $message = $this::$message['suses'];
+            $message = $this::$message['sukses'];
 
         }else if( $request->transaction_status === 'pending'){
             $data =[
@@ -228,8 +230,6 @@ class PaymentController extends Controller
 
         }
         $payment->save();
-
-       
 
         return redirect()->route('customer.home')->with('message', $message);
     }
