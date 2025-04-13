@@ -6,60 +6,62 @@
   <main class="main">
     <!-- Hero Section -->
     <section id="beranda" class="hero section" style="background-image: url({{ asset('assets/img/bg/bg-blue.jpg') }});">
-        <div class="container">
-            <div class="" data-aos="zoom-out">
-                <h1 class="judul-light text-center">DASHBOARD</h1>
-            </div>
+      <div class="container">
+        <div class="" data-aos="zoom-out">
+          <h1 class="judul-light text-center">DASHBOARD</h1>
         </div>
+      </div>
     </section><!-- /Hero Section -->
-    @if (session('message'))
-            <div class="alert alert-info alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                {{ session('message') }}
-            </div>
-        @endsession
 
-        @if (session('error_payment'))
-            <div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                {{ session('error_payment') }}
-            </div>
-        @endsession
+    @if (session('message'))
+      <div class="alert alert-info alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ session('message') }}
+      </div>
+    @endsession
+
+    @if (session('error_payment'))
+      <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{ session('error_payment') }}
+      </div>
+    @endsession
+
     <!-- Services Section -->
     <section id="tabel" class="services section light-background">
     @if($payment && $payment->status == "pending" && !empty($payment->redirect_link))
       <div class="alert alert-danger alert-dismissible">
         <div class="container">
-          Anda Memiliki Tagihan Pembayaran Yang Belum Diselesaikan Klik Tombol Berikut Untuk Melihat Pembayaran Anda <p>
+          <p> Anda Memiliki Tagihan Pembayaran Yang Belum Diselesaikan Klik Tombol Berikut Untuk Melihat Pembayaran Anda
             <a href="{{ route('customer/langganan.qris',$payment->user_id) }}" class="btn btn-primary my-2">Payment</a>
           </p>
-          </div>
+        </div>
       </div>
     @elseif($payment && $payment->status == "pending" && empty($payment->redirect_link))
-    <div class="alert alert-info alert-dismissible">
-        <div class="container">
-         Ada masalah ketika registrasi anda sehingga pembayaran anda tidak terdeteksi, silahkan hubungi admin atau klik menu langgalan untuk berlangganan <p>
-            <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary my-2">Mulai Berlangganan</a>
-          </p>
-          </div>
-    </div>
-    @elseif($payment && $payment->status == "failed")
-    <div class="alert alert-info alert-dismissible">
-        <div class="container">
-          Kamu belum berlangganan, mari mulai berlangganan untuk menikmati fitur dari kami <p>
-            <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary my-2">Mulai Berlangganan</a>
-          </p>
+      <div class="alert alert-info alert-dismissible">
+          <div class="container">
+            <p> Ada masalah ketika registrasi anda sehingga pembayaran anda tidak terdeteksi, silahkan hubungi admin atau klik menu langgalan untuk berlangganan
+              <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary my-2">Mulai Berlangganan</a>
+            </p>
           </div>
       </div>
+    @elseif($payment && $payment->status == "failed")
+      <div class="alert alert-info alert-dismissible">
+          <div class="container">
+            <p> Kamu belum berlangganan, mari mulai berlangganan untuk menikmati fitur dari kami
+              <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary my-2">Mulai Berlangganan</a>
+            </p>
+          </div>
+        </div>
     @endif
     @if($sub && now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) <=3 && $payment->status == "completed")
-    <div class="alert alert-dangery alert-dismissible">
-      <div class="container">
-              Waktu Langganan Anda Akan Segera Habis, Silahkan Perpanjang Waktu Langganan Anda <p>
-          <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary my-2">Perpanjang Langganan</a>
-        </p>
+      <div class="alert alert-dangery alert-dismissible">
+        <div class="container">
+          <p> Waktu Langganan Anda Akan Segera Habis, Silahkan Perpanjang Waktu Langganan Anda
+            <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary my-2">Perpanjang Langganan</a>
+          </p>
         </div>
-    </div>
+      </div>
     @endif
       <!-- Section Title -->
       <div class="container">
