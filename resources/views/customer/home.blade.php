@@ -136,7 +136,8 @@
                     <tr>
                         <td class="text-nowrap">{{ $web->university->name ?? 'Tidak Diketahui' }}</td>
                         <td class="text-nowrap">{{ $web->title ?? 'Tidak Diketahui' }}</td>
-                        <td><a href="#" data-url="{{ $web->url }}" data-bs-toggle="modal" data-bs-target="#loginModal">{{ $web->url }}</a></td>
+                        <!-- <td><a href="#" data-url="{{ $web->url }}" data-bs-toggle="modal" data-bs-target="#loginModal">{{ $web->url }}</a></td> -->
+                        <td><a href="{{ $web->url }}" target="_blank">{{ $web->url }}</a></td>
                     </tr>
                 @endforeach
             </tbody>
