@@ -12,10 +12,13 @@
 
        @if (session('message'))
             <div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 {{ session('message') }}
             </div>
         @endsession
+
+        @php
+        session()->forget('message');
+         @endphp
 
     <form class="needs-validation" method="POST" action="{{ route('registrasi') }}">
      @csrf

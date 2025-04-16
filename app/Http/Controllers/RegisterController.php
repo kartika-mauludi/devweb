@@ -28,9 +28,7 @@ use Illuminate\Support\Arr;
 class RegisterController extends Controller
 {
     public function register(Request $request){
-
         $data = $request->input();
-
         $validator =  Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email:rfc,dns', 'max:255', 'unique:users'],
@@ -46,8 +44,6 @@ class RegisterController extends Controller
         if($validator->fails()) {
             return back ()->withErrors($validator);
         }
-
-       
 
         DB::beginTransaction(); 
         try {
@@ -127,9 +123,8 @@ class RegisterController extends Controller
              } catch(\Exception $exp){
                 DB::rollBack();
                 report($exp);
-                $message = $this::$message['error'];
-                return $message;
-
+                $message = $this::$message['error_register'];
+                return back()->with('message',$message);
          }
        
        

@@ -27,16 +27,20 @@
 
                 <div class="col-xl-12 col-lg-12 col-md-12 mb-4">
                     <div class="service-item position-relative">
-                    <h3>Total Komisi Rp. <span> {{  number_format( $paid->sum('amount') + $pending->sum('amount') - $wd->sum('amount')  , 0, ",", ".") }} </span> </h3>
-                    <h5 id="link">Link Afiliasi Anda :  <span id="pwd_spn" class="link-span"><a href="">{{  route('refferal', ['ref' => auth()->user()->referral_code]) }}</a></span>
-                    <div class="tooltip2">
-                        <button class="btn btn-success text-white rounded btn-sm" onclick="copy()" onmouseout="outFunc()">
-                        <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
-                        Copy Link
-                        </button>
-                    </div>   
-                </h5>
-                    <h5>Dapatkan @if($komisi->type == 'fixed') Rp. {{  number_format(optional($komisi)->amount ?? 10000 , 0, ",", ".") }} @elseif($komisi->type == 'percentage') {{  number_format(optional($komisi)->amount ?? 10000 , 0, ",", ".") }}% @endif untuk setiap teman yang berhasil memulai langganan bulan pertama mereka melalui Anda! </h5>
+                      <h3>Total Komisi Rp. <span> {{  number_format( $paid->sum('amount') + $pending->sum('amount') - $wd->sum('amount')  , 0, ",", ".") }} </span> </h3>
+                      <h5 id="link">Link Afiliasi Anda :  <span id="pwd_spn" class="link-span"><a href="">{{  route('refferal', ['ref' => auth()->user()->referral_code]) }}</a></span>
+                        <div class="tooltip2">
+                          <button class="btn btn-success text-white rounded btn-sm" onclick="copy()" onmouseout="outFunc()">
+                          <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
+                          Copy Link
+                          </button>
+                        </div>   
+                      </h5>
+                      @if ($komisi)  
+                        <h5>Dapatkan @if($komisi->type == 'fixed') Rp. {{  number_format(optional($komisi)->amount ?? 10000 , 0, ",", ".") }} @elseif($komisi->type == 'percentage') {{  number_format(optional($komisi)->amount ?? 10000 , 0, ",", ".") }}% @endif untuk setiap teman yang berhasil memulai langganan bulan pertama mereka melalui Anda! </h5>
+                      @else
+                        <h5>Dapatkan komisi untuk setiap teman yang berhasil memulai langganan bulan pertama mereka melalui Anda!</h5>
+                      @endif
                     </div>
                 </div><!-- End Service Item --> 
               

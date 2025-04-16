@@ -34,7 +34,7 @@ Route::POST('/webhook','App\Http\Controllers\PaymentController@webhook')->name('
 Route::get('/qris','App\Http\Controllers\PaymentController@qris')->name('qris');
 Route::get('/price','App\Http\Controllers\RegisterController@price')->name('refferal');
 Route::post('/registrasi','App\Http\Controllers\RegisterController@register')->name('registrasi');
-Route::get('payment-callback', 'App\Http\Controllers\PaymentController@callback');
+Route::get('payment-callback', 'App\Http\Controllers\PaymentController@callback')->name('payment-callback');
 Route::get('download/{id}','App\Http\Controllers\PdfController@download')->name('download');
 Route::get('email','App\Http\Controllers\EmailController@invoice')->name('email');
 Route::get('akun','App\Http\Controllers\EmailController@tessend')->name('tessend');
