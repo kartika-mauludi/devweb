@@ -16,6 +16,7 @@ use App\Http\Controllers\Customer\AffiliasiController;
 use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\UniversityAccountController;
 use App\Http\Controllers\UniversityWebsiteController;
+use App\Http\Controllers\AutoLoginController;
 // use App\Http\Controllers\Auth\RegisterController;
 // use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Route;
@@ -169,6 +170,9 @@ Route::resource('universities', UniversityController::class);
 Route::resource('universities.accounts', UniversityAccountController::class);
 Route::resource('universities.websites', UniversityWebsiteController::class);
 
+
+// Jika menggunakan route API
+Route::get('/api/get-login-data', [AutoLoginController::class, 'getLoginData']);
 
 
 

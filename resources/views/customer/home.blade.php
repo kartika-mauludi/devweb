@@ -162,3 +162,66 @@
   </main>
 
   @endsection
+
+  @push('script')
+  <script>
+    $("document").ready(function () {
+      $("#filterTable").dataTable({
+        "searching": true
+      });
+      var table = $('#filterTable').DataTable();
+      $("#filterTable_filter.dataTables_filter").append($("#categoryFilter"));
+      var categoryIndex = 0;
+      $("#filterTable th").each(function (i) {
+        if ($($(this)).html() == "Universitas") {
+          categoryIndex = i; return false;
+        }
+      });
+      $.fn.dataTable.ext.search.push(
+        function (settings, data, dataIndex) {
+          var selectedItem = $('#categoryFilter').val()
+          var category = data[categoryIndex];
+          if (selectedItem === "all" || selectedItem === "show" || category.includes(selectedItem)) {
+            return true;
+          } 
+          return false;
+        }
+      );
+      $("#categoryFilter").change(function (e) {
+        table.draw();
+      });
+
+      table.draw();
+    });
+
+    $('#loginModal').on('show.bs.modal', function (e) {
+      const button = $(e.relatedTarget);
+      const url = button.data('url');
+      $('#loginFrame').attr('src', url);
+    });
+
+    $('#loginFrame').on('load', function () {
+        const iframe = this;
+        try {
+            const currentUrl = iframe.contentWindow.location.href;
+            console.log('Iframe loaded. Current URL:', currentUrl);
+
+            $("#username").val('wjune12');
+            $("#password").val('Pejuang45!@!@');
+            console.log('cok');
+            
+        } catch (e) {
+            console.warn('Tidak bisa mengakses isi iframe karena perbedaan domain.');
+        }
+    });
+
+
+
+
+    $('#loginModal').on('hidden.bs.modal', function () {
+      $('#loginFrame').attr('src', ''); // kosongkan saat modal ditutup
+    });
+
+
+  </script>
+  @endpush
