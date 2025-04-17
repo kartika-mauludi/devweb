@@ -31,7 +31,19 @@ class PaymentController extends Controller
             $message = $this::$message['error'];
             return back()->with('message',$message);
         }
-    
+
+        Config::$serverKey = $midtras->environment === 'production'
+        ? $midtras->production_server_key
+        : $midtras->sandbox_server_key;
+
+        Config::$clientKey = $midtras->environment === 'production'
+        ? $midtras->production_client_key
+        : $midtras->sandbox_client_key;
+        
+        Config::$isProduction = $midtras->environment === 'production';
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
         if ($midtras->environment === "sandbox") {
             $server_key = $midtras->sandbox_server_key;
             $client_key = $midtras->sandbox_client_key;

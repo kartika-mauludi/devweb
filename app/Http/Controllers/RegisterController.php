@@ -19,6 +19,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\info;
+use App\Mail\notif;
 use Session;
 use DB;
 use Auth;
@@ -49,6 +50,12 @@ class RegisterController extends Controller
         try {
 
             $univs = University::all();
+           
+            if($univs->isEmpty()){
+                $data ="Data Universitas masih belum di isi";
+                Mail::to('ludi@gmail.com')->send(new notif($data));
+            }
+
             foreach ($univs as $univ){
                 $akun[] = $this->cek_id($univ->id);
                 $univ_id[] = $univ->id;
