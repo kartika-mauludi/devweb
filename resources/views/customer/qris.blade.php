@@ -2,7 +2,7 @@
 
 @section('content')
 
-<!-- <main class="hero"> -->
+<main class="hero">
 @if(!empty($payment->redirect_link) )
 <iframe class="hero"src="{{ $payment->redirect_link }}" width="100%" height="900"></iframe>
 @else
@@ -15,7 +15,7 @@
     </div>
 @endif
 
-<!-- </main> -->
+</main>
 
 
 @endsection

@@ -14,6 +14,7 @@ class University extends Model
         'main_url',
         'signin_url',
         'signout_url',
+        'batasan'
     ];
 
     public function websites()

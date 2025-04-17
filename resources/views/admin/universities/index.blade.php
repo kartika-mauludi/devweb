@@ -25,6 +25,7 @@
                             <th>Main URL</th>
                             <th>Signin URL</th>
                             <th>Signout URL</th>
+                            <th>Batasan Penggunaan Akun</th>
                             <th class="fit text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -64,6 +65,10 @@
                         <label>Signout URL</label>
                         <input type="url" name="signout_url" class="form-control">
                     </div>
+                    <div class="form-group">
+                        <label>Batassan Penggunaan Akun</label>
+                        <input type="number" name="batasan" class="form-control">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Simpan</button>
@@ -102,6 +107,10 @@
                     <div class="form-group">
                         <label>Signout URL</label>
                         <input type="url" name="signout_url" id="edit_signout_url" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Batassan Penggunaan Akun</label>
+                        <input type="number" name="batasan" id="batasan" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -146,6 +155,10 @@
                     render: (data) => data ? `<a href="${data}" target="_blank">${data}</a>` : '-'
                 },
                 { 
+                    data: 'batasan', 
+                    render: (data) => data ? `${data}` : '-'
+                },
+                { 
                     data: 'id', 
                     render: function(data, type, row) {
                         return `
@@ -171,6 +184,7 @@
                 $('#edit_main_url').val(university.main_url);
                 $('#edit_signin_url').val(university.signin_url);
                 $('#edit_signout_url').val(university.signout_url);
+                $('#batasan').val(university.batasan);
                 $('#editUniversityForm').attr('action', '/universities/' + university.id);
                 $('#editUniversityModal').modal('show');
             });

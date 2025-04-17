@@ -30,6 +30,7 @@ class UniversityController extends Controller
             'main_url' => 'nullable|url',
             'signin_url' => 'nullable|url',
             'signout_url' => 'nullable|url',
+            'batasan' =>'nullable'
         ]);
 
         if (University::where('name', $request->name)->exists()) {
@@ -61,7 +62,9 @@ class UniversityController extends Controller
             'main_url' => 'nullable|url',
             'signin_url' => 'nullable|url',
             'signout_url' => 'nullable|url',
+            'batasan' =>'nullable'
         ]);
+        
 
         if (University::where('name', $request->name)
             ->where('id', '!=', $university->id)
@@ -124,7 +127,7 @@ class UniversityController extends Controller
 
     public function getData()
     {
-        $universities = University::select(['id', 'name', 'main_url', 'signin_url', 'signout_url'])->get();
+        $universities = University::select(['id', 'name', 'main_url', 'signin_url', 'signout_url','batasan'])->get();
     
         return response()->json([
             "data" => $universities
