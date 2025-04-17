@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\UniversityAccount;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -106,6 +107,40 @@ class CustomerController extends Controller
             $user->delete();
 
             $message = $this::$message['deletesuccess'];
+        }catch(Exception $x){
+            report($x);
+            $message = $this::$message['error'];
+        }
+
+        return redirect()->route('customer.index')->with('message', $message);
+    }
+
+    public function akun(User $user)
+    {
+        $akun_universitas = UniversityAccount::all();
+
+        foreach ($akun_universitas as $akun) {
+            $akun_id = $user->akun_id ?? [];
+
+            $data[] = array(
+                'akun_id' => $akun->id,
+                'akun_name' => $akun->university->name,
+                'akun_username' => $akun->username,
+                'selected' => (in_array($akun->id, $akun_id)) ? true : false
+            );
+        }
+
+        return $data;
+    }
+
+    public function akunUpdate(Request $request, User $user)
+    {
+        $input['akun_id'] = $request->akun;
+        
+        try{
+            $user->update($input);
+
+            $message = $this::$message['updatesuccess'];
         }catch(Exception $x){
             report($x);
             $message = $this::$message['error'];

@@ -91,7 +91,9 @@ Route::prefix('admin')->group(function(){
         Route::get('create', 'create')->name('create');
         Route::get('show/{user}', 'show')->name('show');
         Route::get('edit/{user}', 'edit')->name('edit');
-    
+        Route::get('akun/{user}', 'akun')->name('akun');
+        
+        Route::put('akun/{user}', 'akunUpdate')->name('akun-update');
         Route::post('store', 'store')->name('store');
         Route::put('update/{user}', 'update')->name('update');
         Route::delete('destroy/{user}', 'destroy')->name('destroy');

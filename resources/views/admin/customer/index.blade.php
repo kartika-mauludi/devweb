@@ -1,6 +1,11 @@
 @extends('admin.layout.index')
 
 @section('content')
+<style>
+    .select2-selection__choice {
+        color: #000 !important
+    }
+</style>
 <div class="row">
     <div class="col-12">
 
@@ -24,22 +29,30 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Reff. Code</th>
+                                <th>Akun Id</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($records as $record)
+                                @php
+                                    $akun_ids = ($record->akun_id != null) ? $record->akun_id : [];
+                                @endphp
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $record->name }}</td>
                                     <td>{{ $record->email }}</td>
                                     <td>{{ $record->referral_code }}</td>
+                                    <td>{{ implode(', ' , $akun_ids) }}</td>
                                     <td>
                                         <form action="{{ route('customer.destroy', $record->id) }}" onsubmit="return confirm('Apakah anda yakin ?')" method="post">
                                             @csrf
                                             @method('DELETE')
 
                                             <div class="btn-group">
+                                                <button type="button" class="btn btn-sm btn-primary akunBtn" data-user="{{ $record->id }}">
+                                                    Akun
+                                                </button>
                                                 <a href="{{ route('customer.show', $record->id) }}" class="btn btn-sm btn-info">
                                                     Detail
                                                 </a>
@@ -61,4 +74,70 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="akunModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Akun Id</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="" id="akunForm" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="akun">List Akun</label>
+                        <select name="akun[]" id="akun" class="form-control form-control-sm" style="width: 100%" multiple required>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="button" class="btn btn-danger" id="clearBtn">Clear</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
+
+@push('script')
+    <script>
+        $('.akunBtn').click(function(){
+            userId = $(this).data('user')
+            url = `customer/akun/${userId}`
+            parent = $('#akun')
+
+            $.get(url, function (akun_ids) {
+                parent.empty()
+
+                $.each(akun_ids, function(index, data){
+                    
+                    parent.append($('<option/>', {
+                        value: data.akun_id,
+                        text: `${data.akun_name} | ${data.akun_username}`,
+                        selected: data.selected
+                    }))
+                })
+            });
+
+            parent.select2({
+                dropdownParent: $('#akunModal'),
+                multiple: true
+            })
+            $('#akunForm').attr('action', url)
+            $('#akunModal').modal('show')
+        })
+
+        $('#clearBtn').click(function(){
+            $('#akun').val(null).trigger('change')
+
+            setTimeout(() => {
+                $('#akunForm').submit()
+            }, 120);
+        })
+    </script>
+@endpush
