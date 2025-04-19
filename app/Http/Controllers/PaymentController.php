@@ -25,22 +25,33 @@ class PaymentController extends Controller
     protected $client_key;
     public function __construct()
     {
-        $midtras = MidtranConfig::first();
+        $midtras = MidtranConfig::first(); // Jangan pakai firstOrFail() kalau mau handle manual
 
         if (!$midtras) {
             $message = $this::$message['error'];
-            return back()->with('message', $message);
+            return back()->with('message',$message);
         }
-        
-        Config::$serverKey    = $midtras->environment === 'production' ? $midtras->production_server_key : $midtras->sandbox_server_key;
-        Config::$clientKey    = $midtras->environment === 'production' ? $midtras->production_client_key : $midtras->sandbox_client_key;
-        Config::$isProduction = $midtras->environment === 'production' ;
-        Config::$isSanitized  = true;
-        Config::$is3ds        = true;
-        
-        
-        $this->server_key = Config::$serverKey;
-        $this->client_key = Config::$clientKey;
+
+        Config::$serverKey = $midtras->environment === 'production'
+        ? $midtras->production_server_key
+        : $midtras->sandbox_server_key;
+
+        Config::$clientKey = $midtras->environment === 'production'
+        ? $midtras->production_client_key
+        : $midtras->sandbox_client_key;
+    
+        if ($midtras->environment === "sandbox") {
+            $server_key = $midtras->sandbox_server_key;
+            $client_key = $midtras->sandbox_client_key;
+        } elseif ($midtras->environment === "production") {
+            $server_key = $midtras->production_server_key;
+            $client_key = $midtras->production_client_key;
+        } else {
+            abort(500, 'Invalid environment value in Midtrans configuration');
+        }
+    
+        $this->server_key = $server_key;
+        $this->client_key = $client_key;
     }
     /**
      * Display a listing of the resource.
@@ -111,7 +122,6 @@ class PaymentController extends Controller
             'Authorization' => "Basic $auth",
            ])->get("https://api.sandbox.midtrans.com/v2/$request->order_id/status");
            $response = json_decode($response->body());
-           return $response;
            $jmlsub = 0;
            $payment = Payment::where("order_id",$response->order_id)->firstOrFail();
            $sub = SubscribeRecord::where('user_id',$payment->user_id)->get();
@@ -127,6 +137,7 @@ class PaymentController extends Controller
 
             if( $request->transaction_status === 'capture'){
                 $payment->status = 'completed';
+                $message = $this::$message['error'];
 
             } else if( $request->transaction_status === 'settlement'){
                 $payment->status = 'completed';
@@ -158,6 +169,7 @@ class PaymentController extends Controller
                 Mail::to($user->email)->send(new pending($data));
 
                 $payment->status = 'pending';
+                $message = $this::$message['error'];
 
             }else if( $request->transaction_status === 'expired'){
                 $data =[
@@ -165,6 +177,7 @@ class PaymentController extends Controller
                 ];
                 Mail::to($user->email)->send(new expired($data));
                 $payment->status = 'failed';
+                $message = $this::$message['error'];
             }
             $payment->save();
             return redirect()->route('customer.home')->with('message', $message);

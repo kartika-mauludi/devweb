@@ -88,7 +88,7 @@
             <div class="service-item position-relative">
               <h3>Komisi Anda</h3>
               <h2 class="mb-3">Rp {{ $komisi }}</h2>
-              <a href="{{ route('customer/affiliasi.index') }}" class="btn btn-primary rounded btn-sm text-white">Mulai Datapkan Komisi</a>
+              <a href="{{ route('customer/affiliasi.index') }}" class="btn btn-primary rounded btn-sm text-white">Mulai Dapatkan Komisi</a>
             </div>
           </div><!-- End Service Item -->
         </div>
