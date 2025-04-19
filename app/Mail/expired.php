@@ -39,7 +39,7 @@ class expired extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'customer.mail.expired',
+            view: 'customer.mail.expire',
         );
     }
 

@@ -31,6 +31,7 @@ Auth::routes(['register' => false]);
 Route::get('/payment/{id}','App\Http\Controllers\PaymentController@index')->name('payment');
 Route::post('/subscribepayment','App\Http\Controllers\PaymentController@subscribepayment')->name('subscribepayment');
 Route::POST('/webhook','App\Http\Controllers\PaymentController@webhook')->name('webhook');
+Route::get('paymentcek','App\Http\Controllers\PaymentController@paymentcek')->name('paymentcek');
 Route::get('/qris','App\Http\Controllers\PaymentController@qris')->name('qris');
 Route::get('/price','App\Http\Controllers\RegisterController@price')->name('refferal');
 Route::post('/registrasi','App\Http\Controllers\RegisterController@register')->name('registrasi');

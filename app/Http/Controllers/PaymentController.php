@@ -124,18 +124,16 @@ class PaymentController extends Controller
             'Content-Type' => 'Application/json',
             'Authorization' => "Basic $auth",
            ])->get("https://api.sandbox.midtrans.com/v2/$request->order_id/status");
-           $response = json_decode($response->body());
-        return $this->paymentcek($response); 
+           $response = json_decode($response->body(),true);
+           return $this->paymentcek($response); 
     }
 
 
     public function paymentcek(array $response){
-
            $jmlsub = 0;
-           $payment = Payment::where("order_id",$response['order_id'])->firstOrFail();
+           $payment = Payment::where("order_id",$response['order_id'])->first();
            $sub = SubscribeRecord::where('user_id',$payment->user_id)->get();
            $user = User::find($payment->user_id);
-
            if($payment->status === "settlement" || $payment->status === "capture"){
                 return response()->json('payment berhasil');
             }
@@ -148,7 +146,7 @@ class PaymentController extends Controller
 
             if( $status === 'capture'){
                 $payment->status = 'completed';
-                $message = $this::$message['error'];
+                $message = $this::$message['sukses'];
 
             } else if( $status === 'settlement'){
                 $payment->status = 'completed';
@@ -182,7 +180,7 @@ class PaymentController extends Controller
                 $payment->status = 'pending';
                 $message = $this::$message['error'];
 
-            }else if( $status === 'expired'){
+            }else if( $status === 'expire'){
                 $data =[
                     'name' => $user->name
                 ];
