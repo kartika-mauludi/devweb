@@ -175,6 +175,7 @@ Route::resource('universities.websites', UniversityWebsiteController::class);
 
 // Jika menggunakan route API
 Route::get('/api/get-login-data', [AutoLoginController::class, 'getLoginData']);
+Route::get('/api/get-allowed-urls', [AutoLoginController::class, 'getAllowedUrls']);
 
 
 

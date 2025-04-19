@@ -156,7 +156,7 @@
             <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <iframe id="loginFrame" is="x-frame-bypass" style="height: 80vh;" src=""></iframe>
+          <!-- <iframe id="loginFrame" is="x-frame-bypass" style="height: 80vh;" src=""></iframe> -->
         </div>
       </div>
     </div>
@@ -224,7 +224,16 @@
     $('#loginModal').on('hidden.bs.modal', function () {
       $('#loginFrame').attr('src', ''); // kosongkan saat modal ditutup
     });
-
-
   </script>
+  @if (session('extension_token'))
+  <script>
+      window.addEventListener('DOMContentLoaded', () => {
+          window.postMessage({
+              type: 'SEND_TOKEN_TO_EXTENSION',
+              token: "{{ session('extension_token') }}"
+          }, "*");
+      });
+  </script>
+   @endif
+
   @endpush
