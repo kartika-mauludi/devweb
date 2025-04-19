@@ -43,15 +43,18 @@ class PaymentController extends Controller
         if ($midtras->environment === "sandbox") {
             $server_key = $midtras->sandbox_server_key;
             $client_key = $midtras->sandbox_client_key;
+            $url = "https://app.sandbox.midtrans.com/snap/v1/transactions";
         } elseif ($midtras->environment === "production") {
             $server_key = $midtras->production_server_key;
             $client_key = $midtras->production_client_key;
+            $url = "https://app.midtrans.com/snap/v1/transactions";
         } else {
             abort(500, 'Invalid environment value in Midtrans configuration');
         }
     
         $this->server_key = $server_key;
         $this->client_key = $client_key;
+        $this->url = $url;
     }
     /**
      * Display a listing of the resource.
@@ -92,7 +95,7 @@ class PaymentController extends Controller
                 'Accept' => 'Application/json',
                 'Content-Type' => 'Application/json',
                 'Authorization' => "Basic $auth",
-               ])->post('https://app.sandbox.midtrans.com/snap/v1/transactions',$params);
+               ])->post($this->url,$params);
                $response = json_decode($response->body());
                $payment->order_id = $params['transaction_details']['order_id'];
                $payment->redirect_link = $response->redirect_url;
@@ -122,8 +125,14 @@ class PaymentController extends Controller
             'Authorization' => "Basic $auth",
            ])->get("https://api.sandbox.midtrans.com/v2/$request->order_id/status");
            $response = json_decode($response->body());
+        return $this->paymentcek($response); 
+    }
+
+
+    public function paymentcek(array $response){
+
            $jmlsub = 0;
-           $payment = Payment::where("order_id",$response->order_id)->firstOrFail();
+           $payment = Payment::where("order_id",$response['order_id'])->firstOrFail();
            $sub = SubscribeRecord::where('user_id',$payment->user_id)->get();
            $user = User::find($payment->user_id);
 
@@ -135,11 +144,13 @@ class PaymentController extends Controller
                 $jmlsub = count($sub)-2;
             }
 
-            if( $request->transaction_status === 'capture'){
+            $status = $response['transaction_status'];
+
+            if( $status === 'capture'){
                 $payment->status = 'completed';
                 $message = $this::$message['error'];
 
-            } else if( $request->transaction_status === 'settlement'){
+            } else if( $status === 'settlement'){
                 $payment->status = 'completed';
                 $subcribe = SubscribeRecord::where('id',$payment->subscribe_record_id)->first();
                 $pack = SubscribePackage::where('id',$subcribe->subscribe_package_id)->first();
@@ -162,7 +173,7 @@ class PaymentController extends Controller
                 ];
                 Mail::to($user->email)->send(new invoice($data));
                 $message = $this::$message['sukses'];
-            }else if( $request->transaction_status === 'pending'){
+            }else if( $status === 'pending'){
                 $data =[
                     'name' => $user->name
                 ];
@@ -171,7 +182,7 @@ class PaymentController extends Controller
                 $payment->status = 'pending';
                 $message = $this::$message['error'];
 
-            }else if( $request->transaction_status === 'expired'){
+            }else if( $status === 'expired'){
                 $data =[
                     'name' => $user->name
                 ];
