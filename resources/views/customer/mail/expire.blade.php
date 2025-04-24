@@ -26,7 +26,7 @@
 				</div>
             </div>
 			
-			<h3>Hai {{ $user->name  }}</h3>
+			<h3>Hai {{ $data['name']  }}</h3>
 			<h4>Kamu menerima email ini karena, QRIS pembayaran kamu sudah expired</h4>
 			<h4>Jika kamu ingin melanjutkan pembayaran silahkan login dan memilih paket langganan </h4> 
 			<h4><p class="text-center">Jika Anda memiliki pertanyaan, hubungi kami melalui WhatsApp di <a href="https://wa.me/6285236868125">+62 852-3686-8125</a></p></h4>
