@@ -149,10 +149,11 @@ class PaymentController extends Controller
                 $message = $this::$message['sukses'];
 
             } else if( $status === 'settlement'){
+
                 $payment->status = 'completed';
                 $subcribe = SubscribeRecord::where('id',$payment->subscribe_record_id)->first();
                 $pack = SubscribePackage::where('id',$subcribe->subscribe_package_id)->first();
-                if(count($sub) >= 1){
+                if(count($sub) >= 2){
                     $subcribe->start_date = $sub[$jmlsub]->end_date;
                 }else{
                     $subcribe->start_date = now();
@@ -189,7 +190,8 @@ class PaymentController extends Controller
                 $message = $this::$message['error'];
             }
             $payment->save();
-            return redirect()->route('customer.home')->with('message', $message);
+            return $message;
+            // return redirect()->route('customer.home')->with('message', $message);
     }
 
     public function callback(Request $request){

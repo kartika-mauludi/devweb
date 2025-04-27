@@ -28,7 +28,7 @@
     @endsession
 
     <!-- Services Section -->
-    <section id="tabel" class="services section light-background">
+    <section id="tabel" class="services section">
     @if($payment && $payment->status == "pending" && !empty($payment->redirect_link))
       <div class="alert alert-danger alert-dismissible">
         <div class="container">
@@ -67,22 +67,28 @@
       <div class="container">
         <div class="row justify-content-center">
 
-        @if ($sub)
+      
           <div class="col-xl-6 col-lg-6 col-md-6">
             <div class="service-item position-relative">
+            @if ($sub)
               <!-- {{ now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) }} -->
-            @if(\Carbon\Carbon::parse($sub->end_date) < now())
-            <h3 style="text:red">Anda Belum Berlangganan</h3>
+              @if(\Carbon\Carbon::parse($sub->end_date) < now())
+                <h3 style="text:red">Anda Belum Berlangganan</h3>
+                <h5 class="my-3">Pilih Paket Untuk Menikmati Layanan Kami</h5>
+                <p> <a href="{{ route('customer/langganan.index') }}" class="btn btn-primary">langganan Sekarang</a> </p>
+              @elseif(\Carbon\Carbon::parse($sub->end_date) >= now() && $payment->status == "completed" )
+                <h3>Data Langganan Anda</h3>
+                <h2> {{ $sub->subscribepackage->name }}</h2>
+                <p>Berakhir pada {{ \Carbon\Carbon::parse($sub->end_date)->format("d F Y") }}</p>
+              @endif
+            @else
+              <h3 style="text:red">Anda Belum Berlangganan</h3>
               <h5 class="my-3">Pilih Paket Untuk Menikmati Layanan Kami</h5>
               <p> <a href="{{ route('customer/langganan.index') }}" class="btn btn-primary">langganan Sekarang</a> </p>
-            @elseif(\Carbon\Carbon::parse($sub->end_date) >= now() && $payment->status == "completed" )
-              <h3>Data Langganan Anda</h3>
-              <h2> {{ $sub->subscribepackage->name }}</h2>
-              <p>Berakhir pada {{ \Carbon\Carbon::parse($sub->end_date)->format("d F Y") }}</p>
-              @endif
+            @endif
             </div>
           </div><!-- End Service Item -->
-        @endif
+     
 
           <div class="col-xl-6 col-lg-6 col-md-6">
             <div class="service-item position-relative">
@@ -95,9 +101,19 @@
 
       </div>
 
-    </section><!-- /Services Section -->
-
-
+     <div class="container py-3">
+       <div class="row justify-content-center">
+         <div class="col-xl-12 col-lg-12 col-md-12" >
+            <div class="service-item position-relative" style="border:1px">
+              <h3>Ekstensi</h3>
+              <h5 class="pt-3 px-2"><i class="bi bi-download"></i> Unduh</h5>
+              <h5 class="py-1 px-2"><i class="bi bi-play-fill"></i> Tonton Video Instalasi</h5>
+              <h5 class="py-1 px-2"><i class="bi bi-play-fill"></i> Tonton Video Instalasi</h5>
+            </div>
+          </div><!-- End Service Item -->
+        </div>
+      </div>
+    </section>
 
 
     <!-- About Section -->
@@ -110,7 +126,7 @@
 
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-lg-10 content">
+          <div class="col-lg-12 content">
           <div class="container mt-4">
           <div class="category-filter">
             <select id="categoryFilter" class="form-control">

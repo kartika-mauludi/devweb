@@ -1,1 +1,0 @@
-<iframe src="https://api-c9607b10.duosecurity.com/frame/v4/auth/prompt?sid=frameless-829ed317-db77-4707-8986-43ce8608c16e" height=500px; width=500px; frameborder="0"></iframe>
