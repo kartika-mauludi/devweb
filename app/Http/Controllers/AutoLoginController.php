@@ -6,20 +6,43 @@ use App\Models\University;
 use Illuminate\Http\Request;
 use App\Models\UniversityAccount;
 use App\Models\UniversityWebsite;
-use Illuminate\Support\Facades\Log;
+use App\Models\Payment;
+use Illuminate\Support\Facades\Auth;
+
 
 class AutoLoginController extends Controller
 {
-
     public function getAllowedUrls()
     {
-        $urls = UniversityWebsite::pluck('url');
+        $urls = University::pluck('signin_url');
 
         return response()->json($urls);
     }
 
     public function getLoginData(Request $request)
     {
+        $user = auth::user();
+
+        // CEK PEMBAYARAN DAN PAKET YANG AKTIF
+        $payment = Payment::with(['subscribeRecord' => function ($query) {
+            $query
+                ->where('start_date', '<=', date("Y-m-d"))
+                  ->where('end_date', '>', date("Y-m-d"))
+                  ->with('subscribePackage');
+        }])
+            ->where('user_id', $user->id)
+            ->where('status', 'completed')
+            ->first();
+
+        if (!$payment || !$payment['subscribe_record']) {
+            return response()->json(['message' => 'Paket langganan tidak ditemukan'], 404);
+        }
+        
+        // CEK AKUN
+        if (!$user->akun_id) {
+            return response()->json(['message' => 'Akun belum ditambahkan, silahkan hubungi admin'], 404);
+        }
+        
         $accessUrl = $request->header('access_url');
         
         $parsedUrl = parse_url($accessUrl);
@@ -34,7 +57,10 @@ class AutoLoginController extends Controller
             return response()->json(['message' => 'University not found'], 404);
         }
 
-        $akun = UniversityAccount::where('university_id', $university->id)->first();
+        $akun = UniversityAccount::where([
+            ['university_id', '=', $university->id]
+        ])->whereIn('id', $user->akun_id)->first();        
+        // dd($akun);
     
         return response()->json($akun);
     }
