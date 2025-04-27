@@ -24,19 +24,19 @@ class AutoLoginController extends Controller
         $user = auth::user();
 
         // CEK PEMBAYARAN DAN PAKET YANG AKTIF
-        $payment = Payment::with(['subscribeRecord' => function ($query) {
+        $payments = Payment::where('user_id', $user->id)
+        ->where('status', 'completed')
+        ->whereHas('subscribeRecord', function ($query) {
             $query
-                ->where('start_date', '<=', date("Y-m-d"))
-                  ->where('end_date', '>', date("Y-m-d"))
-                  ->with('subscribePackage');
-        }])
-            ->where('user_id', $user->id)
-            ->where('status', 'completed')
-            ->first();
-
-        if (!$payment || !$payment['subscribe_record']) {
+                ->where('start_date', '<=', date('Y-m-d'))
+                ->where('end_date', '>=', date('Y-m-d'));
+        })
+        ->with(['subscribeRecord.subscribePackage'])
+        ->get();
+    
+        if ($payments->isEmpty()) {
             return response()->json(['message' => 'Paket langganan tidak ditemukan'], 404);
-        }
+        }    
         
         // CEK AKUN
         if (!$user->akun_id) {
