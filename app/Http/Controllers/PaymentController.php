@@ -189,7 +189,7 @@ class PaymentController extends Controller
             // return $message;
             // return redirect()->route('customer.home')->with('message', $message);
         //    return $this->paymentcek($response); 
-        return response()->json("sukses");
+        return response()->json($response);
     }
 
 
@@ -275,7 +275,7 @@ class PaymentController extends Controller
             $payment->status = 'completed';
             $subcribe = SubscribeRecord::where('id',$payment->subscribe_record_id)->first();
             $pack = SubscribePackage::where('id',$subcribe->subscribe_package_id)->first();
-            if(count($sub) >= 1){
+            if(count($sub) >= 2){
                 $subcribe->start_date = $sub[$jmlsub]->end_date;
             }else{
                 $subcribe->start_date = now();
@@ -304,6 +304,7 @@ class PaymentController extends Controller
             Mail::to($user->email)->send(new pending($data));
 
             $payment->status = 'pending';
+            $message = $this::$message['error_payment'];
 
         }else if( $request->transaction_status === 'expired'){
 
