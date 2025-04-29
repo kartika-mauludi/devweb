@@ -52,7 +52,6 @@ class ProfilController extends Controller
         $passurl =  route('customer/profil.password',$id);
         $user = User::with('payments')->where('id',$id)->first();
         $subscribes = subscribeRecord::with('subscribePackage')->where('user_id',$id)->get();
-        // return $subscribes;
         return view('customer.profil',compact('user','url','passurl','subscribes'));
         
     }
@@ -88,7 +87,6 @@ class ProfilController extends Controller
 
  
     public function password(Request $request, $id){
-        // return $request->input();
         $user = User::where('id',$id)->first();
         if (Hash::check($request->passwordold, $user->password)) { 
            
@@ -123,7 +121,6 @@ class ProfilController extends Controller
         $payment = Payment::latest('id')->where("subscribe_record_id", $id_sub)->first();
         $subscribe = SubscribeRecord::with("subscribePackage")->where("id", $id_sub)->first();
         $user = User::find($id_user);
-    
         $data = [
             'name' => $user->name,
             'email'=> $user->email,
@@ -134,7 +131,6 @@ class ProfilController extends Controller
             'price' => $subscribe->subscribePackage->price,
             'status' => $payment->status
         ];
-        // return $data;
         return view("customer.invoice",$data);
 
     }

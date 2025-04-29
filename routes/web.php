@@ -18,7 +18,6 @@ use App\Http\Controllers\UniversityAccountController;
 use App\Http\Controllers\UniversityWebsiteController;
 use App\Http\Controllers\AutoLoginController;
 // use App\Http\Controllers\Auth\RegisterController;
-// use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Route;
 use App\Models\SubscribePackage;
 
@@ -37,12 +36,9 @@ Route::get('/price','App\Http\Controllers\RegisterController@price')->name('reff
 Route::post('/registrasi','App\Http\Controllers\RegisterController@register')->name('registrasi');
 Route::get('payment-callback', 'App\Http\Controllers\PaymentController@callback')->name('payment-callback');
 Route::get('download/{id}','App\Http\Controllers\PdfController@download')->name('download');
-Route::get('email','App\Http\Controllers\EmailController@invoice')->name('email');
-Route::get('akun','App\Http\Controllers\EmailController@tessend')->name('tessend');
 
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    // Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/admin/home', [App\Http\Controllers\HomeController::class, 'adminhome'])->name("admin.home");
 });
 

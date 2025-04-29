@@ -59,20 +59,23 @@ class HomeController extends Controller
     {
         $id = auth::user()->id;
         $user =  User::with('subscribeRecord.subscribePackage')->find($id);
-        $subscribes = subscribeRecord::with('subscribePackage')->where('user_id',$id)->latest('id')->first();
+        $subscribe = subscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->where('account_status','aktif')->get();
+        if(count($subscribe)  >= 1){
+            $subscribes = subscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->where('account_status','aktif')->first();
+        }
+        else{
+            $subscribes = subscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->first();
+        }
         $paid = UserAffiliate::whereHas('payments', function($query){$query->where('status','completed');})->where('User_id',auth::user()->id)->get();
         $wd= UserAffiliate::with('user')->where('user_id',auth::user()->id)->where('status','withdraw')->get();
-        $payment = Payment::where('user_id',$id)->first();
+        $payment = Payment::latest('id')->where('user_id',$id)->first();
         $admin = User::where('is_superadmin',1)->first();
         $univ = University::all();
-        // $akun = UniversityAccount::with('university')->get();
         $website = UniversityWebsite::with('university')->get();
         $akun = [];
         if ($user['akun_id']) {
             $akun = UniversityAccount::with('university')->wherein('id',$user->akun_id)->get();
         }
-
-        // return $website;
 
         $data['admin'] = $admin;
         $data['user'] = $user;

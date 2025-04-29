@@ -62,7 +62,6 @@ class RegisterController extends Controller
             }
     
             if($a = array_keys($akun, null, true)){
-                // return $a;
                 for($i = 0; $i < count($a); $i++){
                     $univid = $univ_id[$a[$i]];
                     $universiti[] = University::where('id',$univid)->pluck('name');
@@ -142,8 +141,6 @@ class RegisterController extends Controller
         $user_akun = User::all()->where('akun_id','!=','')->pluck('akun_id');
         $account = UniversityAccount::where('university_id',$id_univ)->pluck('id');
         $jumlah_akun = count($account);
-      
-          
         if(collect($user_akun)->flatten()->filter()->isEmpty()){
             $list_akun_univ = UniversityAccount::where('university_id',$id_univ)->pluck('id')->first();
             return $id_akun_univ = $list_akun_univ ;
@@ -154,38 +151,22 @@ class RegisterController extends Controller
                 $universitas = University::where('id',$id_univ)->first();
               }
                 $batas = $universitas->batasan;
-
-                // Ambil semua akun_id dari user
                 $akun_user_raw = User::where('akun_id', '!=', '')
                             ->pluck('akun_id')
                             ->toArray();
 
-                // return $akun_user_raw;
-
-                // Flatten array akun_id
                 $flattened = Arr::flatten($akun_user_raw);
-
                 $account_id = array_values(array_unique($flattened));
-
-
-                // Hitung jumlah pemakaian per akun
                 $count = array_count_values($flattened);
-
-
-                // Filter akun yang belum melebihi batas
                 $filtered = array_filter($count, function ($val, $id) use ($batas, $account) {
                     return $val < $batas && in_array($id, $account->toArray());
                 }, ARRAY_FILTER_USE_BOTH);
 
-               
-
                 if (!empty($filtered)) {
-                // Ambil ID akun pertama yang masih di bawah batas
                 $next_available_id = array_key_first($filtered);
                 return $next_available_id;
                 } else {
-                // Ambil akun yang belum pernah dipakai sama sekali
-                $account_used = array_unique($flattened); // array 1 dimensi, jadi aman
+                $account_used = array_unique($flattened); 
                 $id_akun_univ = UniversityAccount::where('university_id', $id_univ)
                     ->whereNotIn('id', $account_used)
                     ->pluck('id')

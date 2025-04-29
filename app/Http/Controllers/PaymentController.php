@@ -25,7 +25,7 @@ class PaymentController extends Controller
     protected $client_key;
     public function __construct()
     {
-        $midtras = MidtranConfig::first(); // Jangan pakai firstOrFail() kalau mau handle manual
+        $midtras = MidtranConfig::first(); 
 
         if (!$midtras) {
             $message = $this::$message['error'];
@@ -61,7 +61,6 @@ class PaymentController extends Controller
      */
     public function index($id)
     {
-        // $ref = request()->query('ref');
         $pack = SubscribePackage::where('id',$id)->first();
         return view('payment',compact('pack'));
     }
@@ -107,7 +106,6 @@ class PaymentController extends Controller
             report($th);
             $error = $this::$message['error_payment'];
             Auth::loginUsingId($request->user);
-            // return $error;
             return redirect()->route('customer.home')->with('message', $error);
         }
        
@@ -152,14 +150,13 @@ class PaymentController extends Controller
             } else if( $status === 'settlement'){
 
                 $payment->status = 'completed';
+                SubscribeRecord::where('user_id', $payment->user_id)
+                ->update(['account_status' => 'non-aktif']);
                 $subcribe = SubscribeRecord::where('id',$payment->subscribe_record_id)->first();
                 $pack = SubscribePackage::where('id',$subcribe->subscribe_package_id)->first();
-                if(count($sub) >= 2){
-                    $subcribe->start_date = $sub[$jmlsub]->end_date;
-                }else{
-                    $subcribe->start_date = now();
-                }
+                $subcribe->start_date = now();
                 $subcribe->end_date = now()->addDays($pack->days);
+                $subcribe->account_status = "aktif";
                 $subcribe->save();
                 $data = [
                     'name' => $user->name,
@@ -173,6 +170,7 @@ class PaymentController extends Controller
                 ];
                 Mail::to($user->email)->send(new invoice($data));
                 $message = $this::$message['sukses'];
+
             }else if( $status === 'pending'){
                 $data =[
                     'name' => $user->name
@@ -191,12 +189,11 @@ class PaymentController extends Controller
                 $message = $this::$message['error'];
             }
             $payment->save();
-            return $message;
-            // return redirect()->route('customer.home')->with('message', $message);
+
+            return redirect()->route('customer.home')->with('message', $message);
     }
 
     public function callback(Request $request){
-        // return $request;
         $jmlsub = 0;
         $payment = Payment::where("order_id",$request->order_id)->first();
         $sub = SubscribeRecord::where('user_id',$payment->user_id)->get();
@@ -210,16 +207,15 @@ class PaymentController extends Controller
 
         } else if( $request->transaction_status === 'settlement'){
             $payment->status = 'completed';
+            SubscribeRecord::where('user_id', $payment->user_id)
+            ->update(['account_status' => 'non-aktif']);
+            
             $subcribe = SubscribeRecord::where('id',$payment->subscribe_record_id)->first();
             $pack = SubscribePackage::where('id',$subcribe->subscribe_package_id)->first();
-            if(count($sub) >= 2){
-                $subcribe->start_date = $sub[$jmlsub]->end_date;
-            }else{
-                $subcribe->start_date = now();
-            }
+            $subcribe->start_date = now();
             $subcribe->end_date = now()->addDays($pack->days);
+            $subcribe->account_status = "aktif";
             $subcribe->save();
-
             $data = [
                 'name' => $user->name,
                 'email'=> $user->email,
@@ -231,7 +227,6 @@ class PaymentController extends Controller
                 'status' => $payment->status
             ];
             Mail::to($user->email)->send(new invoice($data));
-
             $message = $this::$message['sukses'];
 
         }else if( $request->transaction_status === 'pending'){

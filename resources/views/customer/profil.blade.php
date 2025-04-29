@@ -177,7 +177,7 @@
                             </thead>
                             <tbody>
                               @foreach($subscribes as $sub)
-                               @if($sub->end_date > now())
+                               @if($sub->account_status === "aktif")
                                 <tr>
                                 <td scope="row">{{ $sub->subscribePackage->name }}</td>
                                 <td>{{ \Carbon\Carbon::parse($sub->start_date)->format("d F Y") }}</td>
@@ -206,11 +206,11 @@
                             </thead>
                             <tbody>
                             @foreach($subscribes as $sub)
-                              @if($sub->end_date < now())
+                              @if($sub->account_status === "non-aktif")
                                 <tr>
                                 <td scope="row">{{ $sub->subscribePackage->name }}</td>
-                                <td>{{ \Carbon\Carbon::parse($sub->start_date)->format("d F Y") }}</td>
-                                <td>{{ \Carbon\Carbon::parse($sub->end_date)->format("d F Y")}}</td>
+                                <td>{{ $sub->start_date != Null ? \Carbon\Carbon::parse($sub->start_date)->format("d F Y"):"------" }}</td>
+                                <td>{{ $sub->end_date != Null ? \Carbon\Carbon::parse($sub->end_date)->format("d F Y"):"------" }}</td>
                                 <td>Rp.{{ number_format($sub->subscribePackage->price , 0, ",", ".") }}</td>
                                 </tr>
                                 @endif

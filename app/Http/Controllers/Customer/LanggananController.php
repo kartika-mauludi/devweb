@@ -22,7 +22,24 @@ class LanggananController extends Controller
 
     public function langganan(){
         $id = Auth::user()->id;
-        $langganan = Payment::with('subscribeRecord.subscribePackage')->where('user_id',$id)->first();
+        $langganans = Payment::with('subscribeRecord.subscribePackage')
+        ->where('user_id',$id)
+        ->whereHas('subscribeRecord', function ($query) {
+            $query->where('account_status', 'aktif');
+        })->get();
+       if(count($langganans) >= 1){
+        $langganan = Payment::latest('id')->with('subscribeRecord.subscribePackage')
+        ->where('user_id',$id)
+        ->whereHas('subscribeRecord', function ($query) {
+            $query->where('account_status', 'aktif');
+        })->first();
+       }
+       else{
+        $langganan = Payment::latest('id')
+        ->with('subscribeRecord.subscribePackage')
+        ->where('user_id',$id)
+       ->first();
+       }
         return view('customer.langganan.index',compact('langganan'));
     }
 
