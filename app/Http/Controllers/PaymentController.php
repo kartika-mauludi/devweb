@@ -102,7 +102,7 @@ class PaymentController extends Controller
                $payment->save();
                $data['url'] = $response->redirect_url;
                return view('qris',$data);
-
+               
         } catch (\Throwable $th) {
             report($th);
             $error = $this::$message['error_payment'];
@@ -126,70 +126,7 @@ class PaymentController extends Controller
             'Authorization' => "Basic $auth",
            ])->get("https://api.sandbox.midtrans.com/v2/$request->order_id/status");
            $response = json_decode($response->body(),true);
-           $jmlsub = 0;
-           $payment = Payment::where("order_id",$response['order_id'])->first();
-           $sub = SubscribeRecord::where('user_id',$payment->user_id)->get();
-           $user = User::find($payment->user_id);
-           if($payment->status === "settlement" || $payment->status === "capture"){
-                return response()->json('payment berhasil');
-            }
-
-            if(count($sub) > 1){
-                $jmlsub = count($sub)-2;
-            }
-
-            $status = $response['transaction_status'];
-
-            if( $status === 'capture'){
-                $payment->status = 'completed';
-                $message = $this::$message['sukses'];
-
-            } else if( $status === 'settlement'){
-
-                $payment->status = 'completed';
-                $subcribe = SubscribeRecord::where('id',$payment->subscribe_record_id)->first();
-                $pack = SubscribePackage::where('id',$subcribe->subscribe_package_id)->first();
-                if(count($sub) >= 2){
-                    $subcribe->start_date = $sub[$jmlsub]->end_date;
-                }else{
-                    $subcribe->start_date = now();
-                }
-                $subcribe->end_date = now()->addDays($pack->days);
-                $subcribe->save();
-                $data = [
-                    'name' => $user->name,
-                    'email'=> $user->email,
-                    'invoice_id' => $payment->id_invoice,
-                    'paket' => $subcribe->subscribePackage->name,
-                    'start_date' => $subcribe->start_date,
-                    'end_date' => $subcribe->end_date,
-                    'price' => $subcribe->subscribePackage->price,
-                    'status' => $payment->status
-                ];
-                Mail::to($user->email)->send(new invoice($data));
-                $message = $this::$message['sukses'];
-            }else if( $status === 'pending'){
-                $data =[
-                    'name' => $user->name
-                ];
-                Mail::to($user->email)->send(new pending($data));
-
-                $payment->status = 'pending';
-                $message = $this::$message['error'];
-
-            }else if( $status === 'expire'){
-                $data =[
-                    'name' => $user->name
-                ];
-                Mail::to($user->email)->send(new expired($data));
-                $payment->status = 'failed';
-                $message = $this::$message['error'];
-            }
-            $payment->save();
-            // return $message;
-            // return redirect()->route('customer.home')->with('message', $message);
-        //    return $this->paymentcek($response); 
-        return response()->json($response);
+           return $this->paymentcek($response); 
     }
 
 
@@ -304,7 +241,6 @@ class PaymentController extends Controller
             Mail::to($user->email)->send(new pending($data));
 
             $payment->status = 'pending';
-            $message = $this::$message['error_payment'];
 
         }else if( $request->transaction_status === 'expired'){
 
