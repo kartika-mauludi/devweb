@@ -46,6 +46,7 @@ class RegisterController extends Controller
             return back ()->withErrors($validator);
         }
 
+     
         DB::beginTransaction(); 
         try {
 
@@ -84,14 +85,18 @@ class RegisterController extends Controller
                 $ref = Session::get('ref');
                 if($ref){
                     $useraffiliate = User::where('referral_code',$ref)->first();
-                    $komisi = AffiliateComission::latest()->first();
-                    $subscribe = SubscribePackage::where('id',Session::get('id'))->first;
-                    if($komisi->type == "percentage"){
-                        $persentase = $komisi->amount;
-                        $komisi_amount = $persentase/100 * $subscribe->price;
-                    }
-                    else if($komisi->type == "fixed"){
-                        $komisi_amount = $komisi->amount;
+                    $cek_komisi = AffiliateComission::all();
+                    $subscribe = SubscribePackage::where('id',Session::get('id'))->first();
+                    $komisi_amount = 10000; 
+                    if($cek_komisi->isNotEmpty()){
+                        $komisi = AffiliateComission::latest()->first();
+                        if($komisi->type == "percentage"){
+                            $persentase = $komisi->amount;
+                            $komisi_amount = $persentase/100 * $subscribe->price;
+                        }
+                        else if($komisi->type == "fixed"){
+                            $komisi_amount = $komisi->amount;
+                        }
                     }
                     UserAffiliate::Create(['user_id' => $useraffiliate->id,'usernew_id' => $user->id , 'status'=>'pending','amount'=>round($komisi_amount, 1)]);
                 };
@@ -123,8 +128,11 @@ class RegisterController extends Controller
                 $datas['user'] = $user->id;
                 $datas['payment'] = $payment->id; 
                 $datas['sub'] = $sub->id;
-                $response = Http::post(route('subscribepayment'), $datas);
-                return $response;
+
+                return redirect()->route('customer/langganan.qris',$payment->user_id);
+
+                // $response = Http::post(route('subscribepayment'), $datas);
+                // return $response;
 
              } catch(\Exception $exp){
                 DB::rollBack();

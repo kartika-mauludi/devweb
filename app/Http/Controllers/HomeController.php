@@ -67,6 +67,7 @@ class HomeController extends Controller
             $subscribes = subscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->first();
         }
         $paid = UserAffiliate::whereHas('payments', function($query){$query->where('status','completed');})->where('User_id',auth::user()->id)->get();
+        // return $paid;
         $wd= UserAffiliate::with('user')->where('user_id',auth::user()->id)->where('status','withdraw')->get();
         $payment = Payment::latest('id')->where('user_id',$id)->first();
         $admin = User::where('is_superadmin',1)->first();

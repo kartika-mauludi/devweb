@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use App\Models\SubscribeRecord;
+use auth;
 
 
 class LoginController extends Controller
@@ -73,6 +75,14 @@ class LoginController extends Controller
             if ($user->is_superadmin == 1) {
                 return redirect()->route('admin.home');
             }else if ($user->is_superadmin	== 0) {
+                $subscribe = SubscribeRecord::where('user_id',auth::user()->id)->first();
+                if($subscribe){
+                    if(\Carbon\Carbon::parse($subscribe->end_date) < now() && !empty($subscribe->end_date)){
+                        $subscribe->account_status = "non-aktif";
+                        $subscribe->save();
+                    }
+                }
+                
                 return redirect()->route('customer.home');
             }else{
                 return redirect()->route('login');

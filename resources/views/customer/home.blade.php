@@ -29,7 +29,7 @@
 
     <!-- Services Section -->
     <section id="tabel" class="services section">
-    @if($payment && $payment->status == "pending" && !empty($payment->redirect_link))
+    @if($payment && $payment->status == "pending" && $sub->account_status == "non-aktif")
       <div class="alert alert-danger alert-dismissible">
         <div class="container">
           <p> Anda Memiliki Tagihan Pembayaran Yang Belum Diselesaikan Klik Tombol Berikut Untuk Melihat Pembayaran Anda
