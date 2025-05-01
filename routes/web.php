@@ -146,6 +146,7 @@ Route::prefix('admin')->group(function(){
     
         Route::post('store', 'store')->name('store');
         Route::put('update/{payment}', 'update')->name('update');
+        Route::post('confirm/{payment}', 'confirm')->name('confirm');
         Route::delete('destroy/{payment}', 'destroy')->name('destroy');
     });
     

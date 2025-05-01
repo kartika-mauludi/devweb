@@ -25,6 +25,7 @@
                                 <th>Package</th>
                                 <th>Start</th>
                                 <th>End</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -36,6 +37,13 @@
                                     <td>{{ $record->subscribePackage->name ?? '' }}</td>
                                     <td>{{ $record->start_date }}</td>
                                     <td>{{ $record->end_date }}</td>
+                                    <td>
+                                        @if ($record->account_status == 'aktif')
+                                            <span class="badge badge-success">{{ $record->account_status }}</span>
+                                        @else
+                                            <span class="badge badge-secondary">{{ $record->account_status }}</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         <form action="{{ route('package-record.destroy', $record->id) }}" onsubmit="return confirm('Apakah anda yakin ?')" method="post">
                                             @csrf
