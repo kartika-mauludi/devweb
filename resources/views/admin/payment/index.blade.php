@@ -52,9 +52,9 @@
                                             @method('DELETE')
 
                                             <div class="btn-group">
-                                                <a href="{{ route('payment.show', $record->id) }}" class="btn btn-sm btn-info">
+                                                <button type="button" class="btn btn-sm btn-info showBtn" data-id="{{ $record->id }}">
                                                     Detail
-                                                </a>
+                                                </button>
                                                 <a @if($record->status == 'pending') href="{{ route('payment.edit', $record->id) }}" @else href="#" @endif class="btn btn-sm btn-warning">
                                                     Edit
                                                 </a>
@@ -73,4 +73,76 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detail Pembayaran</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="" id="paymentForm" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col">
+                            <label for="id_invoice">Id Invoice</label>
+                            <input type="text" id="id_invoice" class="form-control form-control-sm" readonly>
+                        </div>
+                        <div class="form-group col">
+                            <label for="user">Customer</label>
+                            <input type="text" id="user" class="form-control form-control-sm" readonly>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col">
+                            <label for="package">Package</label>
+                            <input type="text" id="package" class="form-control form-control-sm" readonly>
+                        </div>
+                        <div class="form-group col">
+                            <label for="price">Price</label>
+                            <input type="text" id="price" class="form-control form-control-sm" readonly>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col">
+                            <label for="discount">Diskon</label>
+                            <input type="text" id="discount" class="form-control form-control-sm" readonly>
+                        </div>
+                        <div class="form-group col">
+                            <label for="total">Total</label>
+                            <input type="text" id="total" class="form-control form-control-sm" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Konfirm</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
+
+@push('script')
+    <script>
+        $('.showBtn').click(function(){
+            paymentId = $(this).data('id')
+            url = `payment/show/${paymentId}`
+
+            $.get(url, function (payment) {
+                $('#id_invoice').val(payment['record']['id_invoice'])
+                $('#user').val(payment['record']['user'])
+                $('#package').val(payment['record']['package'])
+                $('#price').val(payment['record']['price'])
+                $('#discount').val(payment['record']['discount'])
+                $('#total').val(payment['record']['total'])
+
+                $('#paymentForm').attr('action', payment['url'])
+            });
+
+            $('#paymentModal').modal('show');
+        })
+    </script>
+@endpush
