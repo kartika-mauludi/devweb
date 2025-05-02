@@ -125,6 +125,10 @@ class PaymentController extends Controller
     {
         DB::beginTransaction();
         try{
+
+          
+
+
             $payment->update([
                 'status' => 'completed'
             ]);
@@ -134,6 +138,10 @@ class PaymentController extends Controller
             $input['end_date'] = now()->addDays($pack->days);
             $input['account_status'] = 'aktif';
             $subcribe->update($input);
+
+            SubscribeRecord::where('user_id', $payment->user_id)
+            ->where('id' != $subcribe->id)
+            ->update(['account_status' => 'non_aktif']);
 
             DB::commit();
             $message = $this::$message['updatesuccess'];

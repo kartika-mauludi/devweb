@@ -3,6 +3,7 @@
 
 <main class="hero row justify-content-center">
 <div class="col-md-4 col-lg-4 col-sm-8 order-md-last bg-light shadow-sm m-2 p-5 border border-1">
+    @if($pack->account_status == "non-aktif")
     <div class="text-center mt-3">
          <h4 class="d-flex justify-content-center mb-3">
             <span class="text-primary">Detail Pembayaran</span>
@@ -24,11 +25,50 @@
             </li>
           </ul>
           <h6>Scan Qris di atas dan bayar sesuai total harga paket, setelah selesai konfirmasi pembayaran anda dengan mengirim screnn shot dari pembarayan anda</h6>
-        <a href="https://wa.me/{{ $user->nomor ?? "+6285236868125" class="btn btn-success mt-3">Kirim Bukti Transfer</a>
+        <a href="https://wa.me/{{ $user->nomor ?? "+6285236868125"}}" class="btn btn-success mt-3">Kirim Bukti Transfer</a>
+        <button class="btn btn-primary mt-3" type="button" id="reloadPage" >Cek Status Pembayaran</button>
+      </div>
     </div>
-    </div>
+    @elseif($pack->account_status == "aktif")
+    <script>
+      window.onload = function() {
+      window.location.href = "{{ route('customer.home') }}";
+    };
+  </script>
+    @endif
 </main>
 
 
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const reloadBtn = document.getElementById("reloadPage");
+
+    if (reloadBtn) {
+      reloadBtn.addEventListener("click", function () {
+        sessionStorage.setItem("showSuccess", "{{ $pack->account_status }}");
+        location.reload();
+      });
+    }
+    if (sessionStorage.getItem("showSuccess") === "aktif") {
+      Swal.fire({
+        icon: 'success',
+        title: 'Pembayaran Berhasil',
+        text: 'Silakan lanjutkan ke halaman berikutnya!',
+      }).then(() => {
+        window.location.href = "{{ route('customer.home') }}"
+      });
+      sessionStorage.removeItem("showSuccess");
+    }
+    else if (sessionStorage.getItem("showSuccess") === "non-aktif") {
+      Swal.fire({
+        icon: 'error',
+        title: 'Pembayaran Belum Terkonfirmasi',
+        text: 'Silahkan kirim bukti dan mengkonfirmasi ke admin',
+      });
+      sessionStorage.removeItem("showSuccess");
+    }
+  });
+</script>
 

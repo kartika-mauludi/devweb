@@ -73,7 +73,8 @@ class LanggananController extends Controller
                     'id_invoice' => 'inv-'. sprintf('%06d', $string+1),
                     'price' => Session::get('price'),
                     'discount' => Session::get('discount'),
-                    'status' => 'pending'
+                    'status' => 'pending',
+                    'order_id' => "ORD".rand()
                 ]);
                 DB::commit();
                 
@@ -99,7 +100,8 @@ class LanggananController extends Controller
 
     public function qris($id){
         $user = User::where('is_superadmin',1)->first();
-        $pack = SubscribeRecord::with('subscribePackage')->where('user_id',$id)->first();
+        $pack = SubscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->first();
+        // return $pack;
         return view('customer.qris',compact('pack','user'));
         
     }

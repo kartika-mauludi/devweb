@@ -120,7 +120,8 @@ class RegisterController extends Controller
                     'id_invoice' => 'inv-'. sprintf('%06d', $string+1),
                     'price' => Session::get('price'),
                     'discount' => Session::get('discount'),
-                    'status' => 'pending'
+                    'status' => 'pending',
+                    'order_id' => 'ORD'.rand()
                 ]);
                  DB::commit();
                  Auth::loginUsingId($user->id);
