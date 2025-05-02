@@ -125,10 +125,6 @@ class RegisterController extends Controller
                  DB::commit();
                  Auth::loginUsingId($user->id);
 
-                $datas['user'] = $user->id;
-                $datas['payment'] = $payment->id; 
-                $datas['sub'] = $sub->id;
-
                 return redirect()->route('customer/langganan.qris',$payment->user_id);
 
                 // $response = Http::post(route('subscribepayment'), $datas);

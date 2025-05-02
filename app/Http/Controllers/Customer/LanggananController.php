@@ -51,11 +51,7 @@ class LanggananController extends Controller
     public function newsubscriber(Request $request){
         
 
-        $record = SubscribeRecord::latest('id')->where('user_id',Auth::user()->id)->first();
-        $pack = SubscribePackage::where('id',Session::get('id_pack'))->first();
         $user = User::where('email',$request->email)->first();
-        
-
         $latest = Payment::latest()->first();
         if (! $latest) {
             $string= '0000001';
@@ -80,11 +76,13 @@ class LanggananController extends Controller
                     'status' => 'pending'
                 ]);
                 DB::commit();
-                $datas['user'] = $user->id;
-                $datas['payment'] = $payment->id; 
-                $datas['sub'] = $sub->id;
-                $response = Http::post(route('subscribepayment'), $datas);
-                return $response;
+                
+                return redirect()->route('customer/langganan.qris',$payment->user_id);
+                // $datas['user'] = $user->id;
+                // $datas['payment'] = $payment->id; 
+                // $datas['sub'] = $sub->id;
+                // $response = Http::post(route('subscribepayment'), $datas);
+                // return $response;
                 
             } catch (\Throwable $th) {
                 report($th);
