@@ -21,7 +21,7 @@ class SuperadminController extends Controller
     public function index()
     {
         $data['title']   = $this->title;
-        $data['records'] = User::superadmin()->get();
+        $data['records'] = User::superadmin()->latest()->get();
 
         return view('admin.superadmin.index', $data);
     }

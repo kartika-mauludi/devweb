@@ -22,7 +22,7 @@ class CustomerController extends Controller
     public function index()
     {
         $data['title']   = $this->title;
-        $data['records'] = User::customer()->get();
+        $data['records'] = User::customer()->latest()->get();
 
         return view('admin.customer.index', $data);
     }
