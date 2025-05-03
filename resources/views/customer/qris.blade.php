@@ -38,37 +38,44 @@
     @endif
 </main>
 
-
 @endsection
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-    const reloadBtn = document.getElementById("reloadPage");
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const reloadBtn = document.getElementById("reloadPage");
     if (reloadBtn) {
       reloadBtn.addEventListener("click", function () {
-        sessionStorage.setItem("showSuccess", "{{ $pack->account_status }}");
-        location.reload();
-      });
+        fetch("{{ route('customer/langganan.qris_response', $pack->user_id) }}")
+      .then(response => response.json())
+      .then(data => {
+      if (data.status) {
+        console.log("Status Pembayaran:", data.status);
+        if (data.status === "aktif") {
+          Swal.fire({
+            icon: 'success',
+            title: 'Pembayaran Berhasil',
+            text: 'Silakan lanjutkan ke halaman berikutnya!',
+          }).then(() => {
+            window.location.href = "{{ route('customer.home') }}";
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Pembayaran Belum Terkonfirmasi',
+            text: 'Silahkan kirim bukti ke admin',
+          });
+        }
+    } else {
+      console.error("Data status tidak ditemukan.");
     }
-    if (sessionStorage.getItem("showSuccess") === "aktif") {
-      Swal.fire({
-        icon: 'success',
-        title: 'Pembayaran Berhasil',
-        text: 'Silakan lanjutkan ke halaman berikutnya!',
-      }).then(() => {
-        window.location.href = "{{ route('customer.home') }}"
+  })
+  .catch(error => console.error("Gagal fetch JSON:", error));
       });
-      sessionStorage.removeItem("showSuccess");
-    }
-    else if (sessionStorage.getItem("showSuccess") === "non-aktif") {
-      Swal.fire({
-        icon: 'error',
-        title: 'Pembayaran Belum Terkonfirmasi',
-        text: 'Silahkan kirim bukti dan mengkonfirmasi ke admin',
-      });
-      sessionStorage.removeItem("showSuccess");
     }
   });
 </script>
+
+
+
 

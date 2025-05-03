@@ -26,6 +26,7 @@ use Auth;
 use Illuminate\Support\Arr;
 
 
+
 class RegisterController extends Controller
 {
     public function register(Request $request){
@@ -121,7 +122,7 @@ class RegisterController extends Controller
                     'price' => Session::get('price'),
                     'discount' => Session::get('discount'),
                     'status' => 'pending',
-                    'order_id' => 'ORD'.rand()
+                    'order_id' => rand()
                 ]);
                  DB::commit();
                  Auth::loginUsingId($user->id);

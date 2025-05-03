@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 use Auth;
 use DB;
 use Session;
+use Illuminate\Support\Str;
 
 class LanggananController extends Controller
 {
@@ -74,17 +75,11 @@ class LanggananController extends Controller
                     'price' => Session::get('price'),
                     'discount' => Session::get('discount'),
                     'status' => 'pending',
-                    'order_id' => "ORD".rand()
+                    'order_id' => rand()
                 ]);
                 DB::commit();
                 
                 return redirect()->route('customer/langganan.qris',$payment->user_id);
-                // $datas['user'] = $user->id;
-                // $datas['payment'] = $payment->id; 
-                // $datas['sub'] = $sub->id;
-                // $response = Http::post(route('subscribepayment'), $datas);
-                // return $response;
-                
             } catch (\Throwable $th) {
                 report($th);
                 $message = $this::$message['error_payment'];
@@ -101,9 +96,22 @@ class LanggananController extends Controller
     public function qris($id){
         $user = User::where('is_superadmin',1)->first();
         $pack = SubscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->first();
-        // return $pack;
         return view('customer.qris',compact('pack','user'));
         
+    }
+
+    public function qris_response($id){
+        $status = SubscribeRecord::select('account_status')->latest('id')->where('user_id',$id)->first();
+        if ($status) {
+            return response()->json([
+                "status" => $status->account_status
+            ]);
+        } else {
+            return response()->json([
+                "status" => "non-aktif",
+                "message" => "Data tidak ditemukan"
+            ]);
+        }
     }
 
 }
