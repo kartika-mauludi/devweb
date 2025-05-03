@@ -17,7 +17,7 @@
 
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-sm table-bordered table-hover">
+                    <table class="table table-sm table-bordered table-hover datatable">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -96,8 +96,10 @@
 </div>
 @endsection
 
-@section('script')
+@push('script')
 <script>
+    $('.datatable').DataTable()
+
     function proceedWithdraw(id, userId, amount){
         let url = "{{ route('customer.show', ":userId") }}"
         let url2= "{{ route('user-affiliates.proceed', ":id") }}"
@@ -122,4 +124,4 @@
         })
     }
 </script>
-@endsection
+@endpush
