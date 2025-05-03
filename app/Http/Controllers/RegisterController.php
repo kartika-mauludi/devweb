@@ -26,6 +26,7 @@ use Auth;
 use Illuminate\Support\Arr;
 
 
+
 class RegisterController extends Controller
 {
     public function register(Request $request){
@@ -120,14 +121,11 @@ class RegisterController extends Controller
                     'id_invoice' => 'inv-'. sprintf('%06d', $string+1),
                     'price' => Session::get('price'),
                     'discount' => Session::get('discount'),
-                    'status' => 'pending'
+                    'status' => 'pending',
+                    'order_id' => rand()
                 ]);
                  DB::commit();
                  Auth::loginUsingId($user->id);
-
-                $datas['user'] = $user->id;
-                $datas['payment'] = $payment->id; 
-                $datas['sub'] = $sub->id;
 
                 return redirect()->route('customer/langganan.qris',$payment->user_id);
 

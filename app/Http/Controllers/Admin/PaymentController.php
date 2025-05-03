@@ -123,6 +123,9 @@ class PaymentController extends Controller
 
     public function confirm(Payment $payment)
     {
+        $payment->update([
+            'status' => 'completed'
+        ]);
         DB::beginTransaction();
         try{
             $payment->update([
@@ -135,6 +138,9 @@ class PaymentController extends Controller
             $input['account_status'] = 'aktif';
             $subcribe->update($input);
 
+            SubscribeRecord::where('user_id', $payment->user_id)
+            ->where('id', '!=', $subcribe->id)
+            ->update(['account_status' => 'non-aktif']);
             DB::commit();
             $message = $this::$message['updatesuccess'];
         }catch(Exception $x){

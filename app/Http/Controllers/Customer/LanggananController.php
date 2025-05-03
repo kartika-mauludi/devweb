@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 use Auth;
 use DB;
 use Session;
+use Illuminate\Support\Str;
 
 class LanggananController extends Controller
 {
@@ -51,11 +52,7 @@ class LanggananController extends Controller
     public function newsubscriber(Request $request){
         
 
-        $record = SubscribeRecord::latest('id')->where('user_id',Auth::user()->id)->first();
-        $pack = SubscribePackage::where('id',Session::get('id_pack'))->first();
         $user = User::where('email',$request->email)->first();
-        
-
         $latest = Payment::latest()->first();
         if (! $latest) {
             $string= '0000001';
@@ -77,15 +74,12 @@ class LanggananController extends Controller
                     'id_invoice' => 'inv-'. sprintf('%06d', $string+1),
                     'price' => Session::get('price'),
                     'discount' => Session::get('discount'),
-                    'status' => 'pending'
+                    'status' => 'pending',
+                    'order_id' => rand()
                 ]);
                 DB::commit();
-                $datas['user'] = $user->id;
-                $datas['payment'] = $payment->id; 
-                $datas['sub'] = $sub->id;
-                $response = Http::post(route('subscribepayment'), $datas);
-                return $response;
                 
+                return redirect()->route('customer/langganan.qris',$payment->user_id);
             } catch (\Throwable $th) {
                 report($th);
                 $message = $this::$message['error_payment'];
@@ -101,9 +95,23 @@ class LanggananController extends Controller
 
     public function qris($id){
         $user = User::where('is_superadmin',1)->first();
-        $pack = SubscribeRecord::with('subscribePackage')->where('user_id',$id)->first();
+        $pack = SubscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->first();
         return view('customer.qris',compact('pack','user'));
         
+    }
+
+    public function qris_response($id){
+        $status = SubscribeRecord::select('account_status')->latest('id')->where('user_id',$id)->first();
+        if ($status) {
+            return response()->json([
+                "status" => $status->account_status
+            ]);
+        } else {
+            return response()->json([
+                "status" => "non-aktif",
+                "message" => "Data tidak ditemukan"
+            ]);
+        }
     }
 
 }

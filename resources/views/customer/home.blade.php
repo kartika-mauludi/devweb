@@ -54,6 +54,7 @@
           </div>
         </div>
     @endif
+    
     @if($sub && now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) <=3 && $payment->status == "completed")
       <div class="alert alert-dangery alert-dismissible">
         <div class="container">
@@ -85,6 +86,10 @@
                 <h3>Data Langganan Anda</h3>
                 <h2> {{ $sub->subscribepackage->name }}</h2>
                 <p>Berakhir pada {{ \Carbon\Carbon::parse($sub->end_date)->format("d F Y") }}</p>
+              @elseif(\Carbon\Carbon::parse($sub->end_date) >= now() && $sub->account_status == "non-aktif" )
+                <h3 style="text:red">Anda Belum Berlangganan</h3>
+                <h5 class="my-3">Pilih Paket Untuk Menikmati Layanan Kami</h5>
+                <p> <a href="{{ route('customer/langganan.index') }}" class="btn btn-primary">langganan Sekarang</a> </p>
               @endif
             @else
               <h3 style="text:red">Anda Belum Berlangganan</h3>

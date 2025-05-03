@@ -67,6 +67,7 @@ Route::group(['prefix' => 'customer/langganan', 'as' => 'customer/langganan.', '
     Route::get('/upgrade', 'upgrade')->name('upgrade');
     Route::get('/payment/{id}', 'payment')->name('payment');
     Route::get('/qris/{id}','qris')->name('qris');
+    Route::get('/qris_response/{id}','qris_response')->name('qris_response');
     Route::POST('/newsubscriber','newsubscriber')->name('subscriber');
 });
 

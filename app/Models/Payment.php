@@ -15,7 +15,8 @@ class Payment extends Model
         'id_invoice', 
         'price', 
         'discount', 
-        'status'
+        'status',
+        'order_id'
     ];
 
     public function user()
