@@ -22,7 +22,7 @@
 
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-sm table-bordered table-hover">
+                    <table class="table table-sm table-bordered table-hover datatable">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -106,6 +106,8 @@
 
 @push('script')
     <script>
+        var table = $('.datatable').DataTable()
+        
         $('.akunBtn').click(function(){
             userId = $(this).data('user')
             url = `customer/akun/${userId}`
