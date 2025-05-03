@@ -21,7 +21,7 @@ class SubscribeRecordController extends Controller
     public function index()
     {
         $data['title']   = $this->title;
-        $data['records'] = SubscribeRecord::all();
+        $data['records'] = SubscribeRecord::latest()->get();
 
         return view('admin.package-record.index', $data);
     }

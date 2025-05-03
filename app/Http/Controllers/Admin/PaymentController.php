@@ -23,7 +23,7 @@ class PaymentController extends Controller
     public function index()
     {
         $data['title']   = $this->title;
-        $data['records'] = Payment::all();
+        $data['records'] = Payment::latest()->get();
 
         return view('admin.payment.index', $data);
     }
