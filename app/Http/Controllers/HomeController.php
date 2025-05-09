@@ -66,17 +66,14 @@ class HomeController extends Controller
         else{
             $subscribes = subscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->first();
         }
-        $paid = UserAffiliate::whereHas('payments', function($query){$query->where('status','completed');})->where('User_id',auth::user()->id)->get();
-        // return $paid;
-        $wd= UserAffiliate::with('user')->where('user_id',auth::user()->id)->where('status','withdraw')->get();
+        $ceksub = subscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->first();;
+        $paid = UserAffiliate::select('amount')->whereHas('payments', function($query){$query->where('status','completed');})->where('User_id',auth::user()->id)->get();
+        $wd= UserAffiliate::select('amount')->with('user')->where('user_id',auth::user()->id)->where('status','withdraw')->get();
         $payment = Payment::latest('id')->where('user_id',$id)->first();
         $admin = User::where('is_superadmin',1)->first();
         $univ = University::all();
         $website = UniversityWebsite::with('university')->get();
-        $akun = [];
-        if ($user['akun_id']) {
-            $akun = UniversityAccount::with('university')->wherein('id',$user->akun_id)->get();
-        }
+
 
         $data['admin'] = $admin;
         $data['user'] = $user;
@@ -85,7 +82,7 @@ class HomeController extends Controller
         $data['payment'] = $payment;
         $data['univs'] = $univ;
         $data['websites'] = $website;
-        $data['akuns'] = $akun;
+        $data['ceksub'] = $ceksub;
         
         return view('customer.home',$data);
     }

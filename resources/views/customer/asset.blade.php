@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Dataset</title>
+  <title>Databaseriset</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -276,6 +276,10 @@
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
   <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js" ></script>
   <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
   <!-- Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>

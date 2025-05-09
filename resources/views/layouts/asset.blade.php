@@ -179,15 +179,7 @@
   <script src="{{ asset('assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
   <script src="{{ asset('assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
-
-  <!-- Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
-<!-- <script>
-  function validateNumber(input) {
-  let cleanedValue = input.value.replace(/\D/g, '');
-  input.value = cleanedValue;
-}
-</script> -->
 
 </body>
 

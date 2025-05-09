@@ -95,7 +95,8 @@ class LanggananController extends Controller
 
     public function qris($id){
         $user = User::where('is_superadmin',1)->first();
-        $pack = SubscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->first();
+        $pack = SubscribeRecord::latest('id')->with('subscribePackage','payments')->where('user_id',$id)->first();
+    
         return view('customer.qris',compact('pack','user'));
         
     }

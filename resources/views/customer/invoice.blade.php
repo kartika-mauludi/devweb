@@ -116,7 +116,6 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const element = document.querySelector('.invoice');
-
             html2pdf(element, {
                 margin: 10,
                 filename: '{{ $invoice_id }}',

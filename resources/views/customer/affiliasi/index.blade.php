@@ -192,7 +192,7 @@ function formatRupiah(angka) {
 
             if (withdrawAmount <= 0) {
                 alert("Masukkan jumlah yang valid!");
-                event.preventDefault(); // Mencegah pengiriman form
+                event.preventDefault();
                 return false;
             }
 

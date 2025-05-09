@@ -9,7 +9,16 @@
             <span class="text-primary">Detail Pembayaran</span>
             <span class="badge bg-primary rounded-pill"></span>
           </h4>
+          <h5 class="d-flex justify-content-center mb-3">
+            <span class="text-primary">Afib</span>
+            <span class="badge bg-primary rounded-pill"></span>
+          </h5>
+          <h5 class="d-flex justify-content-center mb-3">
+            <span class="text-primary">No Invoice : {{ $pack->payments->first()->id_invoice }}</span>
+            <span class="badge bg-primary rounded-pill"></span>
+          </h5>
         <img src="{{ asset('assets/img/QR-Code.jpg') }}" width="150px" height="150px" alt="">
+        
           <ul class="list-group mb-3">
             <li class="list-group-item d-flex justify-content-between lh-sm">
               <div>

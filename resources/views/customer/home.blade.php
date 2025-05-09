@@ -15,63 +15,57 @@
 
     @if (session('message'))
       <div class="alert alert-info alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
         {{ session('message') }}
       </div>
     @endsession
 
     @if (session('error_payment'))
       <div class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
         {{ session('error_payment') }}
       </div>
     @endsession
 
     <!-- Services Section -->
-    <section id="tabel" class="services section">
-    @if($payment && $payment->status == "pending" && $sub->account_status == "non-aktif")
-      <div class="alert alert-danger alert-dismissible">
-        <div class="container">
-          <p> Anda Memiliki Tagihan Pembayaran Yang Belum Diselesaikan Klik Tombol Berikut Untuk Melihat Pembayaran Anda
-            <a href="{{ route('customer/langganan.qris',$payment->user_id) }}" class="btn btn-primary my-2">Payment</a>
-          </p>
-        </div>
-      </div>
-    @elseif($payment && $payment->status == "pending" && empty($payment->redirect_link))
-      <div class="alert alert-info alert-dismissible">
+<section id="tabel" class="services section ">
+<div class="container py-3">
+  <div class="row justify-content-center">
+    <div class="col-xl-12 col-lg-12 col-md-12" >
+      @if($payment && $payment->status == "pending" && $ceksub->account_status == "non-aktif" && \Carbon\Carbon::parse($sub->created_at) == now() )
+        <div class="alert alert-danger alert-dismissible">
           <div class="container">
-            <p> Ada masalah ketika registrasi anda sehingga pembayaran anda tidak terdeteksi, silahkan hubungi admin atau klik menu langgalan untuk berlangganan
-              <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary my-2">Mulai Berlangganan</a>
-            </p>
-          </div>
-      </div>
-    @elseif($payment && $payment->status == "failed" && $sub->account_status == "non-aktif" )
-      <div class="alert alert-info alert-dismissible">
-          <div class="container">
-            <p> Kamu belum berlangganan, mari mulai berlangganan untuk menikmati fitur dari kami
-              <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary my-2">Mulai Berlangganan</a>
+            <p> Anda Memiliki Tagihan Pembayaran Yang Belum Diselesaikan Klik Tombol Berikut Untuk Melihat Pembayaran Anda
+              <a href="{{ route('customer/langganan.qris',$payment->user_id) }}" class="btn btn-primary my-2">Payment</a>
             </p>
           </div>
         </div>
-    @endif
-    
-    @if($sub && now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) <=3 && $payment->status == "completed")
-      <div class="alert alert-dangery alert-dismissible">
-        <div class="container">
-          <p> Waktu Langganan Anda Akan Segera Habis, Silahkan Perpanjang Waktu Langganan Anda
-            <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary my-2">Perpanjang Langganan</a>
-          </p>
-        </div>
+       @elseif($payment && $payment->status == "failed" && $sub->account_status == "non-aktif" )
+          <div class="alert alert-info alert-dismissible">
+              <div class="container">
+                <p> Kamu belum berlangganan, mari mulai berlangganan untuk menikmati fitur dari kami
+                  <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary my-2">Mulai Berlangganan</a>
+                </p>
+              </div>
+            </div>
+        @endif
+        @if($sub && now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) <=3 && $payment->status == "completed")
+          <div class="alert alert-dangery alert-dismissible">
+            <div class="container">
+              <p> Waktu Langganan Anda Akan Segera Habis, Silahkan Perpanjang Waktu Langganan Anda
+                <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary my-2">Perpanjang Langganan</a>
+              </p>
+            </div>
+          </div>
+        @endif
       </div>
-    @endif
+    </div>
+  </div>
       <!-- Section Title -->
       <div class="container">
         <div class="row justify-content-center">
-
-      
           <div class="col-xl-6 col-lg-6 col-md-6">
             <div class="service-item position-relative">
-
             @if ($sub)
               <!-- {{ now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) }} -->
               @if(\Carbon\Carbon::parse($sub->end_date) < now())
@@ -98,8 +92,6 @@
             @endif
             </div>
           </div><!-- End Service Item -->
-     
-
           <div class="col-xl-6 col-lg-6 col-md-6">
             <div class="service-item position-relative">
               <h3>Komisi Anda</h3>
@@ -108,9 +100,7 @@
             </div>
           </div><!-- End Service Item -->
         </div>
-
       </div>
-
      <div class="container py-3">
        <div class="row justify-content-center">
          <div class="col-xl-12 col-lg-12 col-md-12" >
@@ -120,20 +110,15 @@
               <h5 class="py-1 px-2"><i class="bi bi-play-fill"></i> Tonton Video Instalasi</h5>
               <h5 class="py-1 px-2"><i class="bi bi-play-fill"></i> Tonton Video Instalasi</h5>
             </div>
-          </div><!-- End Service Item -->
+          </div>
         </div>
       </div>
     </section>
-
-
-    <!-- About Section -->
+    @if(\Carbon\Carbon::parse($sub->end_date) >= now() && $sub->account_status == "aktif" ) 
     <section id="database" class="about section">
-
-      <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <h2 class="my-auto">Databases</h2>
-      </div><!-- End Section Title -->
-
+      </div>
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-12 content">
@@ -147,56 +132,36 @@
               @endforeach
             </select>
           </div>
-      
-            <!-- end search card -->
-            <table id="filterTable" class="display w-100">
+          <table id="filterTable" class="display w-100">
             <thead>
                 <tr>
                     <th>Nama Universitas</th>
                     <th>Judul</th>
-                    <th>URL Website</th>
+                    <!-- <th>URL Website</th> -->
                 </tr>
             </thead>
             <tbody>
                 @foreach ($websites as $index => $web)
                     <tr>
                         <td class="text-nowrap">{{ $web->university->name ?? 'Tidak Diketahui' }}</td>
-                        <td class="text-nowrap">{{ $web->title ?? 'Tidak Diketahui' }}</td>
-                        <!-- <td><a href="#" data-url="{{ $web->url }}" data-bs-toggle="modal" data-bs-target="#loginModal">{{ $web->url }}</a></td> -->
-                        <td><a href="{{ $web->url }}" target="_blank">{{ $web->url }}</a></td>
+                        <td class="text-nowrap"><a href="{{ $web->url }}" target="_blank">{!! $web->title.' <i class="fa-solid fa-up-right-from-square"></i>' ?? 'Tidak Diketahui' !!}</a></td>
                     </tr>
                 @endforeach
             </tbody>
           </table>
-
           </div>
         </div>
       </div>
-
-    </section><!-- /About Section -->
-
-    <div id="loginModal" class="modal fade" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <!-- <iframe id="loginFrame" is="x-frame-bypass" style="height: 80vh;" src=""></iframe> -->
-        </div>
-      </div>
-    </div>
-
-
+    </section>
+    @endif
   </main>
-
   @endsection
-
   @push('script')
   <script>
     $("document").ready(function () {
       $("#filterTable").dataTable({
-        "searching": true
+        "searching": true,
+        "pageLength": 50
       });
       var table = $('#filterTable').DataTable();
       $("#filterTable_filter.dataTables_filter").append($("#categoryFilter"));
@@ -222,34 +187,6 @@
 
       table.draw();
     });
-
-    $('#loginModal').on('show.bs.modal', function (e) {
-      const button = $(e.relatedTarget);
-      const url = button.data('url');
-      $('#loginFrame').attr('src', url);
-    });
-
-    $('#loginFrame').on('load', function () {
-        const iframe = this;
-        try {
-            const currentUrl = iframe.contentWindow.location.href;
-            console.log('Iframe loaded. Current URL:', currentUrl);
-
-            $("#username").val('wjune12');
-            $("#password").val('Pejuang45!@!@');
-            console.log('cok');
-            
-        } catch (e) {
-            console.warn('Tidak bisa mengakses isi iframe karena perbedaan domain.');
-        }
-    });
-
-
-
-
-    $('#loginModal').on('hidden.bs.modal', function () {
-      $('#loginFrame').attr('src', ''); // kosongkan saat modal ditutup
-    });
   </script>
   @if (session('extension_token'))
   <script>
@@ -261,5 +198,4 @@
       });
   </script>
    @endif
-
   @endpush
