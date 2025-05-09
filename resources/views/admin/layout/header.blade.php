@@ -8,7 +8,7 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
+      {{-- <!-- Navbar Search -->
       <li class="nav-item">
         <a class="nav-link" data-widget="navbar-search" href="#" role="button">
           <i class="fas fa-search"></i>
@@ -28,9 +28,9 @@
             </div>
           </form>
         </div>
-      </li>
+      </li> --}}
 
-      <!-- Messages Dropdown Menu -->
+      {{-- <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-comments"></i>
@@ -119,21 +119,17 @@
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
-      </li>
+      </li> --}}
       <li class="nav-item">
-        <a class="nav-link" data-toggle="dropdown" href="#">
+        {{-- <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="fas fa-user"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span class="dropdown-item dropdown-header">{{ auth()->user()->name ?? 'superadmin' }}</span>
-            <div class="dropdown-divider"></div>
-            <form action="{{ route('logout') }}" method="post">
-              @csrf
-              <button type="submit" class="dropdown-item">
-                <i class="fas fa-sign-out-alt mr-2"></i> Logout
-              </button>
-            </form>
-          </div>
+        </a> --}}
+        <form action="{{ route('logout') }}" method="post">
+          @csrf
+          <button type="submit" class="dropdown-item" title="Logout">
+            <i class="fas fa-sign-out-alt mr-2"></i>
+          </button>
+        </form>
       </li>
     </ul>
 </nav>

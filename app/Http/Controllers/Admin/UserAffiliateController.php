@@ -20,7 +20,7 @@ class UserAffiliateController extends Controller
     public function index()
     {
         $data['title']   = $this->title;
-        $data['records'] = UserAffiliate::all();
+        $data['records'] = UserAffiliate::latest()->get();
 
         return view('admin.user-affiliates.index', $data);
     }

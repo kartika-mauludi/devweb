@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\invoice;
 use App\Models\Payment;
 use App\Models\SubscribePackage;
 use App\Models\SubscribeRecord;
@@ -10,6 +11,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
 {
@@ -23,7 +25,7 @@ class PaymentController extends Controller
     public function index()
     {
         $data['title']   = $this->title;
-        $data['records'] = Payment::all();
+        $data['records'] = Payment::latest()->get();
 
         return view('admin.payment.index', $data);
     }
@@ -126,6 +128,8 @@ class PaymentController extends Controller
         $payment->update([
             'status' => 'completed'
         ]);
+        $user = User::find($payment->user_id);
+
         DB::beginTransaction();
         try{
             $payment->update([
@@ -142,6 +146,17 @@ class PaymentController extends Controller
             ->where('id', '!=', $subcribe->id)
             ->update(['account_status' => 'non-aktif']);
             DB::commit();
+            $data = [
+                'name' => $user->name,
+                'email'=> $user->email,
+                'invoice_id' => $payment->id_invoice,
+                'paket' => $subcribe->subscribePackage->name,
+                'start_date' => $subcribe->start_date,
+                'end_date' => $subcribe->end_date,
+                'price' => $subcribe->subscribePackage->price,
+                'status' => 'completed'
+            ];
+            Mail::to($user->email)->send(new invoice($data));
             $message = $this::$message['updatesuccess'];
         }catch(Exception $x){
             report($x);
