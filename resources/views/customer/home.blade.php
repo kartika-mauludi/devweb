@@ -126,6 +126,7 @@
           <div class="category-filter">
             <select id="categoryFilter" class="form-control">
               <option value="show" hidden selected class="bg-muted text-secondary"><i class="fas fa-filter"></i> Filter by University</option>
+              <option value="">Show All</option>
               @foreach ( $univs as $univ )
                    <option value="{{ $univ->name }}">{{ $univ->name }}</option>
               @endforeach
