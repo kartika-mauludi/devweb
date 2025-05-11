@@ -126,9 +126,8 @@
           <div class="category-filter">
             <select id="categoryFilter" class="form-control">
               <option value="show" hidden selected class="bg-muted text-secondary"><i class="fas fa-filter"></i> Filter by University</option>
-              <option value="">Show All</option>
               @foreach ( $univs as $univ )
-               <option value="{{ $univ->name }}">{{ $univ->name }}</option>
+                   <option value="{{ $univ->name }}">{{ $univ->name }}</option>
               @endforeach
             </select>
           </div>
@@ -143,7 +142,13 @@
             <tbody>
                 @foreach ($websites as $index => $web)
                     <tr>
-                        <td class="text-nowrap">{{ $web->university->name ?? 'Tidak Diketahui' }}</td>
+                        <td class="text-nowrap">
+                          @if($web->university->parent == 0 || $web->university->parent === null)
+                              {{ $web->university->name ?? 'Tidak Diketahui' }}
+                          @elseif($web->university->parent != 0 && $web->university->parent !== null)
+                              {{ \App\Models\University::where('id', $web->university->parent)->first()->name ?? 'Tidak Diketahui'}}
+                          @endif
+                        </td>
                         <td class="text-nowrap"><a href="{{ $web->url }}" target="_blank">{!! $web->title.' <i class="fa-solid fa-up-right-from-square"></i>' ?? 'Tidak Diketahui' !!}</a></td>
                     </tr>
                 @endforeach

@@ -18,8 +18,10 @@ class UniversityController extends Controller
 
     public function index()
     {
+        $universities = University::select(['id', 'name'])->get();
+    
         $data['title']   = $this->title;
-
+        $data['universitas'] = $universities;
         return view('admin.universities.index', $data);
     }
     
@@ -127,7 +129,7 @@ class UniversityController extends Controller
 
     public function getData()
     {
-        $universities = University::select(['id', 'name', 'main_url', 'signin_url', 'signout_url','batasan'])->get();
+        $universities = University::select(['id', 'name', 'main_url', 'signin_url', 'signout_url','batasan','parent'])->get();
     
         return response()->json([
             "data" => $universities

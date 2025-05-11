@@ -71,9 +71,8 @@ class HomeController extends Controller
         $wd= UserAffiliate::select('amount')->with('user')->where('user_id',auth::user()->id)->where('status','withdraw')->get();
         $payment = Payment::latest('id')->where('user_id',$id)->first();
         $admin = User::where('is_superadmin',1)->first();
-        $univ = University::all();
+        $univ = University::where('parent','==',0)->where('parent','===',Null)->get();
         $website = UniversityWebsite::with('university')->get();
-
 
         $data['admin'] = $admin;
         $data['user'] = $user;

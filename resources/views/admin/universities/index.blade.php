@@ -69,6 +69,16 @@
                         <label>Batassan Penggunaan Akun</label>
                         <input type="number" name="batasan" class="form-control">
                     </div>
+                    <div class="form-group">
+                        <label>Parent Universitas</label>
+                        <select name="parent" id="parent" class="form-control">
+                             <option value="">-- Pilih Universitas parent --</option>
+                             <option value="0">-- Tidak Ada Parent --</option>
+                             @foreach ( $universitas as $univ )
+                            <option value="{{ $univ->id }}"> {{ $univ->name }} </option>
+                             @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Simpan</button>
@@ -111,6 +121,18 @@
                     <div class="form-group">
                         <label>Batassan Penggunaan Akun</label>
                         <input type="number" name="batasan" id="batasan" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Parent Universitas</label>
+                        <select name="parent" id="editparent" class="form-control">
+                             <option value="">-- Pilih Universitas --</option>
+                             <option value="0">-- Tidak Ada Parent --</option>
+                             @foreach ( $universitas as $univ )
+                                <option value="{{ $univ->id }}" @if(isset($university) && $univ->id == $university->parent) selected @endif>
+                                {{ $univ->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -187,6 +209,9 @@
                 $('#batasan').val(university.batasan);
                 $('#editUniversityForm').attr('action', '/universities/' + university.id);
                 $('#editUniversityModal').modal('show');
+                $('#editUniversityModal').on('shown.bs.modal', function () {
+                    $('#editparent').val(String(university.parent));
+                });
             });
         });
 
