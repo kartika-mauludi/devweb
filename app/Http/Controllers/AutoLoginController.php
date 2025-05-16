@@ -24,7 +24,7 @@ class AutoLoginController extends Controller
         $user = auth::user();
 
         // CEK PEMBAYARAN DAN PAKET YANG AKTIF
-        $payments = Payment::where('user_id', $user->id)
+        $payments = Payment::latest('id')->where('user_id', $user->id)
         ->where('status', 'completed')
         ->whereHas('subscribeRecord', function ($query) {
             $query
