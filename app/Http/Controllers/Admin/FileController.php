@@ -82,6 +82,7 @@ class FileController extends Controller
      */
     public function update(Request $request, file $file)
     {
+
         $request->validate([
             'name' => 'required',
             'type' => 'required',
@@ -103,6 +104,7 @@ class FileController extends Controller
             'status' => $status,
             'message' => $message
         ]);
+        
     }
 
     /**
