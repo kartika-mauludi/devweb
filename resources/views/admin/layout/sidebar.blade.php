@@ -66,6 +66,14 @@
         </a>
       </li>
       <li class="nav-item">
+        <a href="{{ route('file.index') }}" class="nav-link @if(Route::is('file.*')) active @endif">
+          <i class="nav-icon fa fa-file"></i>
+          <p>
+            File
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
         <a href="{{ route('superadmin.index') }}" class="nav-link @if(Route::is('superadmin.*')) active @endif">
           <i class="nav-icon fa fa-user"></i>
           <p>

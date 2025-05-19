@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\AffiliateCommisionController;
 use App\Http\Controllers\Admin\ConfigurationController;
 use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\MidtransConfigController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\SubscribePackageController;
@@ -158,6 +158,16 @@ Route::prefix('admin')->group(function(){
         Route::post('store', 'store')->name('store');
     });
     
+    Route::group(['prefix' => 'file', 'as' => 'file.', 'controller' => FileController::class], function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('data','data')->name('data');
+        Route::post('store', 'store')->name('store');
+        Route::get('edit/{id}', 'edit')->name('edit');
+        Route::put('update/{file}', 'update')->name('update');
+        Route::delete('destroy/{file}', 'destroy')->name('destroy');
+    });
+    
+
     Route::group(['prefix' => 'midtrans-config', 'as' => 'midtrans-config.', 'controller' => MidtransConfigController::class], function(){
         Route::get('setting', 'setting')->name('setting');
         Route::post('store', 'store')->name('store');

@@ -86,6 +86,5 @@ class HomeController extends Controller
         return view('customer.home',$data);
     }
 
-   
 
 }
