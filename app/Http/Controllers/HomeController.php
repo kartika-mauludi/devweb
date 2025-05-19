@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\SubscribeRecord;
 use auth;
 use App\Models\User;
+use App\Models\File;
 use App\Models\Payment;
 use App\Models\SubscribePackage;
 use App\Models\UserAffiliate;
@@ -59,12 +60,12 @@ class HomeController extends Controller
     {
         $id = auth::user()->id;
         $user =  User::with('subscribeRecord.subscribePackage')->find($id);
-        $subscribe = subscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->where('account_status','aktif')->get();
+        $subscribe = SubscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->where('account_status','aktif')->get();
         if(count($subscribe)  >= 1){
-            $subscribes = subscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->where('account_status','aktif')->first();
+            $subscribes = SubscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->where('account_status','aktif')->first();
         }
         else{
-            $subscribes = subscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->first();
+            $subscribes = SubscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->first();
         }
         $ceksub = subscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->first();;
         $paid = UserAffiliate::select('amount')->whereHas('payments', function($query){$query->where('status','completed');})->where('User_id',auth::user()->id)->get();
@@ -73,6 +74,7 @@ class HomeController extends Controller
         $admin = User::where('is_superadmin',1)->first();
         $univ = University::where('parent','==',0)->where('parent','===',Null)->get();
         $website = UniversityWebsite::with('university')->get();
+        $file = File::all();
 
         $data['admin'] = $admin;
         $data['user'] = $user;
@@ -82,9 +84,11 @@ class HomeController extends Controller
         $data['univs'] = $univ;
         $data['websites'] = $website;
         $data['ceksub'] = $ceksub;
+        $data['files'] = $file;
         
         return view('customer.home',$data);
     }
+
 
 
 }

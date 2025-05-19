@@ -105,10 +105,20 @@
        <div class="row justify-content-center">
          <div class="col-xl-12 col-lg-12 col-md-12" >
             <div class="service-item position-relative" style="border:1px">
-              <h3>Ekstensi</h3>
-              <h5 class="pt-3 px-2"><i class="bi bi-download"></i> Unduh</h5>
-              <h5 class="py-1 px-2"><i class="bi bi-play-fill"></i> Tonton Video Instalasi</h5>
-              <h5 class="py-1 px-2"><i class="bi bi-play-fill"></i> Tonton Video Instalasi</h5>
+            <h3> Ekstensi </h3>
+              @if($files)
+                @foreach ($files as $file )
+                  @if($file->type === "extension")
+                  <a href="{{ $file->link }}">
+                  <h5 class="pt-3 px-2"><i class="bi bi-download"></i> Unduh {{ $file->name }}</h5></a>
+                  @endif
+                  @if($file->type === "video")
+                  <a href="{{ $file->link }}">
+                   <h5 class="py-1 px-2"><i class="bi bi-play-fill"></i> {{ $file->name }}</h5>
+                   </a>
+                  @endif
+                @endforeach
+              @endif
             </div>
           </div>
         </div>
