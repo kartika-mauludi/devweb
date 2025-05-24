@@ -48,6 +48,17 @@ class AutoLoginController extends Controller
         $parsedUrl = parse_url($accessUrl);
         
         $baseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $parsedUrl['path'];
+
+        if ($parsedUrl['host'] == 'id.elsevier.com') {
+            $pathuri = $parsedUrl['path'];
+            $first = strpos($pathuri, '/');
+            $second = strpos($pathuri, '/', $first + 1);
+
+            $parsedPath = ($second != false) ? substr($pathuri, 0, $second + 1) : $pathuri;
+            $baseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $parsedPath;
+        } else {
+            $baseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $parsedUrl['path'];
+        }
         
         $query = University::whereRaw("signin_url LIKE ?", [$baseUrl . '%']);
         
