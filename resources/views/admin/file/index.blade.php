@@ -152,7 +152,7 @@
                 },
                 {
                     data: 'file_location',
-                    render: (data, type, row) => data ? `<a href="{{ url('/storage') }}/${data}" target="_blank" download>${data}</a>` : '-'
+                    render: (data, type, row) => data ? `<a href="{{ asset('/storage') }}/${data}" target="_blank" download>${data}</a>` : '-'
                 },
                 { 
                     data: 'id', 
