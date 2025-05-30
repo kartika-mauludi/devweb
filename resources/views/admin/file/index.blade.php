@@ -24,6 +24,7 @@
                                 <th>Name</th>
                                 <th>Type</th>
                                 <th>Link</th>
+                                <th>File Location</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -61,9 +62,13 @@
                              <option value="video"> video </option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group urlinput" style="display: none">
                         <label>URL/Link</label>
                         <input type="url" name="link" id="url" class="form-control">
+                    </div>
+                    <div class="form-group fileinput" style="display: none">
+                        <label>File</label>
+                        <input type="file" name="file_location" id="file_location" class="form-control" accept="application/zip">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -100,9 +105,13 @@
                              <option value="video"> video </option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group urlinput" style="display: none">
                         <label>URL/Link</label>
                         <input type="url" name="link" id="edit_url" class="form-control">
+                    </div>
+                    <div class="form-group fileinput" style="display: none">
+                        <label>File</label>
+                        <input type="file" name="file_location" id="edit_file_location" class="form-control" accept="application/zip">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -141,7 +150,10 @@
                     data: 'link', 
                     render: (data) => data ? `${data}` : '-'
                 },
-                
+                {
+                    data: 'file_location',
+                    render: (data, type, row) => data ? `<a href="{{ url('/storage') }}/${data}" target="_blank" download>${data}</a>` : '-'
+                },
                 { 
                     data: 'id', 
                     render: function(data, type, row) {
@@ -170,7 +182,7 @@
                 $('#editfileForm').attr('action', updateUrl);
                 $('#editfileModal').modal('show');
                 $('#editfileModal').on('shown.bs.modal', function () {
-                    $('#edittype').val(String(file.type));
+                    $('#edittype').val(String(file.type)).change();
                 });
             });
         });
@@ -213,10 +225,17 @@
         $('#addfileForm').on('submit', function (e) {
             e.preventDefault();
             showLoading();
+            var formData = new FormData($(this)[0])
+
             $.ajax({
                 url: $(this).attr('action'),
                 type: 'POST',
-                data: $(this).serialize(),
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
                 success: function (response) {
                     closeLoading();
                     if (response.status == 200) {
@@ -235,14 +254,20 @@
             });
         });
 
-
         $('#editfileForm').on('submit', function (e) {
             e.preventDefault();
             showLoading();
+            var formData = new FormData($(this)[0])
+
             $.ajax({
                 url: $(this).attr('action'),
-                type: 'PUT',
-                data: $(this).serialize(),
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
                 success: function (response) {
                     closeLoading();
                     if (response.status == 200) {
@@ -260,6 +285,17 @@
             });
         });
 
+        $('select[name="type"]').on('change', function (e) {
+            const val = $(this).val()
+
+            if (val == 'extension') {
+                $('.fileinput').show()
+                $('.urlinput').hide()
+            } else {
+                $('.fileinput').hide()
+                $('.urlinput').show()
+            }
+        })
     });
 </script>
 @endpush

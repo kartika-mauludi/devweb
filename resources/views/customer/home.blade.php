@@ -109,7 +109,7 @@
               @if($files)
                 @foreach ($files as $file )
                   @if($file->type === "extension")
-                    <a href="{{ $file->link }}">
+                    <a href="{{ $file->file_location }}" target="_blank" download="">
                       <h5 class="pt-3 px-2"><i class="bi bi-download"></i> Unduh {{ $file->name }}</h5>
                     </a>
                   @endif

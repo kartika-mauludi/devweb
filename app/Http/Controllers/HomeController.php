@@ -74,7 +74,7 @@ class HomeController extends Controller
         $admin = User::where('is_superadmin',1)->first();
         $univ = University::where('parent','==',0)->where('parent','===',Null)->get();
         $website = UniversityWebsite::with('university')->get();
-        $file = File::all();
+        $file = File::latest()->get();
 
         $data['admin'] = $admin;
         $data['user'] = $user;

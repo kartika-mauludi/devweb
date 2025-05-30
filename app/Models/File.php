@@ -9,8 +9,7 @@ class File extends Model
     protected $fillable = [
         'type',
         'link',
-        'name'
+        'name',
+        'file_location'
     ];
-    
-    public $timestamps = false;
 }
