@@ -10,7 +10,7 @@
             <span class="badge bg-primary rounded-pill"></span>
           </h4>
           <h5 class="d-flex justify-content-center mb-3">
-            <span class="text-primary">Afib</span>
+            <span class="text-primary">Afib Rulyansah</span>
             <span class="badge bg-primary rounded-pill"></span>
           </h5>
           <h5 class="d-flex justify-content-center mb-3">

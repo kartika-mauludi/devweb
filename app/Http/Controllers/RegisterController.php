@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\info;
 use App\Mail\notif;
+use App\Mail\new_register;
 use Session;
 use DB;
 use Auth;
@@ -30,6 +31,7 @@ use Illuminate\Support\Arr;
 class RegisterController extends Controller
 {
     public function register(Request $request){
+    
         $data = $request->input();
         $validator =  Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
@@ -126,7 +128,7 @@ class RegisterController extends Controller
                 ]);
                  DB::commit();
                  Auth::loginUsingId($user->id);
-
+                 Mail::to('ludi@gmail.com')->send(new new_register($user));
                 return redirect()->route('customer/langganan.qris',$payment->user_id);
 
                 // $response = Http::post(route('subscribepayment'), $datas);
