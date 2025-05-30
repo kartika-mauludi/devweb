@@ -99,7 +99,11 @@ class FileController extends Controller
         $message = 'File gagal diperbarui!';
 
         if ($request->has('file_location')) {
-            Storage::disk('public')->delete($file->file_location);
+            $exist = Storage::disk('public')->exists($file->file_location);
+            if ($exist) {
+                Storage::disk('public')->delete($file->file_location);
+            }
+
             $input['file_location'] = $request->file('file_location')->storeAs('extensi', $request->file('file_location')->getClientOriginalName(), ['disk' => 'public']);
         }
 
