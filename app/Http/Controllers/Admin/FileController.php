@@ -99,7 +99,7 @@ class FileController extends Controller
         $message = 'File gagal diperbarui!';
 
         if ($request->has('file_location')) {
-            $exist = Storage::disk('public')->exists($file->file_location);
+            $exist = Storage::disk('public')->exists($file->file_location ?? '--');
             if ($exist) {
                 Storage::disk('public')->delete($file->file_location);
             }
@@ -131,7 +131,7 @@ class FileController extends Controller
         $status = 400;
         $message = 'File gagal dihapus!';
 
-        $exist = Storage::disk('public')->exists($file->file_location);
+        $exist = Storage::disk('public')->exists($file->file_location ?? '--');
 
         if ($exist) {
             Storage::disk('public')->delete($file->file_location);
