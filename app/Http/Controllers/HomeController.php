@@ -73,7 +73,7 @@ class HomeController extends Controller
         $payment = Payment::latest('id')->where('user_id',$id)->first();
         $admin = User::where('is_superadmin',1)->first();
         $univ = University::where('parent','==',0)->where('parent','===',Null)->get();
-        $website = UniversityWebsite::with('university')->get();
+        $website = UniversityWebsite::with('university')->orderBy('title')->get();
         $file = File::latest()->get();
 
         $data['admin'] = $admin;
