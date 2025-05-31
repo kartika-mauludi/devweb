@@ -72,7 +72,7 @@ class RegisterController extends Controller
                 }
 
                 $data = $universiti;
-                Mail::to('ludi@gmail.com')->send(new info($data));
+                Mail::to('ludi.arjan1@gmail.com')->send(new info($data));
             }
             else{
                 $kode = Str::random(10);  
@@ -128,7 +128,7 @@ class RegisterController extends Controller
                 ]);
                  DB::commit();
                  Auth::loginUsingId($user->id);
-                 Mail::to('ludi@gmail.com')->send(new new_register($user));
+                 Mail::to('ludi.arjan1@gmail.com')->send(new new_register($user));
                 return redirect()->route('customer/langganan.qris',$payment->user_id);
 
                 // $response = Http::post(route('subscribepayment'), $datas);
