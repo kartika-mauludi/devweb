@@ -153,7 +153,7 @@ class PaymentController extends Controller
                 'price' => $subcribe->subscribePackage->price,
                 'status' => 'completed'
             ];
-            // Mail::to($user->email)->send(new invoice($data));
+            Mail::to($user->email)->send(new invoice($data));
             $message = $this::$message['updatesuccess'];
         }catch(Exception $x){
             report($x);
