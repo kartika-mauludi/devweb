@@ -49,15 +49,11 @@ class RegisterController extends Controller
             return back ()->withErrors($validator);
         }
 
-     
-        DB::beginTransaction(); 
         try {
-
             $univs = University::all();
-           
             if($univs->isEmpty()){
                 $data ="Data Universitas masih belum di isi";
-                Mail::to('ludi@gmail.com')->send(new notif($data));
+                Mail::to('ludi.arjan1@gmail.com')->send(new notif($data));
             }
 
             foreach ($univs as $univ){
@@ -84,7 +80,7 @@ class RegisterController extends Controller
                         'password' => Hash::make($data['password']),
                         'akun_id' => $akun
                     ]);
-            }
+            
                 $ref = Session::get('ref');
                 if($ref){
                     $useraffiliate = User::where('referral_code',$ref)->first();
@@ -126,11 +122,10 @@ class RegisterController extends Controller
                     'status' => 'pending',
                     'order_id' => rand()
                 ]);
-                 DB::commit();
                  Auth::loginUsingId($user->id);
                  Mail::to('ludi.arjan1@gmail.com')->send(new new_register($user));
                 return redirect()->route('customer/langganan.qris',$payment->user_id);
-
+                }
                 // $response = Http::post(route('subscribepayment'), $datas);
                 // return $response;
 
