@@ -135,7 +135,7 @@ class PaymentController extends Controller
             $subcribe = SubscribeRecord::where('id',$payment->subscribe_record_id)->first();
             $pack = SubscribePackage::where('id',$subcribe->subscribe_package_id)->first();
             $input['start_date'] = now();
-            $input['end_date'] = now()->addDays($pack->days);
+            $input['end_date'] = now()->addDays((int) $pack->days);
             $input['account_status'] = 'aktif';
             $subcribe->update($input);
 
