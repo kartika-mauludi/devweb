@@ -125,9 +125,6 @@ class PaymentController extends Controller
 
     public function confirm(Payment $payment)
     {
-        $payment->update([
-            'status' => 'completed'
-        ]);
         $user = User::find($payment->user_id);
 
         DB::beginTransaction();
@@ -156,7 +153,7 @@ class PaymentController extends Controller
                 'price' => $subcribe->subscribePackage->price,
                 'status' => 'completed'
             ];
-            Mail::to($user->email)->send(new invoice($data));
+            // Mail::to($user->email)->send(new invoice($data));
             $message = $this::$message['updatesuccess'];
         }catch(Exception $x){
             report($x);
