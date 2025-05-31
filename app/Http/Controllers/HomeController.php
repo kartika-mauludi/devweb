@@ -47,9 +47,9 @@ class HomeController extends Controller
         $data['activeCustomer'] = User::customer()->whereHas('subscribeRecord', function($query) {
             $query->where('end_date', '>', date('Y-m-d'));
         })->get();
-        $data['inactiveCustomer'] = User::whereHas('subscribeRecord', function($query) {
-            $query->where('end_date', '<=', date('Y-m-d'));
-        })->ordoesntHave('subscribeRecord')->customer()->get();
+        $data['unpaid'] = User::whereHas('payments', function($query) {
+            $query->where('status', '=', "pending");
+        })->get();
         $data['incomes'] = Payment::where('status', 'completed')->get();
         $data['withdrawRequest'] = UserAffiliate::where('status', 'pending')->get();
 

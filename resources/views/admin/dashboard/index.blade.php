@@ -23,14 +23,14 @@
         <!-- small box -->
         <div class="small-box bg-info">
           <div class="inner">
-            <h3>{{ count($inactiveCustomer) }}</h3>
+            <h3>{{ count($unpaid) }}</h3>
   
-            <p>Inactive Customer</p>
+            <p>New Customer</p>
           </div>
           <div class="icon">
             <i class="ion ion-bag"></i>
           </div>
-          <a href="{{ route('package-record.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          <a href="{{ route('payment.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
 
