@@ -70,7 +70,7 @@ class RegisterController extends Controller
                 $data = $universiti;
                 Mail::to('ludi.arjan1@gmail.com')->send(new info($data));
 
-                $message = $this::$message['error_register'];
+                $message = $this::$message['error_akun_univ'];
                 return back()->with('message',$message)->withInput();
             }
 

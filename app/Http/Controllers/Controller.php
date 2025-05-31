@@ -18,6 +18,7 @@ class Controller extends BaseController
         'error' => 'Terjadi kesalahan sistem, hubungi administrator',
         'error_payment' => 'Terjadi kesalahan pada pembayaran, hubungi administrator',
         'error_register' => 'Terjadi kesalahan pada menu register, hubungi administrator',
+        'error_akun_univ' => 'Terjadi kesalahan, hubungi administrator',
         'sukses' => 'Pembayaran berhasil'
     ];
 }
