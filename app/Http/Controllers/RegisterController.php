@@ -46,11 +46,11 @@ class RegisterController extends Controller
         ]);
 
         if($validator->fails()) {
-            return back ()->withErrors($validator);
-        }
+            return back()->withErrors($validator)->withInput();
+       }
 
-        try {
-            $univs = University::all();
+       $univs = University::all();
+           
             if($univs->isEmpty()){
                 $data ="Data Universitas masih belum di isi";
                 Mail::to('ludi.arjan1@gmail.com')->send(new notif($data));
@@ -60,7 +60,7 @@ class RegisterController extends Controller
                 $akun[] = $this->cek_id($univ->id);
                 $univ_id[] = $univ->id;
             }
-    
+
             if($a = array_keys($akun, null, true)){
                 for($i = 0; $i < count($a); $i++){
                     $univid = $univ_id[$a[$i]];
@@ -69,8 +69,14 @@ class RegisterController extends Controller
 
                 $data = $universiti;
                 Mail::to('ludi.arjan1@gmail.com')->send(new info($data));
+
+                $message = $this::$message['error_register'];
+                return back()->with('message',$message)->withInput();
             }
-            else{
+
+     
+        DB::beginTransaction(); 
+        try {
                 $kode = Str::random(10);  
                 $user =  User::create([
                         'name' => $data['name'],
@@ -122,10 +128,11 @@ class RegisterController extends Controller
                     'status' => 'pending',
                     'order_id' => rand()
                 ]);
+                 DB::commit();
                  Auth::loginUsingId($user->id);
                  Mail::to('ludi.arjan1@gmail.com')->send(new new_register($user));
                 return redirect()->route('customer/langganan.qris',$payment->user_id);
-                }
+
                 // $response = Http::post(route('subscribepayment'), $datas);
                 // return $response;
 
@@ -133,7 +140,7 @@ class RegisterController extends Controller
                 DB::rollBack();
                 report($exp);
                 $message = $this::$message['error_register'];
-                return back()->with('message',$message);
+                return back()->with('message',$message)->withInput();
          }
        
        
