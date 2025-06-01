@@ -74,7 +74,8 @@ class ProfilController extends Controller
             'name'  => $request->name,
             'nomor' => $request->nomor,
             'bank_account' => $request->rekening,
-            'bank_name' => $request->bank
+            'bank_name' => $request->bank,
+            'bank_name_account' => $request->akunbank
         ]);
         if($user){
             return back ()->with(['message'=> 'Data Berhasil Diubah','active' => 1]);

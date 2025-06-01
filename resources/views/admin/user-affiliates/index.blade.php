@@ -16,6 +16,7 @@
             </div>
 
             <div class="card-body">
+                <label for="">Withdraw Request</label>
                 <div class="table-responsive">
                     <table class="table table-sm table-bordered table-hover datatable">
                         <thead>
@@ -37,6 +38,56 @@
                                         @if ($record->status == 'pending')
                                             <span class="badge badge-secondary">{{ $record->status }}</span>
                                         @elseif ($record->status == 'withdraw')
+                                            <span class="badge badge-primary">{{ $record->status }}</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('user-affiliates.destroy', $record->id) }}" onsubmit="return confirm('Apakah anda yakin ?')" method="post">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-sm btn-success" @if($record->status == 'withdraw') onclick="proceedWithdraw('{{ $record->id }}', '{{ $record->user_id }}', '{{ $record->amount }}')" @endif>
+                                                    Proses
+                                                </button>
+                                                <a @if($record->status == 'withdraw') href="{{ route('user-affiliates.edit', $record->id) }}" @else href="#" @endif class="btn btn-sm btn-warning">
+                                                    Edit
+                                                </a>
+                                                <button @if($record->status == 'withdraw') type="submit" @else type="button" @endif class="btn btn-sm btn-danger">
+                                                    Hapus
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+                <div class="card-body">
+                <label for="">Withdraw Success</label>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered table-hover datatable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($success as $record)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $record->user->name }}</td>
+                                    <td>{{ $record->amount }}</td>
+                                    <td>
+                                        @if ($record->status == 'pending')
+                                            <span class="badge badge-secondary">{{ $record->status }}</span>
+                                        @elseif ($record->status == 'success')
                                             <span class="badge badge-success">{{ $record->status }}</span>
                                         @endif
                                     </td>
@@ -46,12 +97,12 @@
                                             @method('DELETE')
 
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-success" @if($record->status == 'pending') onclick="proceedWithdraw('{{ $record->id }}', '{{ $record->user_id }}', '{{ $record->amount }}')" @endif>
+                                                <!-- <button type="button" class="btn btn-sm btn-success" @if($record->status == 'withdraw') onclick="proceedWithdraw('{{ $record->id }}', '{{ $record->user_id }}', '{{ $record->amount }}')" @endif>
                                                     Proses
                                                 </button>
                                                 <a @if($record->status == 'pending') href="{{ route('user-affiliates.edit', $record->id) }}" @else href="#" @endif class="btn btn-sm btn-warning">
                                                     Edit
-                                                </a>
+                                                </a> -->
                                                 <button @if($record->status == 'pending') type="submit" @else type="button" @endif class="btn btn-sm btn-danger">
                                                     Hapus
                                                 </button>

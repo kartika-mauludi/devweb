@@ -7,7 +7,6 @@
     <title>Info</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
- <link rel="stylesheet" href="{{ asset('assets/css/mail.css') }}">
  <style>
     body{
     background:#eee;
@@ -114,6 +113,9 @@
             .m3 {
                 margin: 20px;
             }
+            th, td {
+  border-bottom: 1px solid #ddd;
+}
  </style>
 </head>
 <body>
@@ -133,11 +135,33 @@
 				</div>
             </div>
 			
-			<h3>Warning</h3>
-			<h4>
-                {{ $data }}
+			<h3>Request withdraw</h3>
+            <h4>
+                Customer  {{ $data['user']->name }} mengajukan penarikan affiliator sejumlah Rp {{  number_format($data["amount"] , 0, ",", ".")  }}, berikut detail dari customer
+             
             </h4>
-		
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Nama bank</th>
+                        <th>Nomor Rekening</th>
+                        <th>Nama Akun Rekening</th>
+                        <th>Nomor Wa</th>
+                        <th>Jumlah Penarikan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ $data['user']->name }}</td>
+                        <td>{{ $data['user']->bank_name }}</td>
+                        <td>{{ $data['user']->bank_account }}</td>
+                        <td>{{ $data['user']->bank_name_account }}</td>
+                        <td>{{ $data['user']->nomor }}</td>
+                        <td>Rp. {{  number_format($data["amount"] , 0, ",", ".")  }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>    
 	</div>
 </div>

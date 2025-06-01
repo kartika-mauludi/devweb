@@ -67,7 +67,7 @@
 <!-- Button trigger modal -->
 
 <!-- Modal Notif -->
- @if($paid->sum('amount') - $wd->sum('amount') < 100000)
+ @if($paid->sum('amount') - $wd->sum('amount') < 10000)
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -87,7 +87,7 @@
 
 <!--  end Modal Notif  -->
 
-@elseif($paid->sum('amount') - $wd->sum('amount') > 100000)
+@elseif($paid->sum('amount') - $wd->sum('amount') > 10000)
 <!-- Modal withdraw -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -106,12 +106,16 @@
         </div>
         <Label>Data Bank</Label>
         <div class="form-group">
-          <label for="nomor">Nomor Rekening</label>
-          <input type="text" class="form-control" id="rekening" value="{{ auth::user()->bank_account }}" readonly>
-        </div>
-        <div class="form-group">
           <label for="nomor">Nama Bank</label>
           <input type="text" class="form-control" id="bank"  value="{{ auth::user()->bank_name }}" readonly>
+        </div>
+        <div class="form-group">
+          <label for="nomor">Nama Akun di Rekening</label>
+          <input type="text" class="form-control" id="namarekening" value="{{ auth::user()->bank_name_account }}" readonly>
+        </div>
+        <div class="form-group">
+          <label for="nomor">Nomor Rekening</label>
+          <input type="text" class="form-control" id="rekening" value="{{ auth::user()->bank_account }}" readonly>
         </div>
         <small>Pastikan data bank anda sudah sesuai, jika belum silahkan ke menu profil untuk mengubah data bank anda</small>
       </div>
@@ -129,7 +133,7 @@
   </main>
 
 <script>
- const MIN_WITHDRAWAL = 100000;
+ const MIN_WITHDRAWAL = 10000;
 function copy() {
     var span = document.getElementById("pwd_spn");
     var copyText = document.createElement("textarea");

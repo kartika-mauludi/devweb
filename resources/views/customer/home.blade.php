@@ -32,7 +32,7 @@
 <div class="container py-3">
   <div class="row justify-content-center">
     <div class="col-xl-12 col-lg-12 col-md-12" >
-      @if($payment && $payment->status == "pending" && $ceksub->account_status == "non-aktif" && \Carbon\Carbon::parse($sub->created_at) == now() )
+      @if($payment && $payment->status == "pending" && $ceksub->account_status == "non-aktif" && \Carbon\Carbon::parse($sub->created_at)->toDateString() === now()->toDateString())
         <div class="alert alert-danger alert-dismissible">
           <div class="container">
             <p> Anda Memiliki Tagihan Pembayaran Yang Belum Diselesaikan Klik Tombol Berikut Untuk Melihat Pembayaran Anda

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Mail\withdraw;
 use Illuminate\Http\Request;
 use App\Models\UserAffiliate;
 use App\Models\AffiliateComission;
 use App\Models\Payment;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 use auth;
 use DB;
 
@@ -35,8 +37,14 @@ class AffiliasiController extends Controller
     public function store(Request $request){
         $amount = preg_replace('/[^0-9]+/', '', $request->amount);
         $input = $request->except('_token');
+
         try {
-            UserAffiliate::Create(['user_id' => auth::user()->id, 'status'=>'withdraw','amount'=>$amount], $input);
+           UserAffiliate::Create(['user_id' => auth::user()->id, 'status'=>'withdraw','amount'=>$amount], $input);
+           
+            $data["user"] = User::find(auth::user()->id);
+            $data["amount"] = $amount;
+            Mail::to('ludi.arjan1@gmail.com')->send(new withdraw($data));
+           
             $message = $this::$message['createsuccess'];
         } catch (\Throwable $th) {
             report($th);

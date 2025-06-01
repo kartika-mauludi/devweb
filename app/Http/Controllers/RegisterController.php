@@ -92,7 +92,7 @@ class RegisterController extends Controller
                     $useraffiliate = User::where('referral_code',$ref)->first();
                     $cek_komisi = AffiliateComission::all();
                     $subscribe = SubscribePackage::where('id',Session::get('id'))->first();
-                    $komisi_amount = 10000; 
+                   
                     if($cek_komisi->isNotEmpty()){
                         $komisi = AffiliateComission::latest()->first();
                         if($komisi->type == "percentage"){
@@ -102,6 +102,8 @@ class RegisterController extends Controller
                         else if($komisi->type == "fixed"){
                             $komisi_amount = $komisi->amount;
                         }
+                    }else{
+                        $komisi_amount = 10000; 
                     }
                     UserAffiliate::Create(['user_id' => $useraffiliate->id,'usernew_id' => $user->id , 'status'=>'pending','amount'=>round($komisi_amount, 1)]);
                 };

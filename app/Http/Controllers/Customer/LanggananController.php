@@ -9,6 +9,8 @@ use App\Models\SubscribeRecord;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\re_register;
 use Auth;
 use DB;
 use Session;
@@ -78,6 +80,7 @@ class LanggananController extends Controller
                     'order_id' => rand()
                 ]);
                 DB::commit();
+                Mail::to('ludi.arjan1@gmail.com')->send(new re_register($user));
                 
                 return redirect()->route('customer/langganan.qris',$payment->user_id);
             } catch (\Throwable $th) {

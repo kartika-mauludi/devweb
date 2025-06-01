@@ -20,8 +20,8 @@ class UserAffiliateController extends Controller
     public function index()
     {
         $data['title']   = $this->title;
-        $data['records'] = UserAffiliate::latest()->get();
-
+        $data['records'] = UserAffiliate::latest()->where("status","=","withdraw")->get();
+        $data['success'] = UserAffiliate::latest()->where("status","=","success")->get();
         return view('admin.user-affiliates.index', $data);
     }
 
@@ -92,7 +92,7 @@ class UserAffiliateController extends Controller
 
     public function proceed(UserAffiliate $userAffiliate)
     {
-        $input['status'] = 'withdraw';
+        $input['status'] = 'success';
         
         try{
             $userAffiliate->update($input);

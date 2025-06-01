@@ -33,7 +33,8 @@ class User extends Authenticatable implements CanResetPassword
         'bank_account',
         'bank_name',
         'is_superadmin',
-        'akun_id'
+        'akun_id',
+        'bank_name_account'
     ];
 
     /**

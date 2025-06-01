@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
     <!--  All snippets are MIT license http://bootdey.com/license -->
-    <title>Info</title>
+    <title>Withdraw Succes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
  <link rel="stylesheet" href="{{ asset('assets/css/mail.css') }}">
@@ -129,13 +129,11 @@
 							<!-- <img class="img-responsive" alt="iamgurdeeposahan" src="https://bootdey.com/img/Content/avatar/avatar6.png" style="width: 71px; border-radius: 43px;"> -->
 						</div>
 					</div>
-				
 				</div>
             </div>
-			
-			<h3>Warning</h3>
+			<h3>Request Withdraw Success</h3>
 			<h4>
-                {{ $data }}
+             Permintaan Withdraw Sebesar Rp {{  number_format($data["amount"] , 0, ",", ".")  }}, sudah sukkes dikirim, silahkan periksa mutasi bank sesuai yang ditautkan
             </h4>
 		
         </div>    
