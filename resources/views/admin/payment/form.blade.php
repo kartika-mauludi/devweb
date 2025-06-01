@@ -21,7 +21,7 @@
                                 <select name="subscribe_record_id" id="subscribe_record_id" class="form-control form-control-sm" required>
                                     <option value=""></option>
                                     @foreach ($subscribeRecords as $subscribeRecord)
-                                        <option value="{{ $subscribeRecord->id }}" @selected($subscribeRecord->id == ($record->subscribe_record_id ?? 0))>{{ $subscribeRecord->user->name . ' - Paket ' . $subscribeRecord->subscribePackage->name }}</option>
+                                        <option value="{{ $subscribeRecord->id }}" @selected($subscribeRecord->id == ($record->subscribe_record_id ?? 0))>{{ ' - Paket ' . $subscribeRecord->subscribePackage->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

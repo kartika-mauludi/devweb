@@ -110,7 +110,7 @@
           <input type="text" class="form-control" id="bank"  value="{{ auth::user()->bank_name }}" readonly>
         </div>
         <div class="form-group">
-          <label for="nomor">Nama Akun di Rekening</label>
+          <label for="nomor">Atas Nama Rekening</label>
           <input type="text" class="form-control" id="namarekening" value="{{ auth::user()->bank_name_account }}" readonly>
         </div>
         <div class="form-group">

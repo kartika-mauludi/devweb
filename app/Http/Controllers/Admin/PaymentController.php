@@ -26,7 +26,7 @@ class PaymentController extends Controller
     {
         $data['title']   = $this->title;
         $data['records'] = Payment::latest()->get();
-
+        
         return view('admin.payment.index', $data);
     }
 

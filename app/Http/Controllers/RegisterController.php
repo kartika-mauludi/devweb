@@ -132,7 +132,11 @@ class RegisterController extends Controller
                 ]);
                  DB::commit();
                  Auth::loginUsingId($user->id);
-                 Mail::to('ludi.arjan1@gmail.com')->send(new new_register($user));
+                 
+                 $data["user"] = $user;
+                 $data["invoice"] = $payment->id_invoice;
+
+                 Mail::to('ludi.arjan1@gmail.com')->send(new new_register($data));
                 return redirect()->route('customer/langganan.qris',$payment->user_id);
 
                 // $response = Http::post(route('subscribepayment'), $datas);

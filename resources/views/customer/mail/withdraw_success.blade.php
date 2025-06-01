@@ -4,15 +4,18 @@
     <meta charset="utf-8">
     <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
     <!--  All snippets are MIT license http://bootdey.com/license -->
-    <title>Withdraw Succes</title>
+    <title>Withdraw Success</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
  <link rel="stylesheet" href="{{ asset('assets/css/mail.css') }}">
  <style>
-    body{
+     body{
     background:#eee;
     margin-top:20px;
     }
+/*# sourceMappingURL=bootstrap.css.map */
+/* ===bootstrap== */
+
     .text-danger strong {
                 color: #9f181c;
             }
@@ -26,11 +29,11 @@
                 position: relative;
                 box-shadow: 0 1px 21px #acacac;
                 color: #333333;
-                font-family: open sans;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             }
             .receipt-main p {
                 color: #333333;
-                font-family: open sans;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 line-height: 1.42857;
             }
             .receipt-footer h1 {
@@ -114,31 +117,26 @@
             .m3 {
                 margin: 20px;
             }
- </style>
+    th, td {
+  border-bottom: 1px solid #ddd;
+}
+</style>
 </head>
 <body>
-<div class="col-md-12">   
- <div class="row">
+<div style="width:80%; margin:auto;">
+    <div class="receipt-header">
+        <div class="receipt-left">
+            <h1 class="sitename">Databaseriset</h1>
+            <!-- <img class="img-responsive" alt="iamgurdeeposahan" src="https://bootdey.com/img/Content/avatar/avatar6.png" style="width: 71px; border-radius: 43px;"> -->
+        </div>
+    </div>
+    <h2>Request Withdraw Success</h2>
+    <h3>
+        Permintaan Withdraw Sebesar Rp {{  number_format($data["amount"] , 0, ",", ".")  }}, sudah sukkes dikirim, silahkan periksa mutasi bank sesuai yang ditautkan
+    </h3>
 		
-        <div class="receipt-main col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
-            <div class="row">
-    			<div class="receipt-header">
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="receipt-left">
-							<h2 class="sitename">Databaseriset</h2>
-							<!-- <img class="img-responsive" alt="iamgurdeeposahan" src="https://bootdey.com/img/Content/avatar/avatar6.png" style="width: 71px; border-radius: 43px;"> -->
-						</div>
-					</div>
-				</div>
-            </div>
-			<h3>Request Withdraw Success</h3>
-			<h4>
-             Permintaan Withdraw Sebesar Rp {{  number_format($data["amount"] , 0, ",", ".")  }}, sudah sukkes dikirim, silahkan periksa mutasi bank sesuai yang ditautkan
-            </h4>
-		
-        </div>    
-	</div>
 </div>
+
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">

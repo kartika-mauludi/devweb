@@ -131,9 +131,11 @@
             <div div class="modal-body">
                 <p class="fw-semibold">Customer <br>
                 <span class="text-muted" id="name"></span></p>
-                <p class="fw-semibold">Bank Name <br>
+                <p class="fw-semibold">Nama Bank <br>
                 <span class="text-muted mt-0" id="bank_name"></span></p>
-                <p class="fw-semibold">Bank Account <br>
+                <p class="fw-semibold">Atas Nama Rekening <br>
+                <span class="text-muted mt-0" id="bank_name_account"></span></p>
+                <p class="fw-semibold">Nomor Rekening <br>
                 <span class="text-muted" id="bank_account"></span></p>
                 <p class="fw-semibold">Amount <br>
                 <span class="text-muted" id="amount"></span></p>
@@ -163,6 +165,7 @@
             success: function(data) {
                 $('#name').html(data['name'])
                 $('#bank_name').html(data['bank_name'])
+                $('#bank_name_account').html(data['bank_name_account'])
                 $('#bank_account').html(data['bank_account'])
                 $('#amount').html(amount)
                 $('#proceedUrl').attr('href', url2)

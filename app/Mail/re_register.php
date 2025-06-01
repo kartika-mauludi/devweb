@@ -12,13 +12,20 @@ use Illuminate\Queue\SerializesModels;
 class re_register extends Mailable
 {
     use Queueable, SerializesModels;
-    public $user;
+    public $data;
     /**
      * Create a new message instance.
      */
-    public function __construct($user)
+    public function __construct($data)
     {
-        $this->user = $user;
+        $this->data = $data;
+    }
+
+    public function build()
+    {
+        return $this->subject('ReRegister')
+                    ->view('customer.mail.re-register') // ganti dengan view yang sesuai
+                    ->with('data', $this->data);
     }
 
     /**

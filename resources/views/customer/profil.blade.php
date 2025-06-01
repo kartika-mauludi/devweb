@@ -88,7 +88,7 @@
                     <input type="text" class="form-control" id="rekening" value="{{ $user->bank_account }}" readonly>
                   </div>
                   <div class="form-group">
-                    <label for="namarek">Nama Akun Rekening</label>
+                    <label for="namarek">Atas Nama Rekening</label>
                     <input type="text" class="form-control" id="rekening" value="{{ $user->bank_name_account }}" readonly>
                   </div>
                   <div class="form-group">

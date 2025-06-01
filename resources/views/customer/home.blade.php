@@ -49,7 +49,7 @@
               </div>
             </div>
         @endif
-        @if($sub && now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) <=3 && $payment->status == "completed")
+        @if($sub && now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) <=5 && $payment->status == "completed")
           <div class="alert alert-dangery alert-dismissible">
             <div class="container">
               <p> Waktu Langganan Anda Akan Segera Habis, Silahkan Perpanjang Waktu Langganan Anda

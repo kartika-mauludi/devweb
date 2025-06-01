@@ -9,10 +9,13 @@
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
  <link rel="stylesheet" href="{{ asset('assets/css/mail.css') }}">
  <style>
-    body{
+     body{
     background:#eee;
     margin-top:20px;
     }
+/*# sourceMappingURL=bootstrap.css.map */
+/* ===bootstrap== */
+
     .text-danger strong {
                 color: #9f181c;
             }
@@ -26,11 +29,11 @@
                 position: relative;
                 box-shadow: 0 1px 21px #acacac;
                 color: #333333;
-                font-family: open sans;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             }
             .receipt-main p {
                 color: #333333;
-                font-family: open sans;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 line-height: 1.42857;
             }
             .receipt-footer h1 {
@@ -114,50 +117,45 @@
             .m3 {
                 margin: 20px;
             }
-            th, td {
+    th, td {
   border-bottom: 1px solid #ddd;
 }
- </style>
+</style>
 
 </head>
 <body>
-<div class="col-md-12">   
- <div class="row">
-		
-        <div class="receipt-main col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
-            <div class="row">
-    			<div class="receipt-header">
-					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="receipt-left">
-							<h2 class="sitename">Databaseriset</h2>
-							<!-- <img class="img-responsive" alt="iamgurdeeposahan" src="https://bootdey.com/img/Content/avatar/avatar6.png" style="width: 71px; border-radius: 43px;"> -->
-						</div>
-					</div>
-				
-				</div>
+<div style="width:80%; margin:auto;">
+    <div class="receipt-main">
+        <div class="receipt-header">
+            <div class="receipt-left">
+                <h2 class="sitename">New Customer</h2>
+                <!-- <img class="img-responsive" alt="iamgurdeeposahan" src="https://bootdey.com/img/Content/avatar/avatar6.png" style="width: 71px; border-radius: 43px;"> -->
             </div>
-			
-			<h3>New Customer</h3>
-            <div class=" justify-content-center">
-            <table class="table table-hover">
-            <thead>
+        </div>
+		<h3>Ada Customer Baru, silahkan cek wa dan konfirmasi pembayaran</h3>
+        <h3>Berikut Data Customer :</h3>
+        <div style="justify-content: center;">
+            <table class="table table-hover" style="overflow:scroll ;padding: 0.25rem 0.25rem;">
             <tr>
-                <th>Nama</th>
-                <th>Email</th>
-                <th>Nomor HP</th>
+                <th style="text-align:left; font-size: 1rem; padding: 0.25rem 0.25rem; ">No. Invoice</th>
+                <td style="font-size: 1rem;">{{ $data["invoice"] }}</h3>    
             </tr>
-            <tbody>
-                <tr>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->nomor }}</td>
-                </tr>
-            </tbody>
+            <tr>
+                <th style="text-align:left; font-size: 1rem; padding: 0.25rem 0.25rem;">Nama</th>
+                <td style="font-size: 1rem;">{{ $data["user"]->name }}</td>
+            </tr>
+            <tr>
+                <th style="text-align:left; font-size: 1rem; padding: 0.25rem 0.25rem;">Email</th>
+                <td style="font-size: 1rem;">{{ $data["user"]->email }}</td>
+            </tr>
+            <tr>
+                <th style="text-align:left; font-size: 1rem; padding: 0.25rem 0.25rem;">Nomor HP</th>
+                <td style="font-size: 1rem;">{{ $data["user"]->nomor }}</td>
+            </tr>
             </table>
-            </div>
-        </div>    
-	</div>
-</div>
+        </div>
+    </div>
+</div> 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">

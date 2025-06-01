@@ -80,7 +80,10 @@ class LanggananController extends Controller
                     'order_id' => rand()
                 ]);
                 DB::commit();
-                Mail::to('ludi.arjan1@gmail.com')->send(new re_register($user));
+
+                $data["user"] = $user;
+                $data["invoice"] = $payment->id_invoice;
+                Mail::to('ludi.arjan1@gmail.com')->send(new re_register($data));
                 
                 return redirect()->route('customer/langganan.qris',$payment->user_id);
             } catch (\Throwable $th) {

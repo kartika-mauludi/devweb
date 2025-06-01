@@ -133,8 +133,8 @@
 				</div>
             </div>
 			
-			<h3>Hai {{ $user->name  }}</h3>
-			<h4>Kamu menerima email ini karena, Masa Langganan Kamu Mau Habis , silahkan klik tombol berikut untuk memperpanjang masa langganan</h4>
+			<h3>Hai {{ $data["user"]->name  }}</h3>
+			<h4>Kamu menerima email ini karena, Masa Langganan Kamu Mau Habis, silahkan klik tombol berikut untuk memperpanjang masa langganan</h4>
 			<center>
 			<a href="{{ url($url) }}" class="btn m3">Pilih Paket</a> 
 		</center>

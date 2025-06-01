@@ -9,6 +9,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use App\Models\SubscribeRecord;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\reminder;
 use auth;
 
 
@@ -80,6 +82,10 @@ class LoginController extends Controller
                     if(\Carbon\Carbon::parse($subscribe->end_date) < now() && !empty($subscribe->end_date)){
                         $subscribe->account_status = "non-aktif";
                         $subscribe->save();
+                    }
+                    else if(now()->diffInDays(\Carbon\Carbon::parse($subscribe->end_date)) <=5 && !empty($subscribe->end_date)){
+                        $data["user"] = $user;
+                        Mail::to($user->email)->send(new reminder($data));
                     }
                 }
                 
