@@ -197,13 +197,14 @@
                             </tbody>
                             </table>
                             <p>
-                              <a  data-toggle="collapse" href="#riwayat" role="button" aria-expanded="false" aria-controls="riwayat">
+                              <a data-bs-toggle="collapse" href="#riwayat" role="button" aria-expanded="false" aria-controls="riwayat">
                               Riwayat Langganan
                               </a>
                             </p>
                           <div class="collapse" id="riwayat">
                             <div class="card card-body">
-                            <table class="table">
+                            <div class="table-responsive-md">
+                            <table id="list-riwayat" class="table">
                             <thead>
                                 <tr>
                                 <th scope="col">Item</th>
@@ -226,6 +227,7 @@
                              
                             </tbody>
                             </table>
+                            </div>
                             </div>
                           </div>
                         </div>
@@ -268,7 +270,14 @@
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 
-<script>
+
+  <script>
+  $(document).ready(function() {
+  $('#list-riwayat').DataTable({
+    searching: false
+  });
+});
+
     function openPrintPage(id_user, id_sub) {
         // window.open('', '_blank');
         let url = "{{ route('customer/profil.invoice', ['id_user' => ':id_user', 'id_sub' => ':id_sub']) }}";
