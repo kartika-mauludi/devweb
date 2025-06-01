@@ -129,7 +129,7 @@
     <script>
         $('.datatable').DataTable()
 
-        $('.showBtn').click(function(){
+        $('.datatable').on('click', '.showBtn', function(){
             paymentId = $(this).data('id')
             url = `payment/show/${paymentId}`
 
