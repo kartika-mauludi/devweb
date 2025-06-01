@@ -120,7 +120,7 @@
                     <input type="text" class="form-control" id="rekening" name="rekening" value="{{ $user->bank_account }}" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="contoh : 5126411">
                   </div>
                   <div class="form-group">
-                    <label for="nomor">Nama Akun Rekening</label>
+                    <label for="nomor">Atas Nama Rekening</label>
                     <input type="text" class="form-control" id="akunbank" name="akunbank" value="{{ $user->bank_name_account }}">
                   </div>
                   <div class="form-group">

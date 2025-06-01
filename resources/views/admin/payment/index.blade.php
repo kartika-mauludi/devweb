@@ -55,9 +55,9 @@
                                                 <button type="button" class="btn btn-sm btn-info showBtn" data-id="{{ $record->id }}">
                                                     Detail
                                                 </button>
-                                                <a @if($record->status == 'pending') href="{{ route('payment.edit', $record->id) }}" @else href="#" @endif class="btn btn-sm btn-warning">
+                                                <!-- <a @if($record->status == 'pending') href="{{ route('payment.edit', $record->id) }}" @else href="#" @endif class="btn btn-sm btn-warning">
                                                     Edit
-                                                </a>
+                                                </a> -->
                                                 <button @if($record->status == 'pending') type="submit" @else type="button" @endif class="btn btn-sm btn-danger">
                                                     Hapus
                                                 </button>
