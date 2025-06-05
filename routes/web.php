@@ -20,10 +20,12 @@ use App\Http\Controllers\AutoLoginController;
 // use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Models\SubscribePackage;
+use App\Models\UniversityWebsite;
 
 Route::get('/', function () {
     $packages =  SubscribePackage::all();
-    return view('welcome',compact('packages'));
+    $websites = UniversityWebsite::with('university')->orderBy('title')->get();
+    return view('welcome',compact('packages','websites'));
 });
 
 Auth::routes(['register' => false]);
@@ -95,6 +97,7 @@ Route::prefix('admin')->group(function(){
         Route::post('store', 'store')->name('store');
         Route::put('update/{user}', 'update')->name('update');
         Route::delete('destroy/{user}', 'destroy')->name('destroy');
+
     });
     
     Route::group(['prefix' => 'superadmin', 'as' => 'superadmin.', 'controller' => SuperadminController::class], function(){
@@ -106,6 +109,8 @@ Route::prefix('admin')->group(function(){
         Route::post('store', 'store')->name('store');
         Route::put('update/{user}', 'update')->name('update');
         Route::delete('destroy/{user}', 'destroy')->name('destroy');
+        Route::post('config','AdminConfig')->name('config');
+
     });
     
     Route::group(['prefix' => 'package', 'as' => 'package.', 'controller' => SubscribePackageController::class], function(){

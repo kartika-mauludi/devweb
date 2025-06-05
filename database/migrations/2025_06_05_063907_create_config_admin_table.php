@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user_affiliates', function (Blueprint $table) {
-            $table->dropColumn('status');
+        Schema::create('config_admins', function (Blueprint $table) {
+           $table->id();
+           $table->foreignId('user_id')->constrained()->onDelete('cascade');
+           $table->string('email')->nullable();
+           $table->string('nomor')->nullable();
         });
+        
     }
 
     /**
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('user_affiliates', function (Blueprint $table) {
-            $table->enum('status', ['pending', 'withdraw'])->default('pending');
-        });
+        Schema::dropIfExists('config_admin');
     }
 };

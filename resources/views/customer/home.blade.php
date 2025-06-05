@@ -32,7 +32,7 @@
 <div class="container py-3">
   <div class="row justify-content-center">
     <div class="col-xl-12 col-lg-12 col-md-12" >
-      @if($payment && $payment->status == "pending" && $ceksub->account_status == "non-aktif" && \Carbon\Carbon::parse($sub->created_at)->toDateString() === now()->toDateString())
+      @if($payment && $payment->status == "pending" && $ceksub->account_status == "non-aktif" && $sub && \Carbon\Carbon::parse($sub->created_at)->toDateString() === now()->toDateString())
         <div class="alert alert-danger alert-dismissible">
           <div class="container">
             <p> Anda Memiliki Tagihan Pembayaran Yang Belum Diselesaikan Klik Tombol Berikut Untuk Melihat Pembayaran Anda
@@ -40,7 +40,7 @@
             </p>
           </div>
         </div>
-       @elseif($payment && $payment->status == "failed" && $sub->account_status == "non-aktif" )
+       @elseif($payment && $payment->status == "pending" && $sub && $sub->account_status == "non-aktif" )
           <div class="alert alert-info alert-dismissible">
               <div class="container">
                 <p> Kamu belum berlangganan, mari mulai berlangganan untuk menikmati fitur dari kami
@@ -49,7 +49,7 @@
               </div>
             </div>
         @endif
-        @if($sub && now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) <=5 && $payment->status == "completed")
+        @if($sub && now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) <=5 && $payment && $payment->status == "completed")
           <div class="alert alert-dangery alert-dismissible">
             <div class="container">
               <p> Waktu Langganan Anda Akan Segera Habis, Silahkan Perpanjang Waktu Langganan Anda
@@ -124,7 +124,7 @@
         </div>
       </div>
     </section>
-    @if(\Carbon\Carbon::parse($sub->end_date) >= now() && $sub->account_status == "aktif" ) 
+    @if($sub && \Carbon\Carbon::parse($sub->end_date) >= now() && $sub->account_status == "aktif" ) 
     <section id="database" class="about section">
       <div class="container section-title" data-aos="fade-up">
         <h2 class="my-auto">Databases</h2>
@@ -146,7 +146,7 @@
             <thead>
                 <tr>
                     <th>Nama Universitas</th>
-                    <th>Judul</th>
+                    <th>Judul Database</th>
                     <!-- <th>URL Website</th> -->
                 </tr>
             </thead>

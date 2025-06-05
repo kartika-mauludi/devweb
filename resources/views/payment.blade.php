@@ -99,7 +99,7 @@
           </ul>
             <div class="input-group">
             <button class="w-100 btn btn-primary btn-lg rounded" type="submit">Daftar</button>
-            <a href="{{ url('/#harga') }}" class="w-100 btn btn-success btn-lg mt-3 rounded" type="submit">Ubah Paket</a>
+            <a href="@if(request('ref')) {{ route('refferal',['ref' => request('ref') ] ) }}  @else {{ url('/#harga') }} @endif" class="w-100 btn btn-success btn-lg mt-3 rounded" type="submit">Ubah Paket</a>
             </div>
         </div>
         <!-- end of detail pemesanan -->

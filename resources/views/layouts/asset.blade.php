@@ -78,8 +78,8 @@
 
       <a href="{{ url('/') }}" class="logo d-flex align-items-center me-auto">
         <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.webp" alt=""> -->
-        <h1 class="sitename">Databaseriset</h1>
+        <img src="{{ asset('icons/logo.png') }}" class="logo" alt="">
+        <!-- <h1 class="sitename">Databaseriset</h1> -->
       </a>
 
       <nav id="navmenu" class="navmenu">

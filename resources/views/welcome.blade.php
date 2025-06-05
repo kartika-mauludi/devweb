@@ -10,9 +10,10 @@
       <div class="container">
         <div class="row gy-4">
           <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="zoom-out">
-            <h1 class="judul-light">ALL IN ONE PLATFORM FOR ALL RESEACH DATABASE.</h1>
-              <h4 class="judul-light mt-4">PERTAMA DI INDONESIA. Semua Database Riset Premium dalam Satu Langganan</h4>
-               <small class="mt-2" style="color: #f5f6f8f4;">Akses 700+ database riset seperti Scopus, Web of Science, Springer, Elsevier, Sage, Taylor & Francis, Wiley, dan banyak lagi hanya dalam satu langganan.</small>
+            <h1 class="judul-light">ALL IN ONE PLATFORM FOR ALL RESEACH DATABASE</h1>
+              <h4 class="judul-light mt-4">PERTAMA DI INDONESIA</h4>
+              <h4 class="judul-light mt-4">Semua Database Riset Premium dalam Satu Langganan</h4>
+              <small class="mt-2" style="color: #f5f6f8f4;">Akses 700+ database riset seperti Scopus, Web of Science, Springer, Elsevier, Sage, Taylor & Francis, Wiley, dan banyak lagi hanya dalam satu langganan</small>
             <div class="d-flex mt-4">
               <a href="#harga" class="btn-get-started">Coba Sekarang</a>
               <!-- <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox btn-watch-video d-flex align-items-center "><i class="bi bi-play-circle"></i><span>Watch Video</span></a> -->
@@ -127,7 +128,7 @@
         <div class="pricing-item">
         
             <h2>{{ $pack->name }}</h2>
-            <span><s>Rp. 200.000</s></span>
+            <span><s>Rp. {{ number_format($pack->discount , 0, ",", ".")}}</s></span>
             <h4><sup>Rp.</sup>{{ number_format($pack->price , 0, ",", ".")}}<span></span></h4>
             <small>Promo hemat untuk akses cepat selama sebulan penuh.</small>
             <ul>
@@ -259,8 +260,43 @@
                 <i class="faq-icon bi bi-question-circle"></i>
                 <h3>Apakah ada kebijakan refund di databaseriset.com?</h3>
                 <div class="faq-content">
-                <p>Maaf, kami tidak menawarkan refund. Pastikan Anda membaca detail paket dengan cermat sebelum membeli.</p>
-              </div>
+                  <p>Maaf, kami tidak menawarkan refund. Pastikan Anda membaca detail paket dengan cermat sebelum membeli.</p>
+                </div>
+                <i class="faq-toggle bi bi-chevron-right"></i>
+              </div><!-- End Faq item-->
+
+              <div class="faq-item" data-aos="fade-up" data-aos-delay="600">
+                <i class="faq-icon bi bi-question-circle"></i>
+                <h3>Apa saja list database yang bisa diakses?</h3>
+                <div class="faq-content">
+                <p>Kami memiliki 700++ database dari 2 universitas ternama di United State. Berikut list database yang bisa digunakan.</p>
+                 <div class="justify-content-center col-lg-10 mx-auto mt-3" style=" overflow: auto;  height: 400px;">
+                   <table class="table table-bordered table-responsive">
+                     <thead class="sticky-top">
+                       <tr class="table-active">
+                         <th>#</th>
+                         <th>Universitas</th>
+                         <th>Judul Database</th>
+                       </tr>
+                     </thead>
+                     <tbody>
+                     @foreach ($websites as $index => $web)
+                     <tr>
+                       <td>{{ $loop->iteration }}</td>
+                         <td class="text-nowrap">
+                           @if($web->university->parent == 0 || $web->university->parent === null)
+                               {{ $web->university->name ?? 'Tidak Diketahui' }}
+                           @elseif($web->university->parent != 0 && $web->university->parent !== null)
+                               {{ \App\Models\University::where('id', $web->university->parent)->first()->name ?? 'Tidak Diketahui'}}
+                           @endif
+                         </td>
+                         <td class="text-nowrap">{!! $web->title.' <i class="fa-solid fa-up-right-from-square"></i>' ?? 'Tidak Diketahui' !!}</td>
+                     </tr>
+                      @endforeach
+                     </tbody>
+                   </table>
+                 </div>
+                </div>
                 <i class="faq-toggle bi bi-chevron-right"></i>
               </div><!-- End Faq item-->
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\ConfigAdmin;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -22,7 +23,7 @@ class SuperadminController extends Controller
     {
         $data['title']   = $this->title;
         $data['records'] = User::superadmin()->latest()->get();
-
+        $data['config'] = ConfigAdmin::first();
         return view('admin.superadmin.index', $data);
     }
 
@@ -113,5 +114,33 @@ class SuperadminController extends Controller
         }
 
         return redirect()->route('superadmin.index')->with('message', $message);
+    }
+
+    public function AdminConfig(Request $request){
+        $input = $request->validate([   
+            'email' => 'required',
+            'nomor' => 'required'
+        ]);
+        
+        $status = 400;
+        $message = 'File gagal disimpan!';
+        
+        if(ConfigAdmin::count() >= 1){
+            $ConfigAdmin = ConfigAdmin::find($request->id);
+            $result =  $ConfigAdmin->update($input);
+        }
+        else{
+            $result = ConfigAdmin::create($input);
+        }
+
+        if ($result) {
+            $status = 200;
+            $message = 'File berhasil disimpan!';
+        }
+
+        return response()->json([
+            'status' => $status,
+            'message' => $message
+        ]);
     }
 }

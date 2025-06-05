@@ -18,14 +18,20 @@
         <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
         <div class="pricing-item">
             <h3>{{ $pack->name }}</h3>
+            <span><s>Rp. {{ number_format($pack->discount , 0, ",", ".")}}</s></span>
             <h4><sup>Rp.</sup>{{ number_format($pack->price , 0, ",", ".")}}<span></span></h4>
+            <small>Promo hemat untuk akses cepat selama sebulan penuh.</small>
             <ul>
-            <li><i class="bi bi-check"></i> <span>Quam adipiscing vitae proin</span></li>
-            <li><i class="bi bi-check"></i> <span>Nec feugiat nisl pretium</span></li>
-            <li><i class="bi bi-check"></i> <span>Nulla at volutpat diam uteera</span></li>
-            <li class="na"><i class="bi bi-x"></i> <span>Pharetra massa massa ultricies</span></li>
-            <li class="na"><i class="bi bi-x"></i> <span>Massa ultricies mi quis hendrerit</span></li>
-            </ul>
+            <li><i class="bi bi-check"></i> <span>Akses 700+ database riset premium</span></li>
+            <li><i class="bi bi-check"></i> <span>Pembaruan otomatis</span></li>
+            <li><i class="bi bi-check"></i> <span>Akses cepat ke database riset premium</span></li>
+            <li><i class="bi bi-check"></i> <span>Bantuan fast respon</span></li>
+            <li><i class="bi bi-check"></i> <span>Akses cepat ke database riset premium</span></li>
+            @if($loop->iteration == "2")
+            <li><i class="bi bi-check"></i> <span>Hemat 20% dibandingkan langganan bulanan</span></li>
+            @elseif($loop->iteration == "3")
+            <li><i class="bi bi-check"></i> <span>Hemat 33% dibandingkan langganan bulanan</span></li>
+            @endif
             <a href="{{ route('payment',['id' => $pack->id, 'ref' => request('ref') ] ) }}" class="buy-btn">Pilih Paket</a>
         </div>
         </div><!-- End Pricing Item -->

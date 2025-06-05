@@ -167,7 +167,9 @@ h6 {
 }
 
 .header .logo img {
-  max-height: 36px;
+  max-height: 50px;
+  object-fit: contain;
+  max-width: 300px;
   margin-right: 8px;
 }
 
@@ -1993,6 +1995,7 @@ section,
   transition: 0.3s ease-in-out;
   visibility: hidden;
   opacity: 0;
+  max-height: 0;
 }
 
 .faq-2 .faq-container .faq-item .faq-content p {
@@ -2033,6 +2036,7 @@ section,
   visibility: visible;
   opacity: 1;
   padding-top: 10px;
+  max-height: max-content;
 }
 
 .faq-2 .faq-container .faq-active .faq-toggle {
