@@ -22,6 +22,8 @@
                             <tr>
                                 <th>#</th>
                                 <th>Customer</th>
+                                <th>Email</th>
+                                <th>Phone</th>
                                 <th>Package</th>
                                 <th>Start</th>
                                 <th>End</th>
@@ -34,10 +36,12 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $record->user->name ?? '' }}</td>
+                                    <td>{{ $record->user->email ?? '' }}</td>
+                                    <td>{{ $record->user->nomor ?? '' }}</td>
                                     <td>{{ $record->subscribePackage->name ?? '' }}</td>
                                     <td>{{ $record->start_date }}</td>
                                     <td>{{ $record->end_date }}</td>
-                                    <td>
+                                    <td data-filter="{{ $record->account_status }}">
                                         @if ($record->account_status == 'aktif')
                                             <span class="badge badge-success">{{ $record->account_status }}</span>
                                         @else

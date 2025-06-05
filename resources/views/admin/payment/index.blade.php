@@ -23,6 +23,8 @@
                                 <th>#</th>
                                 <th>Id Invoice</th>
                                 <th>Customer</th>
+                                <th>Email</th>
+                                <th>Phone</th>
                                 <th>Package</th>
                                 <th>Total</th>
                                 <th>Status</th>
@@ -35,6 +37,8 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $record->id_invoice }}</td>
                                     <td>{{ $record->subscribeRecord->user->name ?? '' }}</td>
+                                    <td>{{ $record->subscribeRecord->user->email ?? '' }}</td>
+                                    <td>{{ $record->subscribeRecord->user->nomor ?? '' }}</td>
                                     <td>{{ $record->subscribeRecord->subscribePackage->name ?? '' }}</td>
                                     <td>{{ $record->grandtotal() }}</td>
                                     <td>

@@ -108,7 +108,7 @@
     <script>
         var table = $('.datatable').DataTable()
         
-        $('.akunBtn').click(function(){
+        table.on('click', '.akunBtn' ,function(){
             userId = $(this).data('user')
             url = `customer/akun/${userId}`
             parent = $('#akun')
