@@ -38,6 +38,8 @@
 
                         <label for="">Data Bank</label>
 
+                        <hr>
+
                         <div class="row">
                             <div class="col-12 col-sm-6 form-group">
                                 <label for="bank_name" class="form-label">Nama Bank</label>
@@ -50,11 +52,28 @@
                             <div class="col-12 col-sm-6 form-group">
                                 <label for="bank_account" class="form-label">Nomor Rekening</label>
                                 <input type="number" name="bank_account" id="bank_account" class="form-control form-control-sm" value="{{ $record->bank_account ?? '' }}" required>
-                            </div>
-                           
+                            </div>                           
                         </div>
 
-                       
+                        <label for="">Data Langganan</label>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-12 col-sm-6 form-group">
+                                <label for="package_id" class="form-label">Paket Langganan</label>
+                                <select name="package_id" id="package_id" class="form-control form-control-sm" @required(!isset($record))>
+                                    <option value=""></option>
+                                    @foreach ($packages as $package)
+                                        <option value="{{ $package->id }}">{{ $package->name.' - '.$package->price }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12 col-sm-6 form-group">
+                                <label for="start_date" class="form-label">Start Date</label>
+                                <input type="date" name="start_date" id="start_date" class="form-control form-control-sm" value="{{ $record->start_date ?? 0.00 }}" @required(!isset($record))>
+                            </div>
+                        </div>
 
                         <div class="row mt-3">
                             <div class="col-12">

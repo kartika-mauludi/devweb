@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Payment;
+use App\Models\SubscribePackage;
+use App\Models\SubscribeRecord;
 use App\Models\UniversityAccount;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -33,6 +38,7 @@ class CustomerController extends Controller
         $data['label'] = 'Tambah';
         $data['url']   = route('customer.store');
         $data['prev']  = route('customer.index');
+        $data['packages'] = SubscribePackage::all();
 
         return view('admin.customer.form', $data);
     }
@@ -45,11 +51,40 @@ class CustomerController extends Controller
             $input['password'] = Hash::make($request->password);
         }
 
+        DB::beginTransaction();
         try{
-            User::create($input);
+            $user = User::create($input);
+            $package = SubscribePackage::find($request->package_id);
+            $start = Carbon::createFromFormat('Y-m-d', $request->start_date);
+            $end   = $start->copy()->addDays((int) $package->days);
+            
+            if ($package) {
+                $subs['user_id'] = $user->id;
+                $subs['subscribe_package_id'] = $package->id;
+                $subs['start_date'] = $start;
+                $subs['end_date'] = $end;
+                $subs['status'] = 'aktif';
+    
+                $subsrecord = SubscribeRecord::create($subs);
+                $latest = Payment::latest()->first();
+                if (! $latest) {
+                    $string= '0000001';
+                }else{
+                    $string = preg_replace("/[^0-9\.]/", '', $latest->id_invoice);
+                }
+                $payment['user_id'] = $user->id;
+                $payment['subscribe_record_id'] = $subsrecord->id;
+                $payment['id_invoice'] = 'inv-'. sprintf('%06d', $string+1);
+                $payment['price'] = $package->price;
+                $payment['status'] = 'completed';
 
+                Payment::create($payment);
+            }
+
+            DB::commit();
             $message = $this::$message['createsuccess'];
         }catch(Exception $x){
+            DB::rollBack();
             report($x);
             $message = $this::$message['error'];
         }
@@ -78,6 +113,7 @@ class CustomerController extends Controller
         $data['url']   = route('customer.update', $user->id);
         $data['prev']  = route('customer.index');
         $data['record']= $user;
+        $data['packages'] = SubscribePackage::all();
 
         return view('admin.customer.form', $data);
     }
@@ -91,7 +127,34 @@ class CustomerController extends Controller
 
         try{
             $user->update($input);
+            $package = SubscribePackage::find($request->package_id);
 
+            if ($package) {
+                $start = Carbon::createFromFormat('Y-m-d', $request->start_date);
+                $end   = $start->copy()->addDays((int) $package->days);
+                $subs['start_date'] = $start;
+                $subs['end_date'] = $end;
+    
+                $subsrecord = SubscribeRecord::updateOrCreate([
+                    'user_id' => $user->id,
+                    'subscribe_package_id' => $package->id,
+                    'status' => 'aktif'
+                ],  $subs);
+
+                $latest = Payment::latest()->first();
+                if (! $latest) {
+                    $string= '0000001';
+                }else{
+                    $string = preg_replace("/[^0-9\.]/", '', $latest->id_invoice);
+                }
+                $payment['user_id'] = $user->id;
+                $payment['subscribe_record_id'] = $subsrecord->id;
+                $payment['id_invoice'] = 'inv-'. sprintf('%06d', $string+1);
+                $payment['price'] = $package->price;
+                $payment['status'] = 'completed';
+
+                Payment::create($payment);
+            }
             $message = $this::$message['updatesuccess'];
         }catch(Exception $x){
             report($x);
