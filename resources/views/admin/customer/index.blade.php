@@ -30,7 +30,7 @@
                                 <th>Email</th>
                                 <th>Reff. Code</th>
                                 <th>Akun Id</th>
-                                <th>Action</th>
+                                <th class="notexport">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -106,7 +106,23 @@
 
 @push('script')
     <script>
-        var table = $('.datatable').DataTable()
+        var table = $('.datatable').DataTable({
+            layout: {
+                topStart: {
+                    buttons: [
+                        'pageLength',
+                        {
+                            extend: 'excel',
+                            text: 'download',
+                            title: 'Databaseriset - Data customer',
+                            exportOptions: {
+                                columns: ':not(.notexport)'
+                            }
+                        }
+                    ]
+                }
+            }
+        })
         
         table.on('click', '.akunBtn' ,function(){
             userId = $(this).data('user')

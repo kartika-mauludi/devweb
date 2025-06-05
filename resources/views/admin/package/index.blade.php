@@ -17,7 +17,7 @@
 
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-sm table-bordered table-hover">
+                    <table class="table table-sm table-bordered table-hover datatable">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -25,7 +25,7 @@
                                 <th>Price</th>
                                 <th>Discount</th>
                                 <th>Days</th>
-                                <th>Action</th>
+                                <th class="notexport">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -61,3 +61,25 @@
     </div>
 </div>
 @endsection
+
+@push('script')
+    <script>
+        var table = $('.datatable').DataTable({
+            layout: {
+                topStart: {
+                    buttons: [
+                        'pageLength',
+                        {
+                            extend: 'excel',
+                            text: 'download',
+                            title: 'Databaseriset - Data Paket Langganan',
+                            exportOptions: {
+                                columns: ':not(.notexport)'
+                            }
+                        }
+                    ]
+                }
+            }
+        })
+    </script>
+@endpush

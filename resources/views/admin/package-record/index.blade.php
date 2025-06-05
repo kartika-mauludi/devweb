@@ -28,7 +28,7 @@
                                 <th>Start</th>
                                 <th>End</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                <th class="notexport">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -76,6 +76,22 @@
 
 @push('script')
     <script>
-        $('.datatable').DataTable()
+        $('.datatable').DataTable({
+            layout: {
+                topStart: {
+                    buttons: [
+                        'pageLength',
+                        {
+                            extend: 'excel',
+                            text: 'download',
+                            title: 'Databaseriset - Data Master Langganan',
+                            exportOptions: {
+                                columns: ':not(.notexport)'
+                            }
+                        }
+                    ]
+                }
+            }
+        })
     </script>
 @endpush

@@ -18,14 +18,14 @@
             <div class="card-body">
                 <label for="">Withdraw Request</label>
                 <div class="table-responsive">
-                    <table class="table table-sm table-bordered table-hover datatable">
+                    <table class="table table-sm table-bordered table-hover datatable-request">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Customer</th>
                                 <th>Amount</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                <th class="notexport">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -68,14 +68,14 @@
                 <div class="card-body">
                 <label for="">Withdraw Success</label>
                 <div class="table-responsive">
-                    <table class="table table-sm table-bordered table-hover datatable">
+                    <table class="table table-sm table-bordered table-hover datatable-success">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Customer</th>
                                 <th>Amount</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                <th class="notexport">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -151,7 +151,41 @@
 
 @push('script')
 <script>
-    $('.datatable').DataTable()
+    $('.datatable-request').DataTable({
+        layout: {
+            topStart: {
+                buttons: [
+                    'pageLength',
+                    {
+                        extend: 'excel',
+                        text: 'download',
+                        title: 'Databaseriset - Data Withdraw Request',
+                        exportOptions: {
+                            columns: ':not(.notexport)'
+                        }
+                    }
+                ]
+            }
+        }
+    })
+
+    $('.datatable-success').DataTable({
+        layout: {
+            topStart: {
+                buttons: [
+                    'pageLength',
+                    {
+                        extend: 'excel',
+                        text: 'download',
+                        title: 'Databaseriset - Data Withdraw Success',
+                        exportOptions: {
+                            columns: ':not(.notexport)'
+                        }
+                    }
+                ]
+            }
+        }
+    })
 
     function proceedWithdraw(id, userId, amount){
         let url = "{{ route('customer.show', ":userId") }}"

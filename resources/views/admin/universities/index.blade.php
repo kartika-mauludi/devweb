@@ -26,7 +26,7 @@
                             <th>Signin URL</th>
                             <th>Signout URL</th>
                             <th>Batasan Penggunaan Akun</th>
-                            <th class="fit text-center">Aksi</th>
+                            <th class="fit text-center notexport">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -191,6 +191,21 @@
                     }
                 }
             ],
+            layout: {
+                topStart: {
+                    buttons: [
+                        'pageLength',
+                        {
+                            extend: 'excel',
+                            text: 'download',
+                            title: 'Databaseriset - Data Universitas',
+                            exportOptions: {
+                                columns: ':not(.notexport)'
+                            }
+                        }
+                    ]
+                }
+            },
             initComplete: function () {
                 $(this).wrap('<div class="table-responsive"></div>');
             }

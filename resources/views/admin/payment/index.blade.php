@@ -28,7 +28,7 @@
                                 <th>Package</th>
                                 <th>Total</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                <th class="notexport">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -131,7 +131,23 @@
 
 @push('script')
     <script>
-        $('.datatable').DataTable()
+        $('.datatable').DataTable({
+            layout: {
+                topStart: {
+                    buttons: [
+                        'pageLength',
+                        {
+                            extend: 'excel',
+                            text: 'download',
+                            title: 'Databaseriset - Data Master Pembayaran',
+                            exportOptions: {
+                                columns: ':not(.notexport)'
+                            }
+                        }
+                    ]
+                }
+            }
+        })
 
         $('.datatable').on('click', '.showBtn', function(){
             paymentId = $(this).data('id')

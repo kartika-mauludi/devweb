@@ -33,10 +33,17 @@
   <link rel="stylesheet" href="{{ asset('admin/plugins/summernote/summernote-bs4.min.css') }}">
   <!-- Data table -->
   <link rel="stylesheet" href="{{ asset('admin/dist/css/datatable.min.css') }}">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.3/css/buttons.dataTables.css">
   <!-- select2 -->
   <link rel="stylesheet" href="{{ asset('admin/dist/css/select2.min.css') }}">
   <!-- Custom CSS -->
   <link rel="stylesheet" href="{{ asset('admin/custom/css/custom.css?v=1.0') }}">
+
+  <style>
+      .buttons-excel {
+          display: none
+      }
+  </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -151,6 +158,9 @@
 
 <!-- Select 2 -->
 <script src="{{ asset('admin/dist/js/select2.min.js') }}"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.3/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.3/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
 @stack('script')
 
