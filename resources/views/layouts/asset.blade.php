@@ -16,8 +16,8 @@
   <link href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
 
   <!-- Favicons -->
-  <link rel="icon" sizes="32x32" href="{{ asset('icons/favicon-32x32.png') }}">
-  <link rel="icon" sizes="16x16" href="{{ asset('icons/favicon-16x16.png') }}">
+  <link rel="icon" sizes="32x32" href="{{ asset('icons/icondatabaseriset.png') }}">
+  <link rel="icon" sizes="16x16" href="{{ asset('icons/icondatabaseriset.png') }}">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -43,8 +43,11 @@
       #menu-mobile {
           display: none;
         }
-      
-      @media(max-width:768px){
+
+      .logo-img{
+        width: 180px;
+      }
+      @media(max-width:1080px){
         .header .logo {
           order: 1;
         }
@@ -62,10 +65,6 @@
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
         }
-       
-        
-
-       
       }
     </style>
 
@@ -78,7 +77,7 @@
 
       <a href="{{ url('/') }}" class="logo d-flex align-items-center me-auto">
         <!-- Uncomment the line below if you also wish to use an image logo -->
-        <img src="{{ asset('icons/logo.png') }}" class="logo" alt="">
+        <img class="logo-img" src="{{ asset('icons/logo-light.png') }}"  alt="">
         <!-- <h1 class="sitename">Databaseriset</h1> -->
       </a>
 
@@ -108,15 +107,13 @@
                                    
                                 @else
                                 <a class="btn-login" href="{{ route('login') }}">Masuk</a>
-                              
                                 <a class="btn-getstarted" id="menu-dekstop" href="{{ url('/#harga') }}">Coba Sekarang</a>
-                                 
                                 @endauth
                             </nav>
                         @endif
     </div>
   </header>
-  <a href="https://wa.me/{{ $user->nomor ?? "+6285236868125"}}" target="_blank" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-whatsapp"></i></a>
+  <a href="https://wa.me/{{ \App\Models\ConfigAdmin::first()->nomor ?? "+6285236868125"}}" target="_blank" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-whatsapp"></i></a>
 
 
   @yield('content')

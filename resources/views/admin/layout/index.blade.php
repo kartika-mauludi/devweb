@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Databaseriset | Dashboard</title>
 
-  <link rel="icon" type="image/png" href="{{ asset('icons/favicon.png') }}">
-  <link rel="icon" type="image/x-icon" href="{{ asset('icons/favicon.ico') }}">
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('icons/apple-touch-icon.png') }}">
-  <link rel="icon" sizes="32x32" href="{{ asset('icons/favicon-32x32.png') }}">
-  <link rel="icon" sizes="16x16" href="{{ asset('icons/favicon-16x16.png') }}">
+  <link rel="icon" type="image/png" href="{{ asset('icons/icondatabaseriset.png') }}">
+  <link rel="icon" type="image/x-icon" href="{{ asset('icons/icondatabaseriset.png') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('icons/icondatabaseriset.png') }}">
+  <link rel="icon" sizes="32x32" href="{{ asset('icons/icondatabaseriset.png') }}">
+  <link rel="icon" sizes="16x16" href="{{ asset('icons/icondatabaseriset.png') }}">
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -61,8 +61,8 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="{{ asset('icons/favicon-32x32.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Dev Web</span>
+      <img src="{{ asset('icons/icondatabaseriset.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">Databaseriset</span>
     </a>
 
     <!-- Sidebar -->

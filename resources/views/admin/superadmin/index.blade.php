@@ -76,13 +76,15 @@
             <form action="{{ route('superadmin.config') }}" method="POST" id="addsetting">
                 @csrf
                 <div class="modal-body">
-                    <input type="hidden" name="id" value="{{ $config->id }}">
+                    @if($config)
+                      <input type="hidden" name="id" value="{{ $config->id }}">
+                    @endif
                 <div class="form-group">
                         <label>Email</label>
                         <select name="email" id="type" class="form-control">
                              <option value="">-- Pilih Email --</option>
                              @foreach ($records as $record)
-                             <option value="{{ $record->email }}" @selected($config->email == ($record->email ?? ''))>{{ $record->email }}</option>
+                             <option value="{{ $record->email }}" @if($config)@selected($config->email == ($record->email ?? ''))@endif>{{ $record->email }}</option>
                              @endforeach
                         </select>
                     </div>
@@ -91,7 +93,7 @@
                         <select name="nomor" id="type" class="form-control">
                              <option value="">-- Pilih Nomor --</option>
                              @foreach ($records as $record)
-                             <option value="{{ $record->nomor }}" @selected($config->nomor == ($record->nomor ?? ''))>{{ $record->nomor }}</option>
+                             <option value="{{ $record->nomor }}" @if($config)@selected($config->nomor == ($record->nomor ?? ''))@endif>{{ $record->nomor }}</option>
                              @endforeach
                         </select>
                     </div>

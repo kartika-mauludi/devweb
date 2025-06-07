@@ -11,6 +11,7 @@ use App\Models\AffiliateComission;
 use App\Models\SubscribePackage;
 use App\Models\UniversityAccount;
 use App\Models\University;
+use App\Models\ConfigAdmin;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -30,6 +31,11 @@ use Illuminate\Support\Arr;
 
 class RegisterController extends Controller
 {
+    public function __construct()
+    {
+        $this->admin_email = ConfigAdmin::first()?->email;
+
+    }
     public function register(Request $request){
     
         $data = $request->input();
@@ -48,33 +54,6 @@ class RegisterController extends Controller
         if($validator->fails()) {
             return back()->withErrors($validator)->withInput();
        }
-
-       $univs = University::all();
-           
-            if($univs->isEmpty()){
-                $data ="Data Universitas masih belum di isi";
-                Mail::to('ludi.arjan1@gmail.com')->send(new notif($data));
-            }
-
-            foreach ($univs as $univ){
-                $akun[] = $this->cek_id($univ->id);
-                $univ_id[] = $univ->id;
-            }
-
-            if($a = array_keys($akun, null, true)){
-                for($i = 0; $i < count($a); $i++){
-                    $univid = $univ_id[$a[$i]];
-                    $universiti[] = University::where('id',$univid)->pluck('name');
-                }
-
-                $data = $universiti;
-                Mail::to('ludi.arjan1@gmail.com')->send(new info($data));
-
-                $message = $this::$message['error_akun_univ'];
-                return back()->with('message',$message)->withInput();
-            }
-
-     
         DB::beginTransaction(); 
         try {
                 $kode = Str::random(10);  
@@ -84,7 +63,7 @@ class RegisterController extends Controller
                         'nomor' => $data['nomor'],
                         'referral_code' => $kode,
                         'password' => Hash::make($data['password']),
-                        'akun_id' => $akun
+                        'akun_id' => ''
                     ]);
             
                 $ref = Session::get('ref');
@@ -136,7 +115,7 @@ class RegisterController extends Controller
                  $data["user"] = $user;
                  $data["invoice"] = $payment->id_invoice;
 
-                 Mail::to('ludi.arjan1@gmail.com')->send(new new_register($data));
+                 Mail::to($this->admin_email ?? "afibrulyansah@unusa.ac.id")->send(new new_register($data));
                 return redirect()->route('customer/langganan.qris',$payment->user_id);
 
                 // $response = Http::post(route('subscribepayment'), $datas);
@@ -152,48 +131,6 @@ class RegisterController extends Controller
        
     }
 
-    private function cek_id($id_univ){
-
-        $user_akun = User::all()->where('akun_id','!=','')->pluck('akun_id');
-        $account = UniversityAccount::where('university_id',$id_univ)->pluck('id');
-        $jumlah_akun = count($account);
-        if(collect($user_akun)->flatten()->filter()->isEmpty()){
-            $list_akun_univ = UniversityAccount::where('university_id',$id_univ)->pluck('id')->first();
-            return $id_akun_univ = $list_akun_univ ;
-    
-        }else{  
-
-              for($i = 0; $i <= $jumlah_akun; $i++){
-                $universitas = University::where('id',$id_univ)->first();
-              }
-                $batas = $universitas->batasan;
-                $akun_user_raw = User::where('akun_id', '!=', '')
-                            ->pluck('akun_id')
-                            ->toArray();
-
-                $flattened = Arr::flatten($akun_user_raw);
-                $account_id = array_values(array_unique($flattened));
-                $count = array_count_values($flattened);
-                $filtered = array_filter($count, function ($val, $id) use ($batas, $account) {
-                    return $val < $batas && in_array($id, $account->toArray());
-                }, ARRAY_FILTER_USE_BOTH);
-
-                if (!empty($filtered)) {
-                $next_available_id = array_key_first($filtered);
-                return $next_available_id;
-                } else {
-                $account_used = array_unique($flattened); 
-                $id_akun_univ = UniversityAccount::where('university_id', $id_univ)
-                    ->whereNotIn('id', $account_used)
-                    ->pluck('id')
-                    ->first();
-
-                return $id_akun_univ ?? null;
-                }
-         
-        }
-        
-    }
 
     public function price(){
         Auth::logout();

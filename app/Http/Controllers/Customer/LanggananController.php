@@ -8,6 +8,7 @@ use App\Models\SubscribePackage;
 use App\Models\SubscribeRecord;
 use App\Models\Payment;
 use App\Models\User;
+use App\Models\ConfigAdmin;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\re_register;
@@ -21,6 +22,8 @@ class LanggananController extends Controller
     public function __construct()
     {
         $this->middleware('user');
+        $this->admin_email = ConfigAdmin::first()?->email;
+        
     }
 
     public function langganan(){
@@ -83,7 +86,7 @@ class LanggananController extends Controller
 
                 $data["user"] = $user;
                 $data["invoice"] = $payment->id_invoice;
-                Mail::to('ludi.arjan1@gmail.com')->send(new re_register($data));
+                Mail::to($this->admin_email ?? "afibrulyansah@unusa.ac.id")->send(new re_register($data));
                 
                 return redirect()->route('customer/langganan.qris',$payment->user_id);
             } catch (\Throwable $th) {

@@ -9,8 +9,8 @@
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link rel="icon" sizes="32x32" href="{{ asset('icons/favicon-32x32.png') }}">
-  <link rel="icon" sizes="16x16" href="{{ asset('icons/favicon-16x16.png') }}">
+  <link rel="icon" sizes="32x32" href="{{ asset('icons/icondatabaseriset.png') }}">
+  <link rel="icon" sizes="16x16" href="{{ asset('icons/icondatabaseriset.png') }}">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -162,6 +162,45 @@
   visibility: visible;
   opacity: 1;
 }
+
+.bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      #menu-dekstop {
+        display: inline;
+      }
+
+      #menu-mobile {
+          display: none;
+        }
+
+      .logo-img{
+        width: 180px;
+      }
+      @media(max-width:1080px){
+        .header .logo {
+          order: 1;
+        }
+        #menu-dekstop {
+          display: none;
+        }
+
+        #menu-mobile {
+          display: flex;
+        }
+
+        
+      }
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
     </style>
 
 </head>
@@ -174,7 +213,8 @@
       <a href="{{ url('/') }}" class="logo d-flex align-items-center me-auto">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.webp" alt=""> -->
-        <h1 class="sitename">Databaseriset</h1>
+        <!-- <h1 class="sitename">Databaseriset</h1> -->
+        <img class="logo-img" src="{{ asset('icons/logo-light.png') }}"  alt="">
       </a>
 
       <nav id="navmenu" class="navmenu">
@@ -182,7 +222,7 @@
           <li><a href="{{ url('/customer/home') }}" class=" @if(Route::is('customer.home')) active @endif">Beranda</a></li>
           <li><a href="{{ route('customer/langganan.index') }}" class=" @if(Route::is('customer/langganan.*')) active @endif">Langganan</a></li>
           <li><a href="{{ route('customer/affiliasi.index') }}"  class=" @if(Route::is('customer/affiliasi.*')) active @endif">Affiliasi</a></li>
-          <li><a href="https://wa.me/+6285236868125" target="_blank">Bantuan</a></li>
+          <li><a href="https://wa.me/{{ \App\Models\ConfigAdmin::first()->nomor ?? '+6285236868125'}}" target="_blank">Bantuan</a></li>
           <li class="dropdown"><a href="#" class=" @if(Route::is('customer/profil.*')) active @endif"><span>{{ auth::user()->name ?? '' }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul style="right: 0; left: auto;">
               <li style="display: flex; flex-direction: row;"><a class="bi bi-person-fill fs-5" href="{{ route('customer/profil.show',auth::user()->id) }}">
@@ -206,7 +246,7 @@
         </nav>
     </div>
   </header>
-  <a href="https://wa.me/+6285236868125" target="_blank" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-whatsapp"></i></a>
+  <a href="https://wa.me/{{ \App\Models\ConfigAdmin::first()->nomor ?? '+6285236868125'}}" target="_blank" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-whatsapp"></i></a>
   @yield('content')
 
 

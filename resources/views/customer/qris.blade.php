@@ -34,7 +34,7 @@
             </li>
           </ul>
           <h6>Scan Qris di atas dan bayar sesuai total harga paket, setelah selesai konfirmasi pembayaran anda dengan mengirim screnn shot dari pembarayan anda</h6>
-        <a href="https://wa.me/{{ $user->nomor ?? "+6285236868125"}}" class="btn btn-success mt-3">Kirim Bukti Transfer</a>
+        <a href="https://wa.me/{{ \App\Models\ConfigAdmin::first()->nomor ?? '+6285236868125'}}" class="btn btn-success mt-3">Kirim Bukti Transfer</a>
         <button class="btn btn-primary mt-3" type="button" id="reloadPage" >Cek Status Pembayaran</button>
       </div>
     </div>

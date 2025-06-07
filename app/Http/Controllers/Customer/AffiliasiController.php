@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\UserAffiliate;
 use App\Models\AffiliateComission;
 use App\Models\Payment;
+use App\Models\ConfigAdmin;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use auth;
@@ -19,6 +20,7 @@ class AffiliasiController extends Controller
     public function __construct()
     {
         $this->middleware('user');
+        $this->admin_email = ConfigAdmin::first()?->email;
     }
 
     public function affiliasi(){
@@ -43,7 +45,7 @@ class AffiliasiController extends Controller
            
             $data["user"] = User::find(auth::user()->id);
             $data["amount"] = $amount;
-            Mail::to('ludi.arjan1@gmail.com')->send(new withdraw($data));
+            Mail::to($this->admin_email ?? "afibrulyansah@unusa.ac.id")->send(new withdraw($data));
            
             $message = $this::$message['createsuccess'];
         } catch (\Throwable $th) {

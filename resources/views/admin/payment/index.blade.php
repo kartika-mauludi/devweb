@@ -10,6 +10,12 @@
                 {{ session('message') }}
             </div>
         @endsession
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                {{ session('error') }}
+            </div>
+        @endsession
         <div class="card">
             <div class="card-header">
                 <a href="{{ route('payment.create') }}" class="btn btn-sm btn-success">Tambah</a>
