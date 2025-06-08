@@ -222,7 +222,7 @@
           <li><a href="{{ url('/customer/home') }}" class=" @if(Route::is('customer.home')) active @endif">Beranda</a></li>
           <li><a href="{{ route('customer/langganan.index') }}" class=" @if(Route::is('customer/langganan.*')) active @endif">Langganan</a></li>
           <li><a href="{{ route('customer/affiliasi.index') }}"  class=" @if(Route::is('customer/affiliasi.*')) active @endif">Affiliasi</a></li>
-          <li><a href="https://wa.me/{{ \App\Models\ConfigAdmin::first()->nomor ?? '+6285236868125'}}" target="_blank">Bantuan</a></li>
+          <li><a href="https://wa.me/{{ \App\Models\User::with('config')->find(optional(\App\Models\ConfigAdmin::first())->nomor)->nomor ?? '+6285236868125'}}" target="_blank">Bantuan</a></li>
           <li class="dropdown"><a href="#" class=" @if(Route::is('customer/profil.*')) active @endif"><span>{{ auth::user()->name ?? '' }}</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul style="right: 0; left: auto;">
               <li style="display: flex; flex-direction: row;"><a class="bi bi-person-fill fs-5" href="{{ route('customer/profil.show',auth::user()->id) }}">
@@ -246,7 +246,7 @@
         </nav>
     </div>
   </header>
-  <a href="https://wa.me/{{ \App\Models\ConfigAdmin::first()->nomor ?? '+6285236868125'}}" target="_blank" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-whatsapp"></i></a>
+  <a href="https://wa.me/{{ \App\Models\User::with('config')->find(optional(\App\Models\ConfigAdmin::first())->nomor)->nomor ?? '+6285236868125'}}" target="_blank" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-whatsapp"></i></a>
   @yield('content')
 
 

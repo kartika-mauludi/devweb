@@ -128,7 +128,7 @@
     <div class="receipt-main">
         <div class="receipt-header">
             <div class="receipt-left">
-                <h2 class="sitename">New Customer</h2>
+                <h1 class="sitename">New Customer</h1>
                 <!-- <img class="img-responsive" alt="iamgurdeeposahan" src="https://bootdey.com/img/Content/avatar/avatar6.png" style="width: 71px; border-radius: 43px;"> -->
             </div>
         </div>

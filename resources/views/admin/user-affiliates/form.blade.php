@@ -10,7 +10,6 @@
                         @if (isset($record))
                             @method('PUT')
                         @endif
-        
                         <div class="row">
                             <div class="col-12 col-sm-6 form-group">
                                 <label for="user_id" class="form-label">User Customer</label>
@@ -25,8 +24,9 @@
                                 <label for="amount" class="form-label">Amount</label>
                                 <input type="number" name="amount" id="amount" class="form-control form-control-sm" value="{{ $record->amount ?? '' }}" step="any" required>
                             </div>
+                                <input type="hidden" name="status" id="status" class="form-control form-control-sm" value="withdraw" step="any" required>
+                                <input type="hidden" name="usernew_id" id="usernew" class="form-control form-control-sm" value="0" step="any" required>
                         </div>
-
                         <div class="row mt-3">
                             <div class="col-12">
                                 <button type="submit" class="btn btn-sm btn-success">{{ $label }}</button>

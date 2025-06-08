@@ -22,7 +22,7 @@ class LanggananController extends Controller
     public function __construct()
     {
         $this->middleware('user');
-        $this->admin_email = ConfigAdmin::first()?->email;
+        $this->admin_email = User::with('config')->find(optional(ConfigAdmin::first())->email)->email;
         
     }
 
@@ -55,8 +55,6 @@ class LanggananController extends Controller
     }
 
     public function newsubscriber(Request $request){
-        
-
         $user = User::where('email',$request->email)->first();
         $latest = Payment::latest()->first();
         if (! $latest) {

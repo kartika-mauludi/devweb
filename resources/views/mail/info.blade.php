@@ -125,7 +125,7 @@
     			<div class="receipt-header">
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="receipt-left">
-							<h2 class="sitename">Databaseriset</h2>
+							<h1 class="sitename">Databaseriset</h1>
 							<!-- <img class="img-responsive" alt="iamgurdeeposahan" src="https://bootdey.com/img/Content/avatar/avatar6.png" style="width: 71px; border-radius: 43px;"> -->
 						</div>
 					</div>

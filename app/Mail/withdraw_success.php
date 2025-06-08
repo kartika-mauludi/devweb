@@ -19,7 +19,14 @@ class withdraw_success extends Mailable
      */
     public function __construct($data)
     {
-        $this->user = $data;
+        $this->data = $data;
+    }
+
+    public function build()
+    {
+        return $this->subject('Withdraw Success')
+                    ->view('customer.mail.withdraw_success') // ganti dengan view yang sesuai
+                    ->with('data', $this->data);
     }
 
     /**
@@ -38,7 +45,7 @@ class withdraw_success extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'customer.mail.withdraw_success',
         );
     }
 

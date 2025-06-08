@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserAffiliate;
+use App\Models\ConfigAdmin;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\withdraw_success;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -15,6 +18,8 @@ class UserAffiliateController extends Controller
     public function __construct()
     {
         $this->middleware('admin');
+        $this->admin_email = User::with('config')->find(optional(ConfigAdmin::first())->email)->email;
+
     }
 
     public function index()
@@ -22,6 +27,7 @@ class UserAffiliateController extends Controller
         $data['title']   = $this->title;
         $data['records'] = UserAffiliate::latest()->where("status","=","withdraw")->get();
         $data['success'] = UserAffiliate::latest()->where("status","=","success")->get();
+    //    return $data['records'];
         return view('admin.user-affiliates.index', $data);
     }
 
@@ -42,7 +48,6 @@ class UserAffiliateController extends Controller
 
         try{
             UserAffiliate::create($input);
-
             $message = $this::$message['createsuccess'];
         }catch(Exception $x){
             report($x);
@@ -92,12 +97,16 @@ class UserAffiliateController extends Controller
 
     public function proceed(UserAffiliate $userAffiliate)
     {
+
         $input['status'] = 'success';
         
         try{
+            $email = User::with('affiliates')->where('id','=',$userAffiliate->user_id)->first()->email;
             $userAffiliate->update($input);
-
             $message = $this::$message['updatesuccess'];
+            $data["amount"] = $userAffiliate->amount;
+            Mail::to($email)->send(new withdraw_success($data));
+
         }catch(Exception $x){
             report($x);
             $message = $this::$message['error'];

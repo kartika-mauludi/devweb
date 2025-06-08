@@ -113,7 +113,7 @@
                         @endif
     </div>
   </header>
-  <a href="https://wa.me/{{ \App\Models\ConfigAdmin::first()->nomor ?? "+6285236868125"}}" target="_blank" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-whatsapp"></i></a>
+  <a href="https://wa.me/{{ \App\Models\User::with('config')->find(optional(\App\Models\ConfigAdmin::first())->nomor)->nomor ?? "+6285236868125"}}" target="_blank" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-whatsapp"></i></a>
 
 
   @yield('content')

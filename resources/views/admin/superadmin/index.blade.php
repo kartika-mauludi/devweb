@@ -84,7 +84,7 @@
                         <select name="email" id="type" class="form-control">
                              <option value="">-- Pilih Email --</option>
                              @foreach ($records as $record)
-                             <option value="{{ $record->email }}" @if($config)@selected($config->email == ($record->email ?? ''))@endif>{{ $record->email }}</option>
+                             <option value="{{ $record->id }}" @if($config)@selected($config->email == ($record->id ?? ''))@endif>{{ $record->email }}</option>
                              @endforeach
                         </select>
                     </div>
@@ -93,7 +93,7 @@
                         <select name="nomor" id="type" class="form-control">
                              <option value="">-- Pilih Nomor --</option>
                              @foreach ($records as $record)
-                             <option value="{{ $record->nomor }}" @if($config)@selected($config->nomor == ($record->nomor ?? ''))@endif>{{ $record->nomor }}</option>
+                             <option value="{{ $record->id }}" @if($config)@selected($config->nomor == ($record->id ?? ''))@endif>{{ $record->nomor }}</option>
                              @endforeach
                         </select>
                     </div>

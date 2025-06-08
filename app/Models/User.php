@@ -66,6 +66,11 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasMany(Payment::class);
     }
 
+    public function config()
+    {
+        return $this->hasMany(ConfigAdmin::class);
+    }
+
     public function affiliates()
     {
         return $this->hasMany(UserAffiliate::class);

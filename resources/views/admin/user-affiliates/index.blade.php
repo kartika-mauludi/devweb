@@ -33,7 +33,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $record->user->name }}</td>
-                                    <td>{{ $record->amount }}</td>
+                                    <td>Rp.{{ number_format($record->amount , 0, ",", ".")}}</td>
                                     <td>
                                         @if ($record->status == 'pending')
                                             <span class="badge badge-secondary">{{ $record->status }}</span>
@@ -83,7 +83,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $record->user->name }}</td>
-                                    <td>{{ $record->amount }}</td>
+                                    <td>Rp.{{ number_format($record->amount , 0, ",", ".")}}</td>
                                     <td>
                                         @if ($record->status == 'pending')
                                             <span class="badge badge-secondary">{{ $record->status }}</span>

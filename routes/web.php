@@ -17,6 +17,8 @@ use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\UniversityAccountController;
 use App\Http\Controllers\UniversityWebsiteController;
 use App\Http\Controllers\AutoLoginController;
+use App\Models\ConfigAdmin;
+use App\Models\User;
 // use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Models\SubscribePackage;

@@ -33,7 +33,7 @@ class RegisterController extends Controller
 {
     public function __construct()
     {
-        $this->admin_email = ConfigAdmin::first()?->email;
+        $this->admin_email = User::with('config')->find(optional(ConfigAdmin::first())->email)->email;
 
     }
     public function register(Request $request){
