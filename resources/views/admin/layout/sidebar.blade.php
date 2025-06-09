@@ -82,7 +82,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{{ route('configuration') }}" class="nav-link @if(Route::is('configuration', 'commision-config.*')) active @endif">
+        <a href="{{ route('configuration.index') }}" class="nav-link @if(Route::is('configuration.*')) active @endif">
           <i class="nav-icon fa fa-cog"></i>
           <p>
             Konfigurasi

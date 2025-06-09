@@ -14,7 +14,8 @@ class SubscribeRecord extends Model
         'user_id',
         'start_date',
         'end_date',
-        'account_status'
+        'account_status',
+        'status'
     ];
 
     public function subscribePackage()

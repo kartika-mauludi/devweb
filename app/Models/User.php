@@ -81,6 +81,11 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasMany(SubscribeRecord::class);
     }
 
+    public function affiliateConfig()
+    {
+        return $this->hasMany(AffiliateDetails::class);
+    }
+
     public function scopeCustomer($query)
     {
         $query->where('is_superadmin', false);

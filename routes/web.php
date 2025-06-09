@@ -158,7 +158,17 @@ Route::prefix('admin')->group(function(){
         Route::delete('destroy/{payment}', 'destroy')->name('destroy');
     });
     
-    Route::get('configuration', [ConfigurationController::class, 'index'])->name('configuration');
+    Route::group(['prefix' => 'configuration', 'as' => 'configuration.', 'controller' => ConfigurationController::class], function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('create', 'create')->name('create');
+        Route::get('show/{id}', 'show')->name('show');
+        Route::get('edit/{id}', 'edit')->name('edit');
+    
+        Route::post('store', 'store')->name('store');
+        Route::put('update/{id}', 'update')->name('update');
+        Route::delete('destroy/{id}', 'destroy')->name('destroy');
+        Route::delete('destroy/{id}/detail', 'destroyDetail')->name('destroy.detail');
+    });
     
     Route::group(['prefix' => 'commision-config', 'as' => 'commision-config.', 'controller' => AffiliateCommisionController::class], function(){
         Route::get('setting', 'setting')->name('setting');

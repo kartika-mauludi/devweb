@@ -10,4 +10,9 @@ class AffiliateComission extends Model
         'amount',
         'type'
     ];
+
+    public function details()
+    {
+        return $this->hasMany(AffiliateDetails::class);
+    }
 }
