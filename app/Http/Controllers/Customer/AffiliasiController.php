@@ -20,7 +20,7 @@ class AffiliasiController extends Controller
     public function __construct()
     {
         $this->middleware('user');
-        $this->admin_email = User::with('config')->find(optional(ConfigAdmin::first())->email)->email;
+        $this->admin_email = User::with('config')->find(optional(ConfigAdmin::first())?->email)?->email;
     }
 
     public function affiliasi(){

@@ -18,7 +18,7 @@ class UserAffiliateController extends Controller
     public function __construct()
     {
         $this->middleware('admin');
-        $this->admin_email = User::with('config')->find(optional(ConfigAdmin::first())->email)->email;
+        $this->admin_email = User::with('config')->find(optional(ConfigAdmin::first())?->email)?->email;
 
     }
 
