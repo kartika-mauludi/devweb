@@ -22,8 +22,9 @@ class ConfigurationController extends Controller
     public function index()
     {
         $data['title'] = $this->title;
-        $data['commisions'] = AffiliateComission::latest()->get();
-
+        $data['commisionsglobal'] = AffiliateComission::where('status','=','global')->first();
+        $data['count'] = AffiliateComission::where('status','=','global')->get();
+        $data['commisions'] = AffiliateComission::where('status','=','private')->latest()->get();
         return view('admin.configuration.index', $data);
     }
 
@@ -34,28 +35,39 @@ class ConfigurationController extends Controller
         $data['url']   = route('configuration.store');
         $data['prev']  = route('configuration.index');
         $data['users'] = User::customer()->get();
-
+        $data['collections'] = [];
+        
         return view('admin.configuration.form', $data);
     }
 
     public function store(Request $request)
     {
+       
         DB::beginTransaction();
         try{
-            $affiliates = AffiliateComission::create([
-                'amount' => $request->amount,
-                'type' => $request->type
-            ]);
+            if($request->status){
+                $affiliates = AffiliateComission::create([
+                    'amount' => $request->amount,
+                    'type' => $request->type,
+                    'status' => $request->status
+                ]);
+            }
+            else{
+                $affiliates = AffiliateComission::create([
+                    'amount' => $request->amount,
+                    'type' => $request->type,
+                    'status' => 'private'
+                ]);
 
-            foreach ($request->users as $user) {
-                if ($user != null) {
-                    AffiliateDetails::create([
-                        'affiliate_comission_id' => $affiliates->id,
-                        'user_id' => $user
-                    ]);
+                foreach ($request->users as $user) {
+                    if ($user != null) {
+                        AffiliateDetails::create([
+                            'affiliate_comission_id' => $affiliates->id,
+                            'user_id' => $user
+                        ]);
+                    }
                 }
             }
-
             DB::commit();
             $message = $this::$message['createsuccess'];
         }catch(Exception $x){
@@ -81,7 +93,7 @@ class ConfigurationController extends Controller
 
     public function edit($id)
     {
-        $affiliate = AffiliateComission::find($id);
+        $affiliate = AffiliateComission::find(id: $id);
 
         $data['title'] = $this->title;
         $data['label'] = 'Update';
@@ -90,7 +102,7 @@ class ConfigurationController extends Controller
         $data['users'] = User::customer()->get();
         $data['record']= $affiliate;
         $data['collections'] = AffiliateDetails::where('affiliate_comission_id', $id)->pluck('user_id')->toArray();
-
+        // return $data['record']->status;
         return view('admin.configuration.form', $data);
     }
 

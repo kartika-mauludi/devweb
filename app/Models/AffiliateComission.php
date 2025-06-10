@@ -8,7 +8,8 @@ class AffiliateComission extends Model
 {
     protected $fillable = [
         'amount',
-        'type'
+        'type',
+        'status'
     ];
 
     public function details()

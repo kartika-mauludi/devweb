@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\UserAffiliate;
 use App\Models\AffiliateComission;
 use App\Models\Payment;
+use App\Models\AffiliateDetails;
 use App\Models\ConfigAdmin;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
@@ -25,7 +26,9 @@ class AffiliasiController extends Controller
 
     public function affiliasi(){
 
-        $data['komisi'] = AffiliateComission::latest()->first();
+        $data['komisi'] = AffiliateDetails::with('affiliate')->where('user_id', Auth::id())->first();
+        // return $data['komisi'];
+        $data['komisi_global'] = AffiliateComission::where('status','=','global')->first();
         $data['pending'] = UserAffiliate::whereHas('payments', function($query){$query->where('status','pending');})->where('User_id',auth::user()->id)->get();
         $data['pendingwd'] = UserAffiliate::latest('id')->where('user_id',auth::user()->id)->where('status','withdraw')->first();
         $data['paid'] = UserAffiliate::whereHas('payments', function($query){$query->where('status','completed');})->where('User_id',auth::user()->id)->get();

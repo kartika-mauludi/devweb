@@ -36,8 +36,10 @@
                           </button>
                         </div>   
                       </h5>
-                      @if ($komisi)  
-                        <h5>Dapatkan @if($komisi->type == 'fixed') Rp. {{  number_format(optional($komisi)->amount ?? 10000 , 0, ",", ".") }} @elseif($komisi->type == 'percentage') {{  number_format(optional($komisi)->amount ?? 10000 , 0, ",", ".") }}% @endif untuk setiap teman yang berhasil memulai langganan bulan pertama mereka melalui Anda! </h5>
+                      @if($komisi)  
+                        <h5>Dapatkan @if($komisi->affiliate->type == 'fixed') Rp. {{  number_format(optional($komisi)->affiliate->amount ?? 10000 , 0, ",", ".") }} @elseif($komisi->affiliate->type == 'percentage') {{  number_format(optional($komisi)->affiliate->amount ?? 10000 , 0, ",", ".") }}% @endif untuk setiap teman yang berhasil memulai langganan bulan pertama mereka melalui Anda! </h5>
+                      @elseif($komisi_global)
+                        <h5>Dapatkan @if($komisi_global->type == 'fixed') Rp. {{  number_format(optional($komisi_global)->amount ?? 10000 , 0, ",", ".") }} @elseif($komisi_global->type == 'percentage') {{  number_format(optional($komisi_global)->amount ?? 10000 , 0, ",", ".") }}% @endif untuk setiap teman yang berhasil memulai langganan bulan pertama mereka melalui Anda! </h5>
                       @else
                         <h5>Dapatkan komisi untuk setiap teman yang berhasil memulai langganan bulan pertama mereka melalui Anda!</h5>
                       @endif

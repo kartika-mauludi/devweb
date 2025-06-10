@@ -28,6 +28,7 @@
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Phone</th>
                                 <th>Reff. Code</th>
                                 <th>Akun Id</th>
                                 <th class="notexport">Action</th>
@@ -42,6 +43,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $record->name }}</td>
                                     <td>{{ $record->email }}</td>
+                                    <td>{{ $record->nomor }}</td>
                                     <td>{{ $record->referral_code }}</td>
                                     <td>{{ implode(', ' , $akun_ids) }}</td>
                                     <td>

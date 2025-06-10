@@ -15,7 +15,7 @@ class AffiliateDetails extends Model
 
     public function affiliate()
     {
-        return $this->belongsTo(AffiliateComission::class);
+        return $this->belongsTo(AffiliateComission::class,'affiliate_comission_id');
     }
 
     public function user()

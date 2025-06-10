@@ -8,6 +8,7 @@ use App\Models\SubscribeRecord;
 use App\Models\Payment; 
 use App\Models\UserAffiliate;
 use App\Models\AffiliateComission;
+use App\Models\AffiliateDetails;
 use App\Models\SubscribePackage;
 use App\Models\UniversityAccount;
 use App\Models\University;
@@ -69,10 +70,16 @@ class RegisterController extends Controller
                 $ref = Session::get('ref');
                 if($ref){
                     $useraffiliate = User::where('referral_code',$ref)->first();
-                    $cek_komisi = AffiliateComission::all();
+                    $cek_status_komisi = AffiliateComission::all();
+                    $id_komisi =  AffiliateDetails::where('user_id',$useraffiliate->id)->first();
                     $subscribe = SubscribePackage::where('id',Session::get('id'))->first();
                    
-                    if($cek_komisi->isNotEmpty()){
+                    if($cek_status_komisi->isNotEmpty()){
+                        if($id_komisi->isNotEmpty()){
+                            $komisi = AffiliateComission::where('id',$id_komisi->affiliate_comission_id)->first();
+                        }else{
+                            $komisi = AffiliateComission::where('status','=','global')->first();
+                        }
                         $komisi = AffiliateComission::latest()->first();
                         if($komisi->type == "percentage"){
                             $persentase = $komisi->amount;

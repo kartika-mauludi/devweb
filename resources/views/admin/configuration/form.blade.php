@@ -19,18 +19,21 @@
                         <div class="row">
                             <div class="col-12 col-sm-6 form-group">
                                 <label for="amount" class="form-label">Besaran</label>
-                                <input type="number" name="amount" id="amount" class="form-control form-control-sm" value="{{ $record->amount ?? '' }}" required>
+                                <input type="number" name="amount" id="amount" class="form-control form-control-sm" value="{{ $record->amount ?? '' }}" required placeholder="10000">
                             </div>
                             <div class="col-12 col-sm-6 form-group">
                                 <label for="type" class="form-label">Type</label>
                                 <select name="type" id="type" class="form-control form-control-sm" required>
-                                    <option value=""></option>
+                                    <option value="">pilih type</option>
                                     <option @selected(($record->type ?? '') == 'percentage') value="percentage">Persentase</option>
                                     <option @selected(($record->type ?? '') == 'fixed') value="fixed">Fixed</option>
                                 </select>
                             </div>
                         </div>
-
+                        @if(request('status'))
+                          <input type="hidden" name="status" id="" value="{{ request('status') }}">
+                        @endif
+                    @if(request('status') != "global" && (!isset($record) || $record->status != "global") )
                         <div class="row">
                             <div class="col-12 col-sm-6 form-group">
                                 <label for="users" class="form-label">User</label> <br>
@@ -38,11 +41,12 @@
                                 <select name="users[]" id="users" class="form-control" style="width: 100%" multiple required>
                                     <option></option>
                                     @foreach ($users as $user)
-                                        <option @selected(in_array($user->id, $collections)) value="{{ $user->id }}">{{ $user->name.' - '.$user->email.' - '.$user->nomor }}</option>
+                                        <option @if($collections) @selected(in_array($user->id, $collections))@endif value="{{ $user->id }}">{{ $user->name.' - '.$user->email.' - '.$user->nomor }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
+                    @endif
 
                         <div class="row mt-3">
                             <div class="col-12">
