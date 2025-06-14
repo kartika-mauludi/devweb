@@ -35,6 +35,7 @@ class PaymentController extends Controller
     {
         $data['title']   = $this->title;
         $data['records'] = Payment::latest()->get();
+        $data['packages'] = SubscribePackage::all();
         
         return view('admin.payment.index', $data);
     }

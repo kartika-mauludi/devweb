@@ -32,17 +32,32 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('admin/plugins/summernote/summernote-bs4.min.css') }}">
   <!-- Data table -->
+  <!-- <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"> -->
   <link rel="stylesheet" href="{{ asset('admin/dist/css/datatable.min.css') }}">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.3/css/buttons.dataTables.css">
   <!-- select2 -->
   <link rel="stylesheet" href="{{ asset('admin/dist/css/select2.min.css') }}">
   <!-- Custom CSS -->
   <link rel="stylesheet" href="{{ asset('admin/custom/css/custom.css?v=1.0') }}">
+  
 
   <style>
       .buttons-excel {
           display: none
       }
+
+      .btn-white {
+        background-color: #fff !important;
+        border: 1px solid #ccc !important;
+        color: #333 !important;
+        box-shadow: none !important;
+    }
+
+    .btn-white:hover {
+        background-color: #f9f9f9 !important;
+        color: #000 !important;
+    }
+
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">

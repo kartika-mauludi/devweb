@@ -57,25 +57,14 @@ class RegisterController extends Controller
        }
         DB::beginTransaction(); 
         try {
-                $kode = Str::random(10);  
-                $user =  User::create([
-                        'name' => $data['name'],
-                        'email' => $data['email'],
-                        'nomor' => $data['nomor'],
-                        'referral_code' => $kode,
-                        'password' => Hash::make($data['password']),
-                        'akun_id' => ''
-                    ]);
-            
                 $ref = Session::get('ref');
                 if($ref){
                     $useraffiliate = User::where('referral_code',$ref)->first();
                     $cek_status_komisi = AffiliateComission::all();
                     $id_komisi =  AffiliateDetails::where('user_id',$useraffiliate->id)->first();
                     $subscribe = SubscribePackage::where('id',Session::get('id'))->first();
-                   
                     if($cek_status_komisi->isNotEmpty()){
-                        if($id_komisi->isNotEmpty()){
+                        if(!is_null($id_komisi)){
                             $komisi = AffiliateComission::where('id',$id_komisi->affiliate_comission_id)->first();
                         }else{
                             $komisi = AffiliateComission::where('status','=','global')->first();
@@ -91,6 +80,16 @@ class RegisterController extends Controller
                     }else{
                         $komisi_amount = 10000; 
                     }
+
+                    $kode = Str::random(10);  
+                     $user =  User::create([
+                        'name' => $data['name'],
+                        'email' => $data['email'],
+                        'nomor' => $data['nomor'],
+                        'referral_code' => $kode,
+                        'password' => Hash::make($data['password']),
+                        'akun_id' => ''
+                    ]);
                     UserAffiliate::Create(['user_id' => $useraffiliate->id,'usernew_id' => $user->id , 'status'=>'pending','amount'=>round($komisi_amount, 1)]);
                 };
 
@@ -112,7 +111,7 @@ class RegisterController extends Controller
                     'subscribe_record_id' => $sub->id,
                     'id_invoice' => 'inv-'. sprintf('%06d', $string+1),
                     'price' => Session::get('price'),
-                    'discount' => Session::get('discount'),
+                    // 'discount' => Session::get('discount'),
                     'status' => 'pending',
                     'order_id' => rand()
                 ]);

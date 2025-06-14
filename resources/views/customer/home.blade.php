@@ -202,11 +202,6 @@
       var table = $('#filterTable').DataTable();
       $("#filterTable_filter.dataTables_filter").append($("#categoryFilter"));
       var categoryIndex = 0;
-      $("#filterTable th").each(function (i) {
-        if ($($(this)).html() == "Universitas") {
-          categoryIndex = i; return false;
-        }
-      });
       $.fn.dataTable.ext.search.push(
         function (settings, data, dataIndex) {
           var selectedItem = $('#categoryFilter').val()
@@ -224,26 +219,4 @@
       table.draw();
     });
   </script>
-  @if (session('extension_token'))
-  <script>
-      window.addEventListener('DOMContentLoaded', () => {
-          window.postMessage({
-              type: 'SEND_TOKEN_TO_EXTENSION',
-              token: "{{ session('extension_token') }}"
-          }, "*");
-      });
-  </script>
-   @endif
-
-   <script>
-    document.getElementById('globalModal').addEventListener('show.bs.modal', function (event) {
-    const trigger = event.relatedTarget;
-    const url = trigger.getAttribute('data-url');
-    const title = trigger.getAttribute('data-title');
-
-    document.getElementById('globalIframe').src = url;
-    document.getElementById('globalModalLabel').textContent = title;
-  });
-
-   </script>
   @endpush

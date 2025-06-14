@@ -14,29 +14,29 @@
                         <div class="row">
                             <div class="col-12 col-sm-6 form-group">
                                 <label for="name" class="form-label">Name</label>
-                                <input type="text" name="name" id="name" class="form-control form-control-sm" value="{{ $record->name ?? '' }}" required>
+                                <input type="text" name="name" id="name" class="form-control form-control-sm" value="{{ $record->name ?? '' }}" required placeholder="contoh : bambang">
                             </div>
                             <div class="col-12 col-sm-6 form-group">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" name="email" id="email" class="form-control form-control-sm" value="{{ $record->email ?? '' }}" required>
+                                <input type="text" name="email" id="email" class="form-control form-control-sm" value="{{ $record->email ?? '' }}" required placeholder="contoh : example@gmail.com">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-12 col-sm-6 form-group">
                                 <label for="bank_account" class="form-label">Bank Account</label>
-                                <input type="number" name="bank_account" id="bank_account" class="form-control form-control-sm" value="{{ $record->bank_account ?? '' }}">
+                                <input type="number" name="bank_account" id="bank_account" class="form-control form-control-sm" value="{{ $record->bank_account ?? '' }}" placeholder="Contoh : 7312313">
                             </div>
                             <div class="col-12 col-sm-6 form-group">
                                 <label for="bank_name" class="form-label">Bank Name</label>
-                                <input type="text" name="bank_name" id="bank_name" class="form-control form-control-sm" value="{{ $record->bank_name ?? '' }}">
+                                <input type="text" name="bank_name" id="bank_name" class="form-control form-control-sm" value="{{ $record->bank_name ?? '' }}" placeholder="contoh : BCA">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-12 col-sm-6 form-group">
                                 <label for="nomor" class="form-label">Nomor Telpon</label>
-                                <input type="text" name="nomor" id="nomor" class="form-control form-control-sm" value="{{ $record->nomor ?? '' }}">
+                                <input type="text" name="nomor" id="nomor" class="form-control form-control-sm" value="{{ $record->nomor ?? '' }}" placeholder="+62xxxxxxx">
                             </div>
                             <div class="col-12 col-sm-6 form-group">
                                 <label for="password" class="form-label">Password</label>
