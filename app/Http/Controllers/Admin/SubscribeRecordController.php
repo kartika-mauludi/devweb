@@ -69,7 +69,7 @@ class SubscribeRecordController extends Controller
         $data['title'] = $this->title;
         $data['label'] = 'Update';
         $data['url']   = route('package-record.update', $subscribeRecord->id);
-        $data['prev']  = route('package-record.index');
+        $data['prev']  = route('customer.show', $subscribeRecord->user_id);
         $data['customers'] = User::customer()->get();
         $data['packages']  = SubscribePackage::all();
         $data['record']= $subscribeRecord;
@@ -90,7 +90,7 @@ class SubscribeRecordController extends Controller
             $message = $this::$message['error'];
         }
 
-        return redirect()->route('package-record.index')->with('message', $message);
+        return redirect()->route('customer.show', $subscribeRecord->user_id)->with('message', $message);
     }
 
     public function destroy(SubscribeRecord $subscribeRecord)
@@ -104,6 +104,6 @@ class SubscribeRecordController extends Controller
             $message = $this::$message['error'];
         }
 
-        return redirect()->route('package-record.index')->with('message', $message);
+        return redirect()->route('customer.show', $subscribeRecord->user_id)->with('message', $message);
     }
 }

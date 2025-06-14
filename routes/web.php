@@ -65,7 +65,6 @@ Route::group(['prefix' => 'customer/profil', 'as' => 'customer/profil.', 'contro
     Route::delete('destroy/{user}', 'destroy')->name('destroy');
 });
 
-
 Route::group(['prefix' => 'customer/langganan', 'as' => 'customer/langganan.', 'controller' => LanggananController::class], function(){
     Route::get('/', 'langganan')->name('index');
     Route::get('/upgrade', 'upgrade')->name('upgrade');
@@ -82,10 +81,8 @@ Route::group(['prefix' => 'customer/affiliasi', 'as' => 'customer/affiliasi.', '
 
 // end route customer
 
-
 // Start Admin Page Routes //
 // Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
 
 Route::prefix('admin')->group(function(){
     Route::group(['prefix' => 'customer', 'as' => 'customer.', 'controller' => CustomerController::class], function(){

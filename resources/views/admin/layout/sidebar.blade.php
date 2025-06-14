@@ -33,14 +33,14 @@
           </p>
         </a>
       </li>
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a href="{{ route('package-record.index') }}" class="nav-link @if(Route::is('package-record.*')) active @endif">
           <i class="nav-icon fa fa-briefcase"></i>
           <p>
             Langganan
           </p>
         </a>
-      </li>
+      </li> --}}
       <li class="nav-item">
         <a href="{{ route('payment.index') }}" class="nav-link @if(Route::is('payment.*')) active @endif">
           <i class="nav-icon fa fa-money-bill"></i>

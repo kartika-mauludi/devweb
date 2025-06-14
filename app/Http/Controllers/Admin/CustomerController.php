@@ -98,6 +98,7 @@ class CustomerController extends Controller
         $data['url']   = route('customer.edit', $user->id);
         $data['prev']  = route('customer.index');
         $data['record'] = $user;
+        $data['subscribes'] = SubscribeRecord::where('user_id', $user->id)->latest()->get();
 
         if (request()->ajax()) {
             return response()->json($user);
