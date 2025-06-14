@@ -23,15 +23,6 @@
 
             <div class="card-body">
                 <div class="table-responsive">
-                <div class="category-filter">
-                    <select id="categoryFilter" class="form-control">
-                    <option value="show" hidden selected class="bg-muted text-secondary"><i class="fas fa-filter"></i> Filter by Package</option>
-                    <option value="">Show All</option>
-                    @foreach ( $packages as $package )
-                        <option value="{{ $package->name }}">{{ $package->name }}</option>
-                    @endforeach
-                    </select>
-                </div>
                     <table class="table table-sm table-bordered table-hover datatable" id="filterTable">
                         <thead>
                             <tr>
@@ -142,69 +133,82 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="filterModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter Data</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col">
+                        <label for="packages">Paket Langganan</label>
+                        <select id="packages" class="form-control form-control-sm">
+                            <option value="">Lihat Semua</option>
+                            @foreach ($packages as $package)
+                                <option value="{{ $package->name }}">{{ $package->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col">
+                        <label for="status">Status</label>
+                        <select id="status" class="form-control form-control-sm">
+                            <option value="">Lihat Semua</option>
+                            <option value="completed">Completed</option>
+                            <option value="pending">Pending</option>
+                            <option value="failed">Failed</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="filterBtn" class="btn btn-success">Filter</button>
+                <button type="button" id="resetBtn" class="btn btn-secondary">Reset</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @push('script')
     <script>
-    let dataTable = $('#filterTable').DataTable({
-    select: true,
-    layout: {
-        topStart: {
-            buttons: [
-                'pageLength',
-                {
-                    extend: 'excel',
-                    text: 'Download',
-                    title: 'Databaseriset - Data Master Pembayaran',
-                    exportOptions: {
-                        columns: ':not(.notexport)'
-                    }
-                }
-            ]
-        },
-        topEnd: {
-            search: {
-                placeholder: 'Type search here'
-            },
-            buttons: [
-                {
-                    extend: 'split',
-                    text: 'Filter by Package',
-                    className: 'btn-white',
-                    split: [
+        let dataTable = $('#filterTable').DataTable({
+            select: true,
+            layout: {
+                topStart: {
+                    buttons: [
+                        'pageLength',
                         {
-                            text: 'Show All',
-                            action: function() {
-                                dataTable.column(5).search('').draw(); // Hapus filter
+                            extend: 'excel',
+                            text: 'Download',
+                            title: 'Databaseriset - Data Master Pembayaran',
+                            exportOptions: {
+                                columns: ':not(.notexport)'
                             }
-                        },
+                        }
+                    ]
+                },
+                topEnd: {
+                    search: {
+                        placeholder: 'Type search here'
+                    },
+                    buttons: [
                         {
-                            text: 'Paket Bulanan',
-                            action: function() {
-                                dataTable.column(5).search('Paket Bulanan').draw();
-                            }
-                        },
-                        {
-                            text: 'Paket 6 Bulan',
-                            action: function() {
-                                dataTable.column(5).search('Paket 6 Bulan').draw();
-                            }
-                        },
-                        {
-                            text: 'Paket 12 Bulan',
-                            action: function() {
-                                dataTable.column(5).search('Paket 12 Bulan').draw();
+                            text: 'Filter',
+                            action: function () {
+                                $('#filterModal').modal('show')
                             }
                         }
                     ]
                 }
-            ]
-        }
-    }
-});
+            }
+        });
 
 
-        $('.datatable').on('click', '.showBtn', function(){
+        $('.datatable').on('click', '.showBtn', function() {
             paymentId = $(this).data('id')
             url = `payment/show/${paymentId}`
 
@@ -222,5 +226,24 @@
             $('#paymentModal').modal('show');
         })
 
+        $('#filterBtn').on('click', function() {
+            const package = $('#packages').val()
+            const status  = $('#status').val()
+
+            dataTable.column(5).search(package).draw();
+            dataTable.column(7).search(status).draw();
+
+            $('#filterModal').modal('hide')
+        })
+
+        $('#resetBtn').on('click', function() {
+            const package = $('#packages').val('')
+            const status  = $('#status').val('')
+
+            dataTable.column(5).search('').draw();
+            dataTable.column(7).search('').draw();
+
+            $('#filterModal').modal('hide')
+        })
     </script>
 @endpush
