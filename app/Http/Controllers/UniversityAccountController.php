@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\UniversityAccount;
+use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -78,7 +80,48 @@ class UniversityAccountController extends Controller
             'message' => 'Akun gagal dihapus!'
         ]);
     }
+
+    public function destroyAll($universityId)
+    {
+        $universityAccount = UniversityAccount::where('university_id', $universityId)
+        ->get();
+
+        if (count($universityAccount) <= 0) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Akun tidak ditemukan!'
+            ]);
+        }
+
+        try {
+            foreach ($universityAccount as $account) {
+                $users = User::whereNotNull('akun_id');
+
+                $users->clone()->update([
+                    'akun_id' => ''
+                ]);
     
+                $account->delete();
+
+                // foreach ($users->clone()->get() as $user) {
+                //     $this->sinkronakun($user);
+                // }
+            }
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Akun berhasil dihapus!'
+            ]);
+        } catch (Exception $x) {
+            report($x);
+            return response()->json([
+                'status' => 400,
+                'message' => 'Akun gagal dihapus!'
+            ]);
+        }
+
+        return $this->sinkronuser([]);
+    }
 
     public function edit($university_id, $account_id)
     {
@@ -182,4 +225,37 @@ class UniversityAccountController extends Controller
         return $response;
     }
 
+    // private function sinkronuser($user)
+    // {
+    //     $users    = User::customer()->pluck('akun_id');
+
+    //     $counter = [];
+
+    //     foreach ($users as $user) {
+    //         if (is_array($user)) { 
+    //             foreach ($user as $item) {
+    //                 if (!isset($counter[$item])) {
+    //                     $counter[$item] = 0;
+    //                 }
+    //                 $counter[$item]++;
+    //             }
+    //         }
+    //     }
+
+    //     $accounts = [];
+    //     $items = [];
+    //     foreach ($counter as $key => $item) {
+    //         $account = UniversityAccount::find($key);
+    //         array_push($items, $item);
+    //         if ($account->university->batasan > $item) {
+    //             array_push($accounts, $account);
+    //         }
+    //     }
+
+    //     $data['accounts'] = $accounts;
+    //     $data['counter']  = $counter;
+    //     $data['items'] = $items;
+
+    //     return $data;
+    // }
 }

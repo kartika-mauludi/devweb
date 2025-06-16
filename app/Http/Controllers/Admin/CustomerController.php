@@ -190,7 +190,7 @@ class CustomerController extends Controller
                 'akun_id' => $akun->id,
                 'akun_name' => $akun->university->name,
                 'akun_username' => $akun->username,
-                'selected' => (in_array($akun->id, $akun_id)) ? true : false
+                'selected' => (is_array($akun_id) && in_array($akun->id, $akun_id)) ? true : false
             );
         }
 
@@ -198,11 +198,20 @@ class CustomerController extends Controller
     }
 
     public function akunUpdate(Request $request, User $user)
-    {
-        $input['akun_id'] = $request->akun;
-        
+    {   
+
+        if (!$request->has('akun') or $request->akun == null) {
+            return redirect()->route('customer.index');
+        }
+
+        foreach ($request->akun as $akun) {
+            $akuns[] = (int) $akun;
+        }
+
         try{
-            $user->update($input);
+            $user->update([
+                'akun_id' => $akuns
+            ]);
 
             $message = $this::$message['updatesuccess'];
         }catch(Exception $x){

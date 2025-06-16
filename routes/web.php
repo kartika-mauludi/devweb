@@ -109,7 +109,6 @@ Route::prefix('admin')->group(function(){
         Route::put('update/{user}', 'update')->name('update');
         Route::delete('destroy/{user}', 'destroy')->name('destroy');
         Route::post('config','AdminConfig')->name('config');
-
     });
     
     Route::group(['prefix' => 'package', 'as' => 'package.', 'controller' => SubscribePackageController::class], function(){
@@ -180,7 +179,6 @@ Route::prefix('admin')->group(function(){
         Route::put('update/{file}', 'update')->name('update');
         Route::delete('destroy/{file}', 'destroy')->name('destroy');
     });
-    
 
     Route::group(['prefix' => 'midtrans-config', 'as' => 'midtrans-config.', 'controller' => MidtransConfigController::class], function(){
         Route::get('setting', 'setting')->name('setting');
@@ -191,6 +189,8 @@ Route::prefix('admin')->group(function(){
 Route::get('/universities/data', [UniversityController::class, 'getData'])->name('universities.data');
 Route::post('/universities/{id}/accounts/import', [UniversityAccountController::class, 'import']);
 Route::post('/universities/{id}/websites/import', [UniversityWebsiteController::class, 'import']);
+Route::delete('/universities/{id}/delete-all-accounts', [UniversityAccountController::class, 'destroyAll']);
+
 Route::resource('universities', UniversityController::class);
 Route::resource('universities.accounts', UniversityAccountController::class);
 Route::resource('universities.websites', UniversityWebsiteController::class);

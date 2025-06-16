@@ -21,6 +21,7 @@
                     <div class="d-flex gap-5">
                         <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#addAccountModal">Tambah</button>
                         <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#importAccountModal">Import</button>
+                        <button class="btn btn-sm btn-danger" id="deleteBtn">Hapus All User</button>
                     </div>
                 </div>
                 <table id="tbl-university-account" class="table table-sm table-bordered table-hover">
@@ -131,5 +132,34 @@
             $(this).wrap('<div class="table-responsive"></div>');
         }
     });
+
+    $('#deleteBtn').on('click', function() {
+            Swal.fire({
+                title: "Yakin ingin menghapus?",
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Hapus",
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    showLoading();
+                    $.ajax({
+                        url: `/universities/${universityId}/delete-all-accounts`,
+                        type: 'DELETE',
+                        data: { _token: '{{ csrf_token() }}' },
+                        success: function (res) {
+                            closeLoading();
+                            accountTable.ajax.reload();
+                            Swal.fire('Sukses', res.success, 'success');
+                        },
+                        error: function () {
+                            closeLoading();
+                            Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus data.', 'error');
+                        }
+                    });
+                }
+            });
+    })
 </script>
 @endpush
