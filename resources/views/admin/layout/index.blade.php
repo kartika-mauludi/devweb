@@ -37,6 +37,8 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.3/css/buttons.dataTables.css">
   <!-- select2 -->
   <link rel="stylesheet" href="{{ asset('admin/dist/css/select2.min.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css" rel="stylesheet" />
+
   <!-- Custom CSS -->
   <link rel="stylesheet" href="{{ asset('admin/custom/css/custom.css?v=1.0') }}">
   

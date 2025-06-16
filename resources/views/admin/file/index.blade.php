@@ -14,7 +14,6 @@
             <div class="card-header">
              <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#addfileModal">Tambah</button>
             </div>
-
             <div class="card-body">
                 <div class="table-responsive">
                     <table id="tbl-file"class="table table-sm table-bordered table-hover">
@@ -39,18 +38,19 @@
         <h2> Master Bonus </h2>
         <div class="card">
             <div class="card-header">
-             <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#addfileModal">Tambah</button>
+             <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#addBonusModal">Tambah</button>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="tbl-file"class="table table-sm table-bordered table-hover">
+                    <table id="tbl-file-bonus"class="table table-sm table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Type</th>
-                                <th>Link</th>
-                                <th>File Location</th>
+                                <th>Customer</th>
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>File</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -66,7 +66,7 @@
 </div>
 
 
-<!-- Modal Tambah -->
+<!-- Modal Tambah FIle-->
 <div class="modal fade" id="addfileModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -74,7 +74,7 @@
                 <h5 class="modal-title">Tambah File</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <form action="{{ route('file.store') }}" method="POST" id="addfileForm">
+            <form action="{{ route('file.store') }}" method="POST" class="addfileForm" data-target-table="#tbl-file">
                 @csrf
                 <div class="modal-body">
                 <div class="form-group">
@@ -88,7 +88,6 @@
                              <option value="extension"> extension </option>
                              <option value="qris"> Qris </option>
                              <option value="video"> video </option>
-
                         </select>
                     </div>
                     <div class="form-group urlinput" style="display: none">
@@ -109,7 +108,7 @@
     </div>
 </div>
 
-<!-- Modal Edit -->
+<!-- Modal Edit FIle-->
 <div class="modal fade" id="editfileModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -117,7 +116,7 @@
                 <h5 class="modal-title">Edit File</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <form id="editfileForm" method="POST">
+            <form id="editfileForm" class="editfileForm" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="modal-body">
@@ -140,6 +139,101 @@
                         <input type="url" name="link" id="edit_url" class="form-control">
                     </div>
                     <div class="form-group fileinput" style="display: none">
+                        <label>File</label>
+                        <input type="file" name="file_location" id="edit_file_location" class="form-control" accept="application/zip/jpeg/jpg/png">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Tambah Bonus-->
+<div class="modal fade" id="addBonusModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah File</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="{{ route('file.store-bonus') }}" method="POST" class="addfileForm" id="">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Nama File</label>
+                        <input type="text" name="name" id="name" class="form-control" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label>Customer</label>
+                        <select name="user_id"  class="form-control select2 Selectcustomer" data-placeholder="Cari Customer...">
+                            <option></option>
+                            @foreach ($customers as $customer )
+                                <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" name="username" id="username" class="form-control" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="text" name="password" id="password" class="form-control" required autofocus>
+                    </div>
+                    <div class="form-group fileinput">
+                        <label>File</label>
+                        <input type="file" name="file_location" id="file_location" class="form-control" accept="application/zip">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Simpan</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit Bonus-->
+<div class="modal fade" id="editBonusModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit File</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="editfileFormbonus" class="editfileForm" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <input type="hidden" id="edit_id_bonus">
+                    <div class="form-group">
+                        <label>Nama File</label>
+                        <input type="text" name="name" id="edit_name_bonus" class="form-control" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label>Customer</label>
+                        <select name="user_id" id="edit_customer" class="form-control select2 Selectcustomer" data-placeholder="Cari Customer...">
+                            <option></option>
+                            @foreach ($customers as $customer )
+                                <option value="{{ $customer->id }}" >{{ $customer->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" name="username" id="edit_username" class="form-control" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="text" name="password" id="edit_password" class="form-control" required autofocus>
+                    </div>
+                    <div class="form-group fileinput">
                         <label>File</label>
                         <input type="file" name="file_location" id="edit_file_location" class="form-control" accept="application/zip/jpeg/jpg/png">
                     </div>
@@ -199,7 +293,9 @@
                 $(this).wrap('<div class="table-responsive"></div>');
             }
         });
+
         $('#tbl-file').on('click', '.edit-btn', function () {
+            var table = $('.table').DataTable();
             var id = $(this).data('id');
             showLoading();
             var url = "{{ route('file.edit', ':id') }}".replace(':id', id);
@@ -218,6 +314,7 @@
         });
 
         $('#tbl-file').on('click', '.delete-btn', function () {
+            var table = $('.table').DataTable();
             var id = $(this).data('id');
             var url = "{{ route('file.destroy', ':id') }}".replace(':id', id);
             Swal.fire({
@@ -252,16 +349,122 @@
             });
         });
 
-        $('#addfileForm').on('submit', function (e) {
+        var table = $('#tbl-file-bonus').DataTable({
+            processing: true,
+            ordering: false,
+            serverSide: false,
+            ajax: "{{ route('file.data-bonus') }}",
+            columns: [
+                { 
+                    data: null, render: (data, type, row, meta) => {
+                        return `<div class="text-center">${meta.row + 1}.</div>`;
+                    } 
+                },
+                { 
+                    data: 'name', 
+                    render: (data, type, row) => `${data}`
+                },
+                { 
+                    data: 'customer', 
+                    render: (data) => data ? `${data}` : '-'
+                },
+                { 
+                    data: 'username', 
+                    render: (data) => data ? `${data}` : '-'
+                },
+                { 
+                    data: 'password', 
+                    render: (data) => data ? `${data}` : '-'
+                },
+                {
+                    data: 'file_location',
+                    render: (data, type, row) => data ? `<a href="{{ asset('/storage') }}/${data}" target="_blank" download>${data}</a>` : '-'
+                },
+                { 
+                    data: 'id', 
+                    render: function(data, type, row) {
+                        return `
+                            <div class="btn-group d-flex gap-5">
+                                <button class="btn btn-sm btn-warning edit-btn" data-id="${data}">Edit</button>
+                                <button class="btn btn-sm btn-danger delete-btn" data-id="${data}">Hapus</button>
+                            </div>`;
+                    }
+                }
+            ],
+            initComplete: function () {
+                $(this).wrap('<div class="table-responsive"></div>');
+            }
+        });
+        
+        $('#tbl-file-bonus').on('click', '.edit-btn', function () {
+            var table = $('.table').DataTable();
+            var id = $(this).data('id');
+            showLoading();
+            var url = "{{ route('file.edit-bonus', ':id') }}".replace(':id', id);
+            $.get(url, function (file) {
+                closeLoading();
+                $('#edit_id_bonus').val(file.id);
+                $('#edit_name_bonus').val(file.name);
+                $('#edit_customer').val(file.user_id).trigger('change');
+                $('#edit_username').val(file.username);
+                $('#edit_password').val(file.password);
+                var updateUrl = "{{ route('file.update-bonus', ':id') }}".replace(':id', file.id);
+                $('#editfileFormbonus').attr('action', updateUrl);
+                $('#editBonusModal').modal('show');
+                $('#editfileModal').on('shown.bs.modal', function () {
+                    $('#edittype').val(String(file.type)).change();
+                });
+            });
+        });
+
+        $('#tbl-file-bonus').on('click', '.delete-btn', function () {
+            var table = $('.table').DataTable();
+            var id = $(this).data('id');
+            var url = "{{ route('file.destroy-bonus', ':id') }}".replace(':id', id);
+            Swal.fire({
+                title: 'Yakin ingin menghapus?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    showLoading();
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        data: { _token: '{{ csrf_token() }}' },
+                        success: function (response) {
+                            closeLoading();
+                            if (response.status == 200) {
+                                Swal.fire('Berhasil!', response.message, 'success');
+                            } else {
+                                Swal.fire('Gagal!', response.message, 'error');
+                            }
+                            table.ajax.reload();
+                        },
+                        error: function () {
+                            closeLoading();
+                            Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus data.', 'error');
+                        }
+                    });
+                }
+            });
+        });
+
+        $(document).on('submit','.addfileForm', function (e) {
+            var table = $('.table').DataTable();
             e.preventDefault();
             showLoading();
-            var formData = new FormData($(this)[0])
+            var form = this;
+            var formData = new FormData($(this)[0]);
+            var table = $('.table').DataTable();
 
             $.ajax({
-                url: $(this).attr('action'),
+                url: $(form).attr('action'),
                 type: 'POST',
                 data: formData,
-                async: false,
                 cache: false,
                 contentType: false,
                 enctype: 'multipart/form-data',
@@ -273,8 +476,8 @@
                     } else {
                         Swal.fire('Gagal!', response.message, 'error');
                     }
-                    $('#addfileModal').modal('hide');
-                    $('#addfileForm').trigger('reset');
+                    $(form).closest('.modal').modal('hide');
+                    form.reset();
                     table.ajax.reload();
                 },
                 error: function () {
@@ -284,11 +487,12 @@
             });
         });
 
-        $('#editfileForm').on('submit', function (e) {
+        $('.editfileForm').on('submit', function (e) {
+            var table = $('.table').DataTable();
             e.preventDefault();
             showLoading();
+            var form = this;
             var formData = new FormData($(this)[0])
-
             $.ajax({
                 url: $(this).attr('action'),
                 type: 'POST',
@@ -305,7 +509,8 @@
                     } else {
                         Swal.fire('Gagal!', response.message, 'error');
                     }
-                    $('#editfileModal').modal('hide');
+                    $(form).closest('.modal').modal('hide');
+                    form.reset();
                     table.ajax.reload();
                 },
                 error: function () {
@@ -326,6 +531,12 @@
                 $('.urlinput').show()
             }
         })
+        $('.Selectcustomer').select2({
+            theme: 'bootstrap4',
+            placeholder: 'Cari Customer...',
+            allowClear: true,
+            width: '100%'
+        });
     });
 </script>
 @endpush

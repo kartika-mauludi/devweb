@@ -5,7 +5,10 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\File;
+use App\Models\Bonus;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
+
 
 class FileController extends Controller
 {
@@ -24,6 +27,8 @@ class FileController extends Controller
     {
         $data['title'] = $this->title;
         $data['files'] = File::all();
+        $data['bonuses'] = Bonus::all();
+        $data['customers'] = User::where('is_superadmin','=',0)->get();
         return view('admin.file.index',$data);
     }
 
@@ -157,9 +162,120 @@ class FileController extends Controller
 
     public function data(){
         $file = file::select(['id', 'name', 'link', 'type', 'file_location'])->get();
-    
         return response()->json([
             "data" => $file
         ]);
     }
+
+    public function databonus(){
+        $file = bonus::with('user')->get()->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'name' => $item->name,
+                'file_location' => $item->file_location,
+                'username' => $item->username,
+                'password' => $item->password,
+                'user_id' => $item->user_id,
+                'customer' => $item->user->name ?? '-', // ini untuk kolom "Customer"
+            ];
+        });
+        return response()->json([
+            "data" => $file
+        ]);
+    }
+
+
+    public function storebonus(request $request){
+        $input = $request->validate([
+            'name' => 'required',
+            'user_id' => 'required',
+            'username' => 'required',
+            'password' => 'required',
+            'file_location' => 'nullable|mimes:zip'
+        ]);
+        
+        $status = 400;
+        $message = 'File gagal ditambahkan!';
+
+        if ($request->has('file_location')) {
+            $input['file_location'] = $request->file('file_location')->storeAs('bonus', $request->file('file_location')->getClientOriginalName(), ['disk' => 'public']);
+        }
+
+        $result = bonus::create($input);
+        if ($result) {
+            $status = 200;
+            $message = 'File berhasil ditambahkan!';
+        }
+
+        return response()->json([
+            'status' => $status,
+            'message' => $message
+        ]);
+    }
+
+    public function editbonus(string $id){
+        $file = bonus::findOrFail($id);
+        return response()->json($file);
+    }
+
+    public function updatebonus(Request $request, bonus $bonus){
+        $input = $request->validate([
+            'name' => 'required',
+            'user_id' => 'required',
+            'username' => 'required',
+            'password' => 'required',
+            'file_location' => 'nullable|mimes:zip'
+        ]);
+        
+        $status = 400;
+        $message = 'File gagal diperbarui!';
+
+        if ($request->has('file_location')) {
+            $exist = Storage::disk('public')->exists($bonus->file_location ?? '--');
+            if ($exist) {
+                Storage::disk('public')->delete($bonus->file_location);
+            }
+            $input['file_location'] = $request->file('file_location')->storeAs('bonus', $request->file('file_location')->getClientOriginalName(), ['disk' => 'public']);  
+            
+        }
+
+        $result = $bonus->update($input);
+
+        if ($result) {
+            $status = 200;
+            $message = 'File berhasil diperbarui!';
+        }
+    
+        return response()->json([
+            'status' => $status,
+            'message' => $message
+        ]);
+    }
+
+    public function destroybonus(Bonus $bonus)
+    {
+        $result = $bonus->delete();
+
+        $status = 400;
+        $message = 'File gagal dihapus!';
+
+        $exist = Storage::disk('public')->exists($bonus->file_location ?? '--');
+
+        if ($exist) {
+            Storage::disk('public')->delete($bonus->file_location);
+        }
+        
+        if ($result) {
+            $status = 200;
+            $message = 'File berhasil dihapus!';
+        }
+    
+        return response()->json([
+            'status' => $status,
+            'message' => $message
+        ]);
+    }
+
+
+
 }

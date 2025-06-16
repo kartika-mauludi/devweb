@@ -14,6 +14,7 @@ use App\Models\University;
 use App\Models\UniversityAccount;
 use App\Models\UniversityWebsite;
 use App\Models\Website;
+use App\Models\Bonus;
 
 
 class HomeController extends Controller
@@ -75,6 +76,7 @@ class HomeController extends Controller
         $univ = University::where('parent','==',0)->where('parent','===',Null)->get();
         $website = UniversityWebsite::with('university')->orderBy('title')->get();
         $file = File::latest()->get();
+        $bonus = bonus::where('user_id','=',auth::id())->first();
 
         $data['admin'] = $admin;
         $data['user'] = $user;
@@ -85,6 +87,8 @@ class HomeController extends Controller
         $data['websites'] = $website;
         $data['ceksub'] = $ceksub;
         $data['files'] = $file;
+        $data['bonus'] = $bonus;
+
         
         return view('customer.home',$data);
     }
