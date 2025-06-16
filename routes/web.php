@@ -96,6 +96,7 @@ Route::prefix('admin')->group(function(){
         Route::post('store', 'store')->name('store');
         Route::put('update/{user}', 'update')->name('update');
         Route::delete('destroy/{user}', 'destroy')->name('destroy');
+        Route::get('refresh','refresh')->name('refresh');
 
     });
     
@@ -178,7 +179,7 @@ Route::prefix('admin')->group(function(){
         Route::get('edit/{id}', 'edit')->name('edit');
         Route::put('update/{file}', 'update')->name('update');
         Route::delete('destroy/{file}', 'destroy')->name('destroy');
-        
+
         Route::get('databonus','databonus')->name('data-bonus');
         Route::post('storebonus', 'storebonus')->name('store-bonus');
         Route::get('editbonus/{id}', 'editbonus')->name('edit-bonus');

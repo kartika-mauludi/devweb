@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use PhpParser\Node\Stmt\TryCatch;
 
 class CustomerController extends Controller
 {
@@ -199,7 +200,6 @@ class CustomerController extends Controller
 
     public function akunUpdate(Request $request, User $user)
     {   
-
         if (!$request->has('akun') or $request->akun == null) {
             return redirect()->route('customer.index');
         }
@@ -219,6 +219,22 @@ class CustomerController extends Controller
             $message = $this::$message['error'];
         }
 
+        return redirect()->route('customer.index')->with('message', $message);
+    }
+
+    public function refresh(){
+
+        try {
+            user::with('latestSubscribeRecord')->where('is_superadmin','=','0')->whereHas('latestSubscribeRecord',
+            function ($query) {$query->whereNotNull('end_date')->where('end_date', '<', now()); })
+            ->update([
+                'akun_id' => ''
+            ]);
+            $message = $this::$message['refreshsuccess'];
+        } catch (\Throwable $th) {
+            report($th);
+            $message = $this::$message['error'];
+        }
         return redirect()->route('customer.index')->with('message', $message);
     }
 }

@@ -121,10 +121,10 @@
               @endif
             </div>
           </div>
+          @if($bonus)
           <div class="col-xl-12 col-lg-12 col-md-12" >
            <div class="service-item position-relative" style="border:1px">
             <h3> Bonus </h3>
-              @if($bonus)
               <table class="table">
                 <thead>
                   <tr>
@@ -145,10 +145,9 @@
                   </tr>
                 </tbody>
               </table>
-                  
-              @endif
             </div>
           </div>
+          @endif
         </div>
       </div>
     </section>

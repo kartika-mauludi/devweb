@@ -81,6 +81,11 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasMany(SubscribeRecord::class);
     }
 
+    public function latestSubscribeRecord()
+    {
+        return $this->hasOne(SubscribeRecord::class)->latestOfMany();
+    }
+
     public function affiliateConfig()
     {
         return $this->hasMany(AffiliateDetails::class);

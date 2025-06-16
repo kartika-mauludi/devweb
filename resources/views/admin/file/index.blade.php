@@ -531,11 +531,15 @@
                 $('.urlinput').show()
             }
         })
-        $('.Selectcustomer').select2({
-            theme: 'bootstrap4',
-            placeholder: 'Cari Customer...',
-            allowClear: true,
-            width: '100%'
+        $('.Selectcustomer').each(function () {
+            const parentModal = $(this).closest('.modal');
+            $(this).select2({
+                theme: 'bootstrap4',
+                dropdownParent: parentModal,
+                placeholder: 'Cari Customer...',
+                allowClear: true,
+                width: '100%'
+            });
         });
     });
 </script>

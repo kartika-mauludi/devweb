@@ -18,6 +18,7 @@
         <div class="card">
             <div class="card-header">
                 <a href="{{ route('customer.create') }}" class="btn btn-sm btn-success">Tambah</a>
+                <a href="{{ route('customer.refresh') }}" class="btn btn-sm btn-success" onclick="return confirm('Konfirmasi Refresh Akun')">Refresh Akun</a>
             </div>
 
             <div class="card-body">
@@ -158,6 +159,11 @@
             setTimeout(() => {
                 $('#akunForm').submit()
             }, 120);
+        });
+
+        $('#refresh').click(function(){
+            
         })
+
     </script>
 @endpush
