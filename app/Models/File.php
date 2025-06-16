@@ -11,5 +11,6 @@ class File extends Model
         'link',
         'name',
         'file_location'
+        
     ];
 }

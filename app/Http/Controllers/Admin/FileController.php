@@ -44,14 +44,18 @@ class FileController extends Controller
             'name' => 'required',
             'type' => 'required',
             'link' => 'nullable|url',
-            'file_location' => 'nullable|mimes:zip'
+            'file_location' => 'nullable|mimes:zip,jpg,jpeg,png'
         ]);
         
         $status = 400;
         $message = 'File gagal ditambahkan!';
 
         if ($request->has('file_location')) {
-            $input['file_location'] = $request->file('file_location')->storeAs('extensi', $request->file('file_location')->getClientOriginalName(), ['disk' => 'public']);
+            if($request->type === "qris"){
+                $input['file_location'] = $request->file('file_location')->storeAs('qris', $request->file('file_location')->getClientOriginalName(), ['disk' => 'public']);
+            }else{
+                $input['file_location'] = $request->file('file_location')->storeAs('extensi', $request->file('file_location')->getClientOriginalName(), ['disk' => 'public']);
+            }
         }
 
         $result = file::create($input);
@@ -92,7 +96,7 @@ class FileController extends Controller
             'name' => 'required',
             'type' => 'required',
             'link' => 'nullable|url',
-            'file_location' => 'nullable|mimes:zip'
+            'file_location' => 'nullable|mimes:zip,jpg,jpeg,png'
         ]);
         
         $status = 400;
@@ -103,8 +107,11 @@ class FileController extends Controller
             if ($exist) {
                 Storage::disk('public')->delete($file->file_location);
             }
-
-            $input['file_location'] = $request->file('file_location')->storeAs('extensi', $request->file('file_location')->getClientOriginalName(), ['disk' => 'public']);
+            if($request->type === "qris"){
+                $input['file_location'] = $request->file('file_location')->storeAs('qris', $request->file('file_location')->getClientOriginalName(), ['disk' => 'public']);
+            }else{
+                $input['file_location'] = $request->file('file_location')->storeAs('extensi', $request->file('file_location')->getClientOriginalName(), ['disk' => 'public']);
+            }
         }
 
         $result = $file->update($input);

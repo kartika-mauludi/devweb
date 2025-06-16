@@ -35,6 +35,33 @@
                 </div>
             </div>
         </div>
+
+        <h2> Master Bonus </h2>
+        <div class="card">
+            <div class="card-header">
+             <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#addfileModal">Tambah</button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tbl-file"class="table table-sm table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Link</th>
+                                <th>File Location</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -59,7 +86,9 @@
                         <select name="type" id="type" class="form-control">
                              <option value="">-- Pilih Type --</option>
                              <option value="extension"> extension </option>
+                             <option value="qris"> Qris </option>
                              <option value="video"> video </option>
+
                         </select>
                     </div>
                     <div class="form-group urlinput" style="display: none">
@@ -68,7 +97,7 @@
                     </div>
                     <div class="form-group fileinput" style="display: none">
                         <label>File</label>
-                        <input type="file" name="file_location" id="file_location" class="form-control" accept="application/zip">
+                        <input type="file" name="file_location" id="file_location" class="form-control" accept="application/zip/jpg/jpeg/png">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -102,6 +131,7 @@
                         <select name="type" id="edittype" class="form-control">
                              <option value="">-- Pilih Type --</option>
                              <option value="extension"> extension </option>
+                             <option value="qris"> Qris </option>
                              <option value="video"> video </option>
                         </select>
                     </div>
@@ -111,7 +141,7 @@
                     </div>
                     <div class="form-group fileinput" style="display: none">
                         <label>File</label>
-                        <input type="file" name="file_location" id="edit_file_location" class="form-control" accept="application/zip">
+                        <input type="file" name="file_location" id="edit_file_location" class="form-control" accept="application/zip/jpeg/jpg/png">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -288,7 +318,7 @@
         $('select[name="type"]').on('change', function (e) {
             const val = $(this).val()
 
-            if (val == 'extension') {
+            if (val == 'extension' || val == 'qris') {
                 $('.fileinput').show()
                 $('.urlinput').hide()
             } else {
