@@ -157,7 +157,7 @@ class PaymentController extends Controller
                 $data = $universiti;
                 Mail::to($this->admin_email ?? "afibrulyansah@unusa.ac.id")->send(new info($data));
 
-                $message = $this::$message['error_akun_univ'];
+                $message = "Akun".implode(', ', $universiti)."kosong dimohon untuk cek ketersediaan akun yang ada";
                 return back()->with('error',$message)->withInput();
             }
         }

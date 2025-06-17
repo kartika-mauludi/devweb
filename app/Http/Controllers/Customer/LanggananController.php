@@ -9,6 +9,7 @@ use App\Models\SubscribeRecord;
 use App\Models\Payment;
 use App\Models\User;
 use App\Models\ConfigAdmin;
+use App\Models\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\re_register;
@@ -103,8 +104,9 @@ class LanggananController extends Controller
     public function qris($id){
         $user = User::where('is_superadmin',1)->first();
         $pack = SubscribeRecord::latest('id')->with('subscribePackage','payments')->where('user_id',$id)->first();
+        $qris = file::where('type','=','qris')->latest('id')->first();
     
-        return view('customer.qris',compact('pack','user'));
+        return view('customer.qris',compact('pack','user', 'qris'));
         
     }
 

@@ -40,7 +40,6 @@ class CustomerController extends Controller
         $data['url']   = route('customer.store');
         $data['prev']  = route('customer.index');
         $data['packages'] = SubscribePackage::all();
-
         return view('admin.customer.form', $data);
     }
 
@@ -64,7 +63,7 @@ class CustomerController extends Controller
                 $subs['subscribe_package_id'] = $package->id;
                 $subs['start_date'] = $start;
                 $subs['end_date'] = $end;
-                $subs['status'] = 'aktif';
+                $subs['account_status'] = 'aktif';
     
                 $subsrecord = SubscribeRecord::create($subs);
                 $latest = Payment::latest()->first();

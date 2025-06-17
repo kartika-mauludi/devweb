@@ -17,7 +17,7 @@
             <span class="text-primary">No Invoice : {{ $pack->payments->first()->id_invoice }}</span>
             <span class="badge bg-primary rounded-pill"></span>
           </h5>
-        <img src="{{ asset('assets/img/QR-Code.jpg') }}" width="150px" height="150px" alt="">
+        <img src="{{ asset('/storage'.'/'.$qris->file_location) }}" width="150px" height="150px" alt="">
         
           <ul class="list-group mb-3">
             <li class="list-group-item d-flex justify-content-between lh-sm">
