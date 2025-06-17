@@ -17,9 +17,12 @@
             <span class="text-primary">No Invoice : {{ $pack->payments->first()->id_invoice }}</span>
             <span class="badge bg-primary rounded-pill"></span>
           </h5>
-        <img src="{{ asset('/storage'.'/'.$qris->file_location) }}" width="150px" height="150px" alt="">
-        
-          <ul class="list-group mb-3">
+          @if($qris)
+            <img src="{{ asset('/storage'.'/'.($qris ? $qris->file_location: '') )  }}" width="150px" height="150px" alt="">
+          @else
+          <label for="">Qris masih belum di kosong</label>
+          @endif
+            <ul class="list-group mb-3">
             <li class="list-group-item d-flex justify-content-between lh-sm">
               <div>
                 <h6 class="my-0">Pilihan Paket</h6>
