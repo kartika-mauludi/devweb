@@ -9,7 +9,8 @@ class ConfigAdmin extends Model
     protected $fillable = [
         'user_id',
         'email',
-        'nomor'
+        'nomor',
+        'bank_account'
     ];
 
     public $timestamps = false;

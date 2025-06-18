@@ -1,6 +1,7 @@
 @extends('customer.asset')
 @section('content')
 
+
 <main class="hero row justify-content-center">
 <div class="col-md-4 col-lg-4 col-sm-8 order-md-last bg-light shadow-sm m-2 p-5 border border-1">
     @if($pack->account_status == "non-aktif")
@@ -17,11 +18,41 @@
             <span class="text-primary">No Invoice : {{ $pack->payments->first()->id_invoice }}</span>
             <span class="badge bg-primary rounded-pill"></span>
           </h5>
+          
+             
+          
+          
+        </span>
           @if($qris)
             <img src="{{ asset('/storage'.'/'.($qris ? $qris->file_location: '') )  }}" width="150px" height="150px" alt="">
           @else
-          <label for="">Qris masih belum di kosong</label>
+          <label for="">Salin Nomor Rekening berikut untuk menyelesaikan pembayaran</label>
+          <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+              <div>
+                <h6 class="my-0">Bank</h6>
+              </div>
+              <span class="text-muted " >
+                @foreach ($records as $record )
+                  @if($record->id == $config->bank_account) {{ $record->bank_name }}@endif
+                @endforeach
+               </span>
+            </li>
+            <span class="tooltip2" onclick="copyRekening()" id="tooltipWrapper">
+            <li class="list-group-item d-flex justify-content-between lh-sm"id="copyBtn">
+              <div>
+                <h6 class="my-0">Nomor Rekening</h6>
+              </div>
+                 <span class="text-muted" id="noRek">
+                    @foreach ($records as $record )
+                      @if($record->id == $config->bank_account) {{ $record->bank_account }}@endif
+                    @endforeach
+                </span>
+            </li>
+            <span class="tooltiptext" id="myTooltip">Klik untuk menyalin</span>
+            </ul>
           @endif
+          <label for="" style="text-align: left; display: block;"><b>Detail Pembayaran</b></label>
             <ul class="list-group mb-3">
             <li class="list-group-item d-flex justify-content-between lh-sm">
               <div>
@@ -86,7 +117,30 @@
       });
     }
   });
+
+  
 </script>
+
+<script>
+function copyRekening() {
+  const copyText = document.getElementById("noRek").innerText.trim();
+  const tooltip = document.getElementById("myTooltip");
+  const wrapper = document.getElementById("tooltipWrapper");
+
+  navigator.clipboard.writeText(copyText).then(() => {
+    tooltip.innerHTML = "Copied: " + copyText;
+    wrapper.classList.add("active");
+
+    setTimeout(() => {
+      tooltip.innerHTML = "Klik untuk menyalin";
+      wrapper.classList.remove("active");
+    }, 2000); // Reset tooltip setelah 2 detik
+  }).catch(() => {
+    tooltip.innerHTML = "Gagal menyalin!";
+  });
+}
+</script>
+
 
 
 

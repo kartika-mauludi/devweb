@@ -97,6 +97,15 @@
                              @endforeach
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label>Nomor Rekening</label>
+                        <select name="bank_account" id="type" class="form-control">
+                             <option value="">-- Pilih Nomor Rekening --</option>
+                             @foreach ($records as $record)
+                             <option value="{{ $record->id }}" @if($config)@selected($config->bank_account == ($record->id ?? ''))@endif>{{ $record->bank_account }}</option>
+                             @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Simpan</button>

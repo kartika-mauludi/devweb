@@ -52,7 +52,7 @@ class HomeController extends Controller
             $query->where('status', '=', "pending");
         })->get();
         $data['incomes'] = Payment::where('status', 'completed')->get();
-        $data['withdrawRequest'] = UserAffiliate::where('status', 'pending')->get();
+        $data['withdrawRequest'] = UserAffiliate::where('status', 'withdraw')->get();
 
         return view('admin.dashboard.index', $data);
     }

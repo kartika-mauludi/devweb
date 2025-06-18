@@ -119,7 +119,8 @@ class SuperadminController extends Controller
     public function AdminConfig(Request $request){
         $input = $request->validate([   
             'email' => 'required',
-            'nomor' => 'required'
+            'nomor' => 'required',
+            'bank_account' =>'required'
         ]);
         
         $status = 400;

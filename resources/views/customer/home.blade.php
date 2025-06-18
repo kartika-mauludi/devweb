@@ -61,6 +61,8 @@
       </div>
     </div>
   </div>
+  <a href="{{ route('customer/langganan.qris',$payment->user_id) }}" class="btn btn-primary my-2">Payment</a>
+
       <!-- Section Title -->
       <div class="container">
         <div class="row justify-content-center">
@@ -169,7 +171,8 @@
               @endforeach
             </select>
           </div>
-          <table id="filterTable" class="display w-100">
+          <div class="table-responsive">
+          <table id="filterTable" class="table display w-100 ">
             <thead>
                 <tr>
                     <th>Nama Universitas</th>
@@ -192,6 +195,7 @@
                 @endforeach
             </tbody>
           </table>
+          </div>
           </div>
         </div>
       </div>
