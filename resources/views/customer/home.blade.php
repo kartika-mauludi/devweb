@@ -36,7 +36,7 @@
         <div class="alert alert-danger alert-dismissible">
           <div class="container">
             <p> Anda Memiliki Tagihan Pembayaran Yang Belum Diselesaikan Klik Tombol Berikut Untuk Melihat Pembayaran Anda
-              <a href="{{ route('customer/langganan.qris',$payment->user_id) }}" class="btn btn-primary my-2">Payment</a>
+                <a href="{{ route('customer/langganan.qris',$payment->user_id) }}" class="btn btn-primary my-2">Payment</a>
             </p>
           </div>
         </div>
@@ -61,8 +61,6 @@
       </div>
     </div>
   </div>
-  <a href="{{ route('customer/langganan.qris',$payment->user_id) }}" class="btn btn-primary my-2">Payment</a>
-
       <!-- Section Title -->
       <div class="container">
         <div class="row justify-content-center">
@@ -218,10 +216,6 @@
     </div>
   </div>
 </div>
-
-
-
-
   @endsection
   @push('script')
   <script>

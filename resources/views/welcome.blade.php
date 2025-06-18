@@ -38,7 +38,6 @@
       </div><!-- End Section Title -->
 
       <div class="container">
-
         <div class="row gy-4">
 
           <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
@@ -53,15 +52,15 @@
             <div class="service-item position-relative text-center">
               <div class="icon"><i class="bi bi-wallet2"></i></div>
               <h4>Harga Paling Terjangkau</h4>
-              <p>Mulai dari 125 ribu/bulan, harga yang sangat terjangkau untuk manfaat yang luar biasa.</p>
+              <p>Mulai dari 125 ribu/bulan, harga yang sangat terjangkau untuk manfaat yang luar biasa</p>
             </div>
           </div><!-- End Service Item -->
 
           <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
-            <div class="service-item position-relative text-center">
-            <div class="icon"><i class="bi bi-broadcast fs-1"></i></div>
+            <div class="service-item position-relative text-center w-100">
+            <div class="icon"><i class="bi bi-broadcast"></i></div>
               <h4>Akses Gampang</h4>
-              <p>Langsung klik melalui website, tanpa ribet.</p>
+              <p>Langsung klik melalui website, tanpa ribet</p>
             </div>
           </div><!-- End Service Item -->
 
@@ -69,14 +68,11 @@
             <div class="service-item position-relative text-center">
               <div class="icon "><i class="bi bi-headset"></i></div>
               <h4>Fast Response</h4>
-              <p>Ada masalah? Kami selalu siap membantu kapan pun kamu butuh.</p>
+              <p>Ada masalah? Kami selalu siap membantu kapan pun kamu butuh</p>
             </div>
           </div><!-- End Service Item -->
-
         </div>
-
       </div>
-
     </section><!-- /Services Section -->
 
 
@@ -105,7 +101,7 @@
           </div>
 
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-              <img src="{{ asset('assets/img/layanan/layanan.png') }}" alt="">
+              <img src="{{ asset('assets/img/layanan/layanan.png') }}" width="100%" alt="">
           </div>
 
         </div>

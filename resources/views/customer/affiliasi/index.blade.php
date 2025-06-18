@@ -17,12 +17,12 @@
             </div>
         @endsession
 
-        <!-- @if (session('error'))
+        @if (session('error'))
             <div class="alert alert-danger alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 {{ session('message') }}
             </div>
-        @endsession -->
+        @endsession
 
 
                 <div class="col-xl-12 col-lg-12 col-md-12 mb-4">
@@ -184,11 +184,8 @@ function formatRupiah(angka) {
                 withdrawInput.value = formatRupiah(availableBalance);
                 alert("Saldo tidak mencukupi!");
             }
-
         }
-
         function validateWithdrawal(event){
-
             let availableBalance = parseFloat(document.getElementById("balance").dataset.value);
             let withdrawInput = document.getElementById("withdrawAmount");
             let hiddenInput = document.getElementById("hiddenWithdrawAmount");

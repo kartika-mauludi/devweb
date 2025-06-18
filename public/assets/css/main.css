@@ -184,6 +184,7 @@ h6 {
 
 .header .btn-getstarted,
 .header .btn-getstarted:focus {
+  display: inline-block;
   color: var(--contrast-color);
   background: var(--accent-color);
   font-size: 14px;
@@ -191,6 +192,7 @@ h6 {
   margin: 0 0 0 30px;
   border-radius: 50px;
   transition: 0.3s;
+  text-align: center;
 }
 
 .header .btn-getstarted:hover,
@@ -235,6 +237,48 @@ h6 {
   background: color-mix(in srgb, var(--green-color), transparent 15%);
 }
 
+
+.header .btn-getstarted-dekstop,
+.header .btn-getstarted-dekstop:focus {
+  display: inline-block;
+  color: var(--contrast-color);
+  background: var(--accent-color);
+  font-size: 14px;
+  padding: 8px 25px;
+  margin: 0 0 0 30px;
+  border-radius: 50px;
+  transition: 0.3s;
+  text-align: center;
+}
+
+.header .btn-getstarted-dekstop:hover,
+.header .btn-getstarted-dekstop:focus:hover {
+  color: var(--contrast-color);
+  background: color-mix(in srgb, var(--accent-color), transparent 15%);
+}
+
+.header .btn-getstarted-mobile,
+.header .btn-getstarted-mobile:focus {
+  display: inline-block;
+  color: var(--contrast-color);
+  background: var(--accent-color);
+  font-size: 14px;
+  padding: 8px 25px;
+  margin: 0 0 0 30px;
+  border-radius: 50px;
+  transition: 0.3s;
+  text-align: center;
+}
+
+.header .btn-getstarted-mobile:hover,
+.header .btn-getstarted-mobile:focus:hover {
+  color: var(--contrast-color);
+  background: color-mix(in srgb, var(--accent-color), transparent 15%);
+}
+
+
+
+
 @media (max-width: 1200px) {
   .header .logo {
     order: 1;
@@ -253,7 +297,23 @@ h6 {
   .header .navmenu {
     order: 3;
   }
+ 
+
 }
+
+@media (min-width: 1200px) {
+  .header .btn-getstarted-mobile{
+    display: none;
+  }
+}
+
+
+@media (max-width: 1200px) {
+  .header .btn-getstarted-dekstop{
+    display: none;
+  }
+}
+
 
 /* Index Page Header
 ------------------------------*/

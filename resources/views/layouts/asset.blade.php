@@ -88,29 +88,40 @@
           <li><a href="{{ url('/#tentang') }}">Tentang Kami</a></li>
           <li><a href="{{ url('/#harga') }}">Harga</a></li>
           <li><a href="{{ url('/#layanan') }}">Layanan</a></li>
+          @guest
           <li><a href="{{ route('login') }}" class="login-a">Masuk</a></li>
           <li><a href="{{ url('/#harga') }}" id="menu-mobile">Coba Sekarang</a></li>
+          @endguest
+          @auth
+          <li>
+              @if(auth::user()->is_superadmin == 1)
+                  <a href="{{ url('/admin/home')}}" class="btn-getstarted-mobile" style="margin-left: 2%;">
+              @elseif(auth::user()->is_superadmin == 0)
+                  <a href="{{ url('/customer/home') }}" class="btn-getstarted-mobile" style="margin-left: 2%;">
+              @endif
+                      Dashboard
+                </a>
+          </li>
+          @endauth
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
       @if (Route::has('login'))
-                            <nav class="-mx-3 flex flex-1 justify-end">
-                                @auth
-
-                                @if(auth::user()->is_superadmin == 1)
-                                    <a href="{{ url('/admin/home')}}" class="btn-getstarted">
-                                @elseif(auth::user()->is_superadmin == 0)
-                                <a href="{{ url('/customer/home') }}" class="btn-getstarted">
-                                    @endif
-                                        Dashboard
-                                    </a>
-                                   
-                                @else
-                                <a class="btn-login" href="{{ route('login') }}">Masuk</a>
-                                <a class="btn-getstarted" id="menu-dekstop" href="{{ url('/#harga') }}">Coba Sekarang</a>
-                                @endauth
-                            </nav>
-                        @endif
+          <nav class="-mx-3 flex flex-1 justify-end">
+              @auth
+              @if(auth::user()->is_superadmin == 1)
+                  <a href="{{ url('/admin/home')}}" class="btn-getstarted-dekstop">
+              @elseif(auth::user()->is_superadmin == 0)
+              <a href="{{ url('/customer/home') }}" class="btn-getstarted-dekstop">
+                  @endif
+                      Dashboard
+                  </a>
+              @else
+              <a class="btn-login" href="{{ route('login') }}">Masuk</a>
+              <a class="btn-getstarted" id="menu-dekstop" href="{{ url('/#harga') }}">Coba Sekarang</a>
+              @endauth
+          </nav>
+      @endif
     </div>
   </header>
   <a href="https://wa.me/{{ \App\Models\User::with('config')->find(optional(\App\Models\ConfigAdmin::first())->nomor)->nomor ?? "+6285236868125"}}" target="_blank" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-whatsapp"></i></a>
