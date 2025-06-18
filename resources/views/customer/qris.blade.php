@@ -34,7 +34,7 @@
               </div>
               <span class="text-muted " >
                 @foreach ($records as $record )
-                  @if($record->id == $config->bank_account) {{ $record->bank_name }}@endif
+                  {{ $config && $record->id == $config->bank_account ? $record->bank_name : '' }}
                 @endforeach
                </span>
             </li>
@@ -45,7 +45,7 @@
               </div>
                  <span class="text-muted" id="noRek">
                     @foreach ($records as $record )
-                      @if($record->id == $config->bank_account) {{ $record->bank_account }}@endif
+                    {{ $config && $record->id == $config->bank_account ? $record->bank_account : '' }}
                     @endforeach
                 </span>
             </li>

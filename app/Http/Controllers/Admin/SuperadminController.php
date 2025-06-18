@@ -117,11 +117,7 @@ class SuperadminController extends Controller
     }
 
     public function AdminConfig(Request $request){
-        $input = $request->validate([   
-            'email' => 'required',
-            'nomor' => 'required',
-            'bank_account' =>'required'
-        ]);
+        $input = $request->except('_token', '_method');
         
         $status = 400;
         $message = 'File gagal disimpan!';
