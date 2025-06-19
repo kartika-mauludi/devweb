@@ -85,9 +85,7 @@
                                                     @method('DELETE')
         
                                                     <div class="btn-group">
-                                                        <a href="{{ route('package-record.edit', $record->id) }}" class="btn btn-sm btn-warning">
-                                                            Edit
-                                                        </a>
+                                                      
                                                         <button type="submit" class="btn btn-sm btn-danger">
                                                             Hapus
                                                         </button>
@@ -103,7 +101,10 @@
                     
                     <div class="row mt-3">
                         <div class="col-12">
-                            <a href="{{ $url }}" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="{{ route('package-record.edit', $record->id) }}" class="btn btn-sm btn-success">
+                                                            Tambah Langganan
+                                                        </a>
+                            <!-- <a href="{{ $url }}" class="btn btn-sm btn-warning">Edit</a> -->
                             <a href="{{ $prev }}" class="btn btn-sm btn-secondary">Kembali</a>
                         </div>
                     </div>

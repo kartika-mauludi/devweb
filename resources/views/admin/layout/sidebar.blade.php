@@ -58,6 +58,14 @@
         </a>
       </li>
       <li class="nav-item">
+        <a href="{{ route('configuration.index') }}" class="nav-link @if(Route::is('configuration.*')) active @endif">
+        <i class="nav-icon fas fa-handshake"></i>
+          <p>
+            Affiliasi
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
         <a href="{{ route('user-affiliates.index') }}" class="nav-link @if(Route::is('user-affiliates.*')) active @endif">
           <i class="nav-icon fa fa-dollar-sign"></i>
           <p>
@@ -81,13 +89,6 @@
           </p>
         </a>
       </li>
-      <li class="nav-item">
-        <a href="{{ route('configuration.index') }}" class="nav-link @if(Route::is('configuration.*')) active @endif">
-          <i class="nav-icon fa fa-cog"></i>
-          <p>
-            Konfigurasi
-          </p>
-        </a>
-      </li>
+      
     </ul>
 </nav>

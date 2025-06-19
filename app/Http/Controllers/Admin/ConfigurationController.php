@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class ConfigurationController extends Controller
 {
-    private $title = 'Master Konfigurasi';
+    private $title = 'Master Affiliasi';
 
     public function __construct()
     {

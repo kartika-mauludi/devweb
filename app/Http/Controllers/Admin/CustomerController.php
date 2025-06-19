@@ -115,6 +115,7 @@ class CustomerController extends Controller
         $data['prev']  = route('customer.index');
         $data['record']= $user;
         $data['packages'] = SubscribePackage::all();
+        $data['subscribe'] = SubscribeRecord::where('user_id','=',$user->id)->latest()->first();
 
         return view('admin.customer.form', $data);
     }
@@ -136,11 +137,15 @@ class CustomerController extends Controller
                 $subs['start_date'] = $start;
                 $subs['end_date'] = $end;
     
-                $subsrecord = SubscribeRecord::updateOrCreate([
+                
+                $subscribe = SubscribeRecord::where('user_id','=',$user->id)->latest('id')->first();
+                $subsrecord =  $subscribe->update([
                     'user_id' => $user->id,
                     'subscribe_package_id' => $package->id,
-                    'status' => 'aktif'
-                ],  $subs);
+                    'start_date' => $start,
+                    'end_date' => $end,
+                    'account_status' => 'aktif'
+                ]);
 
                 $latest = Payment::latest()->first();
                 if (! $latest) {

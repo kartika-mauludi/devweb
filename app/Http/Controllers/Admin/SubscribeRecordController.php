@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\SubscribePackage;
 use App\Models\SubscribeRecord;
 use App\Models\User;
+use App\Models\Payment;
 use Exception;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class SubscribeRecordController extends Controller
 {
@@ -44,7 +46,6 @@ class SubscribeRecordController extends Controller
 
         try{
             SubscribeRecord::create($input);
-
             $message = $this::$message['createsuccess'];
         }catch(Exception $x){
             report($x);
@@ -52,6 +53,7 @@ class SubscribeRecordController extends Controller
         }
 
         return redirect()->route('package-record.index')->with('message', $message);
+        
     }
 
     public function show(SubscribeRecord $subscribeRecord)
@@ -80,9 +82,38 @@ class SubscribeRecordController extends Controller
     public function update(Request $request, SubscribeRecord $subscribeRecord)
     {
         $input = $request->except('_token', '_method');
-
+       
         try{
-            $subscribeRecord->update($input);
+            SubscribeRecord::where('user_id',$subscribeRecord->user_id)->update([
+                'account_status' => 'non-aktif'
+            ]);
+
+            $package = SubscribePackage::find($request->subscribe_package_id);
+            $start = Carbon::createFromFormat('Y-m-d', $request->start_date);
+            $end   = $start->copy()->addDays((int) $package->days);
+
+            $subscribe = SubscribeRecord::create([
+                'user_id' => $request->user_id,
+                'subscribe_package_id' => $request->subscribe_package_id,
+                'start_date' => $start,
+                'end_date' => $end,
+                'account_status' => 'aktif'
+            ]);
+            $latest = Payment::latest()->first();
+            if (! $latest) {
+                $string= '0000001';
+            }else{
+                $string = preg_replace("/[^0-9\.]/", '', $latest->id_invoice);
+            }
+            $payment['user_id'] = $request->user_id;
+            $payment['subscribe_record_id'] = $subscribe->id;
+            $payment['id_invoice'] = 'inv-'. sprintf('%06d', $string+1);
+            $payment['price'] = $package->price;
+            $payment['status'] = 'completed';
+
+            Payment::create($payment);
+
+         
 
             $message = $this::$message['updatesuccess'];
         }catch(Exception $x){

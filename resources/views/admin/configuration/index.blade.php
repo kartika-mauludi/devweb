@@ -13,7 +13,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                    <label for="">Configurasi Affiliasi Global</label>
+                    <label for="">Konfigurasi Komisi Global</label>
                     </div>
                     <div class="card-body">
                     <div class="pb-3">
@@ -61,7 +61,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <label for="">Configurasi Affiliasi PerCustomer</label>
+                        <label for="">Konfigurasi Komisi PerCustomer</label>
                     </div>
                     <div class="card-body">
                         <div class="pb-3">

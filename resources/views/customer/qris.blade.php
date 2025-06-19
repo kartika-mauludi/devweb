@@ -11,10 +11,6 @@
             <span class="badge bg-primary rounded-pill"></span>
           </h4>
           <h5 class="d-flex justify-content-center mb-3">
-            <span class="text-primary">Afib Rulyansah</span>
-            <span class="badge bg-primary rounded-pill"></span>
-          </h5>
-          <h5 class="d-flex justify-content-center mb-3">
             <span class="text-primary">No Invoice : {{ $pack->payments->first()->id_invoice }}</span>
             <span class="badge bg-primary rounded-pill"></span>
           </h5>
@@ -38,6 +34,16 @@
                 @endforeach
                </span>
             </li>
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+              <div>
+                <h6 class="my-0">Rekening Atas Nama</h6>
+              </div>
+              <span class="text-muted " >
+                @foreach ($records as $record )
+                  {{ $config && $record->id == $config->bank_account ? $record->bank_name_account : '' }}
+                @endforeach
+               </span>
+            </li>
             <span class="tooltip2" onclick="copyRekening()" id="tooltipWrapper">
             <li class="list-group-item d-flex justify-content-between lh-sm"id="copyBtn">
               <div>
@@ -54,6 +60,12 @@
           @endif
           <label for="" style="text-align: left; display: block;"><b>Detail Pembayaran</b></label>
             <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+              <div>
+                <h6 class="my-0">Nama Customer</h6>
+              </div>
+              <span class="text-muted">{{ $customer }}</span>
+            </li>
             <li class="list-group-item d-flex justify-content-between lh-sm">
               <div>
                 <h6 class="my-0">Pilihan Paket</h6>

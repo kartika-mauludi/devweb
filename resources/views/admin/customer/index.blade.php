@@ -18,7 +18,7 @@
         <div class="card">
             <div class="card-header">
                 <a href="{{ route('customer.create') }}" class="btn btn-sm btn-success">Tambah</a>
-                <a href="{{ route('customer.refresh') }}" class="btn btn-sm btn-success" onclick="return confirm('Refresh akun, akan menghapus akun id dari customer yang sudah kadaluarsa, apakah anda yakin akan refresh akun ?')">Refresh Akun</a>
+                <a href="{{ route('customer.refresh') }}" class="btn btn-sm btn-danger" onclick="return confirm('Refresh akun, akan menghapus akun id dari customer yang sudah kadaluarsa, apakah anda yakin akan refresh akun ?')">Refresh Akun</a>
             </div>
 
             <div class="card-body">

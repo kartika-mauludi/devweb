@@ -26,6 +26,7 @@
         {{ session('error_payment') }}
       </div>
     @endsession
+    <a href="{{ route('customer/langganan.qris',$payment->user_id) }}" class="btn btn-primary my-2">Payment</a>
 
     <!-- Services Section -->
 <section id="tabel" class="services section ">
