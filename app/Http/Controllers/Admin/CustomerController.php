@@ -154,7 +154,7 @@ class CustomerController extends Controller
                     $string = preg_replace("/[^0-9\.]/", '', $latest->id_invoice);
                 }
                 $payment['user_id'] = $user->id;
-                $payment['subscribe_record_id'] = $subsrecord->id;
+                $payment['subscribe_record_id'] = $subscribe->id;
                 $payment['id_invoice'] = 'inv-'. sprintf('%06d', $string+1);
                 $payment['price'] = $package->price;
                 $payment['status'] = 'completed';
