@@ -30,7 +30,7 @@
               </div>
               <span class="text-muted " >
                 @foreach ($records as $record )
-                  {{ $config && $record->id == $config->bank_account ? $record->bank_name : '' }}
+                  {{ $config && $record->id == $config->bank_account ? $record->bank_name : 'UOB Indonesia' }}
                 @endforeach
                </span>
             </li>
@@ -40,7 +40,7 @@
               </div>
               <span class="text-muted " >
                 @foreach ($records as $record )
-                  {{ $config && $record->id == $config->bank_account ? $record->bank_name_account : '' }}
+                  {{ $config && $record->id == $config->bank_account ? $record->bank_name_account : 'Afib Rulyansah' }}
                 @endforeach
                </span>
             </li>
@@ -51,7 +51,7 @@
               </div>
                  <span class="text-muted" id="noRek">
                     @foreach ($records as $record )
-                    {{ $config && $record->id == $config->bank_account ? $record->bank_account : '' }}
+                    {{ $config && $record->id == $config->bank_account ? $record->bank_account : '7363129165' }}
                     @endforeach
                 </span>
             </li>
