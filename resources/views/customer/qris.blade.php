@@ -29,9 +29,10 @@
                 <h6 class="my-0">Bank</h6>
               </div>
               <span class="text-muted " >
-                @foreach ($records as $record )
-                  {{ $config && $record->id == $config->bank_account ? $record->bank_name : 'UOB Indonesia' }}
-                @endforeach
+                @php
+                    $selectedRecord = $records->firstWhere('id', optional($config)->bank_account);
+                @endphp
+                {{ $selectedRecord->bank_name ?? 'Bank Mandiri' }}
                </span>
             </li>
             <li class="list-group-item d-flex justify-content-between lh-sm">
@@ -39,9 +40,10 @@
                 <h6 class="my-0">Rekening Atas Nama</h6>
               </div>
               <span class="text-muted " >
-                @foreach ($records as $record )
-                  {{ $config && $record->id == $config->bank_account ? $record->bank_name_account : 'Afib Rulyansah' }}
-                @endforeach
+              @php
+                    $selectedRecord = $records->firstWhere('id', optional($config)->bank_account);
+                @endphp
+                {{ $selectedRecord->bank_name_account ?? 'Reni Kurnia' }}
                </span>
             </li>
             <span class="tooltip2" onclick="copyRekening()" id="tooltipWrapper">
@@ -50,9 +52,10 @@
                 <h6 class="my-0">Nomor Rekening</h6>
               </div>
                  <span class="text-muted" id="noRek">
-                    @foreach ($records as $record )
-                    {{ $config && $record->id == $config->bank_account ? $record->bank_account : '7363129165' }}
-                    @endforeach
+                   @php
+                    $selectedRecord = $records->firstWhere('id', optional($config)->bank_account);
+                  @endphp
+                  {{ $selectedRecord->bank_account ?? '7363129165' }}
                 </span>
             </li>
             <span class="tooltiptext" id="myTooltip">Klik untuk menyalin</span>
