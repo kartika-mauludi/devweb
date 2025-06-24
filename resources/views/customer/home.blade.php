@@ -158,7 +158,11 @@
       <div class="container section-title" data-aos="fade-up">
         <h2 class="my-auto">Databases</h2>
       </div>
-      <div class="container">
+      <div class="container section-title" data-aos="fade-up">
+        <a href="#database" class="btn btn-primary" id="uc_login"> Login Database</a>
+      </div>
+
+      <div class="container" id="listdatabase" style="display: none;">
         <div class="row justify-content-center">
           <div class="col-lg-12 content">
           <div class="container mt-4">
@@ -213,7 +217,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body p-0">
-        <iframe id="globalIframe" src="" width="100%" height="600px" style="border: none;"></iframe>
+        <iframe id="globalIframe" src="" width="70%" height="600px" style="border: none;"></iframe>
       </div>
     </div>
   </div>
@@ -239,11 +243,14 @@
           return false;
         }
       );
-      $("#categoryFilter").change(function (e) {
+        $("#categoryFilter").change(function (e) {
+          table.draw();
+        });
         table.draw();
       });
 
-      table.draw();
-    });
+      $("#uc_login").click(function(e){
+          window.open("https://catalyst.uc.edu/psc/ps/EMPLOYEE/EMPL/s/WEBLIB_PTBR.ISCRIPT1.FieldFormula.IScript_StartPage", '_blank');
+      });
   </script>
   @endpush
