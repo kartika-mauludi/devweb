@@ -56,7 +56,10 @@ class AutoLoginController extends Controller
 
             $parsedPath = ($second != false) ? substr($pathuri, 0, $second + 1) : $pathuri;
             $baseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $parsedPath;
-        } else {
+        } elseif ($parsedUrl['host'] == 'login.uc.edu') {
+            $baseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . '/idp/profile/SAML2/';
+        }
+        else {
             $baseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $parsedUrl['path'];
         }
         
