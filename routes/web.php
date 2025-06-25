@@ -17,6 +17,7 @@ use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\UniversityAccountController;
 use App\Http\Controllers\UniversityWebsiteController;
 use App\Http\Controllers\AutoLoginController;
+use App\Http\Controllers\Admin\BonusController;
 use App\Models\ConfigAdmin;
 use App\Models\User;
 // use App\Http\Controllers\Auth\RegisterController;
@@ -179,12 +180,21 @@ Route::prefix('admin')->group(function(){
         Route::get('edit/{id}', 'edit')->name('edit');
         Route::put('update/{file}', 'update')->name('update');
         Route::delete('destroy/{file}', 'destroy')->name('destroy');
+    });
 
-        Route::get('databonus','databonus')->name('data-bonus');
+      
+    Route::group(['prefix' => 'bonus', 'as' => 'bonus.', 'controller' => BonusController::class], function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('databonus','databonusprivate')->name('data-bonus');
+        Route::get('databonusglobal','databonusglobal')->name('data-bonus-global');
+        Route::get('/count',  'count')->name('count');
         Route::post('storebonus', 'storebonus')->name('store-bonus');
         Route::get('editbonus/{id}', 'editbonus')->name('edit-bonus');
         Route::put('updatebonus/{bonus}', 'updatebonus')->name('update-bonus');
+        Route::get('showbonus/{id}', 'showbonus')->name('show-bonus');
         Route::delete('destroybonus/{bonus}', 'destroybonus')->name('destroy-bonus');
+        Route::delete('destroy/{id}/detail', 'destroyDetail')->name('destroy.detail');
+
     });
 
     Route::group(['prefix' => 'midtrans-config', 'as' => 'midtrans-config.', 'controller' => MidtransConfigController::class], function(){

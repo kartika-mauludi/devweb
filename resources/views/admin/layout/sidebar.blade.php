@@ -74,6 +74,14 @@
         </a>
       </li>
       <li class="nav-item">
+        <a href="{{ route('bonus.index') }}" class="nav-link @if(Route::is('bonus.*')) active @endif">
+          <i class="nav-icon fa fa-file"></i>
+          <p>
+            Bonus
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
         <a href="{{ route('file.index') }}" class="nav-link @if(Route::is('file.*')) active @endif">
           <i class="nav-icon fa fa-file"></i>
           <p>

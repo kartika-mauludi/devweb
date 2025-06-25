@@ -8,14 +8,19 @@ class Bonus extends Model
 {
     protected $fillable = [
         'name',
-        'user_id',
         'username',
         'password',
-        'file_location'
+        'file_location',
+        'type'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function details()
+    {
+        return $this->hasMany(BonusesDetails::class,'bonuses_id');
     }
 }

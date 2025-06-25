@@ -59,6 +59,9 @@ class AutoLoginController extends Controller
         } elseif ($parsedUrl['host'] == 'login.uc.edu') {
             $baseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . '/idp/profile/SAML2/';
         }
+        elseif ($parsedUrl['host'] == 'weblogin.asu.edu') {
+            $baseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . '/cas/login';
+        }
         else {
             $baseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $parsedUrl['path'];
         }
