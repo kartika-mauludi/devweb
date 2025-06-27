@@ -31,7 +31,7 @@ class BonusController extends Controller
         $data['users'] = User::customer()->get();
         $data['collections'] = [];
         $data['id_global'] = Bonus::where('type','=','global')->pluck('id')->first();
-        return view('admin.bonus.index',$data);
+        return view('admin.Bonus.index',$data);
     }
 
     public function count()
