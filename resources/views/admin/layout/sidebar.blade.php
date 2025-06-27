@@ -75,7 +75,7 @@
       </li>
       <li class="nav-item">
         <a href="{{ route('bonus.index') }}" class="nav-link @if(Route::is('bonus.*')) active @endif">
-          <i class="nav-icon fa fa-file"></i>
+          <i class="nav-icon fas fa-gift"></i>
           <p>
             Bonus
           </p>

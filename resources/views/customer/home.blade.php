@@ -97,7 +97,7 @@
           <div class="col-xl-6 col-lg-6 col-md-6">
             <div class="service-item position-relative">
               <h3>Komisi Anda</h3>
-              <h2 class="mb-3">Rp {{ $komisi }}</h2>
+              <h2 class="mb-3">Rp {{  number_format( $komisi  , 0, ",", ".") }} </h2>
               <a href="{{ route('customer/affiliasi.index') }}" class="btn btn-primary rounded btn-sm text-white">Mulai Dapatkan Komisi</a>
             </div>
           </div><!-- End Service Item -->
@@ -123,26 +123,52 @@
               @endif
             </div>
           </div>
-          @if($bonus)
+          @if($bonus->bonus)
           <div class="col-xl-12 col-lg-12 col-md-12" >
            <div class="service-item position-relative" style="border:1px">
             <h3> Bonus </h3>
               <table class="table">
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>Username</th>
-                    <th>Password</th>
-                    <th>File</th>
+                    <th><center>#</center></th>
+                    <th><center>Username</center></th>
+                    <th><center>Password</center></th>
+                    <th><center>File</center></th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{{ $bonus->name }}</td>
-                    <td>{{ $bonus->username }}</td>
-                    <td>{{ $bonus->password }}</td>
-                    <td>  <a href="{{ asset('storage') }}/{{ $bonus->file_location }}" target="_blank" download="">
-                      <h5 class="pt-3 px-2"><i class="bi bi-download"></i> Unduh {{ $bonus->name }}</h5>
+                    <td><center>{{ $bonus->bonus->name }}</center></td>
+                    <td><center>{{ $bonus->bonus->username }}</center></td>
+                    <td><center>{{ $bonus->bonus->password }}</center></td>
+                    <td>  <a href="{{ asset('storage') }}/{{ $bonus->bonus->file_location }}" target="_blank" download="">
+                      <h6 class="pt-3 px-2"><center><i class="bi bi-download"></i> Unduh {{ $bonus->bonus->name }}</center></h6>
+                    </a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          @else 
+          <div class="col-xl-12 col-lg-12 col-md-12" >
+           <div class="service-item position-relative" style="border:1px">
+            <h3> Bonus </h3>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th><center>#</center></th>
+                    <th><center>Username</center></th>
+                    <th><center>Password</center></th>
+                    <th><center>File</center></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><center>{{ $bonus_global->name }} </center></td>
+                    <td><center>{{ $bonus_global->username }}</center></td>
+                    <td><center>{{ $bonus_global->password }}</center></td>
+                    <td>  <a href="{{ asset('storage') }}/{{ $bonus_global->file_location }}" target="_blank" download="">
+                      <h6 class="pt-3 px-2"><center><i class="bi bi-download"></i> Unduh {{ $bonus_global->name }}</center></h6>
                     </a></td>
                   </tr>
                 </tbody>

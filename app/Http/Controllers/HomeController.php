@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BonusesDetails;
 use Illuminate\Http\Request;
 use App\Models\SubscribeRecord;
 use auth;
@@ -15,6 +16,7 @@ use App\Models\UniversityAccount;
 use App\Models\UniversityWebsite;
 use App\Models\Website;
 use App\Models\Bonus;
+
 
 
 class HomeController extends Controller
@@ -76,7 +78,8 @@ class HomeController extends Controller
         $univ = University::where('parent','==',0)->where('parent','===',Null)->get();
         $website = UniversityWebsite::with('university')->orderBy('title')->get();
         $file = File::latest()->get();
-        $bonus = bonus::where('user_id','=',auth::id())->first();
+        $bonus_global = Bonus::where('type','=','global')->first();
+        $bonus_private = BonusesDetails::with('bonus')->where('user_id', Auth::id())->first();
 
         $data['admin'] = $admin;
         $data['user'] = $user;
@@ -87,7 +90,8 @@ class HomeController extends Controller
         $data['websites'] = $website;
         $data['ceksub'] = $ceksub;
         $data['files'] = $file;
-        $data['bonus'] = $bonus;
+        $data['bonus_global'] = $bonus_global;
+        $data['bonus'] = $bonus_private;
 
         
         return view('customer.home',$data);

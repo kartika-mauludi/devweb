@@ -288,30 +288,27 @@
     <div class="container footer-top">
       <div class="row gy-4">
         <div class="col-lg-4 col-md-6 footer-about">
-          <a href="index.html" class="d-flex align-items-center">
+          <a href="{{ url('/') }}" class="d-flex align-items-center">
             <span class="sitename">Databaseriset</span>
           </a>
-          <div class="footer-contact pt-3">
-            <p>A108 Adam Street</p>
-            <p>New York, NY 535022</p>
-            <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-            <p><strong>Email:</strong> <span>info@example.com</span></p>
+          <div class="footer-contact pt-1">
+            <p class="mt-1"><strong>Phone:</strong> <span> <a href="https://wa.me/{{ \App\Models\User::with('config')->find(optional(\App\Models\ConfigAdmin::first())->nomor)->nomor ?? '+6285236868125'}}" target="_blank" >{{ \App\Models\User::with('config')->find(optional(\App\Models\ConfigAdmin::first())->nomor)->nomor ?? '+6285236868125'}}</a></span></p>
+            <p><strong>Email:</strong> <span><a href="mailto:info@databaseriset.com">info@databaseriset.com</a></span></p>
           </div>
         </div>
 
         <div class="col-lg-4 col-md-3 footer-links">
           <h4>Useful Links</h4>
           <ul>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Services</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
+          <li><i class="bi bi-chevron-right"></i> <a href="{{ url('/#beranda') }}" >Beranda</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="{{ url('/#kelebihan') }}">Kelebihan</a></li>
+            <li><i class="bi bi-chevron-right"></i><a href="{{ url('/#tentang') }}">Tentang Kami</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="{{ url('/#layanan') }}">Layanan</a></li>
           </ul>
         </div>
 
         <div class="col-lg-4 col-md-12">
           <h4>Follow Us</h4>
-          <p>Cras fermentum odio eu feugiat lide par naso tierra videa magna derita valies</p>
           <div class="social-links d-flex">
             <a href=""><i class="bi bi-twitter-x"></i></a>
             <a href=""><i class="bi bi-facebook"></i></a>
