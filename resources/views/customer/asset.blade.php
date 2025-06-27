@@ -233,6 +233,13 @@
   visibility: visible;
   opacity: 1;
 }
+
+.footer .footer-contact a {
+        margin-right: 3px;
+        font-size: 12px;
+        line-height: 0;
+        color: color-mix(in srgb, var(--default-color), transparent 20%);
+      }
 </style>
 
 </head>
