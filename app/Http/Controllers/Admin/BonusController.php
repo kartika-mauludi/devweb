@@ -37,7 +37,9 @@ class BonusController extends Controller
     public function count()
     {
         $count = Bonus::where('type','=','global')->count();
-        return response()->json(['count' => $count]);
+        $id_global= Bonus::where('type','=','global')->pluck('id')->first();
+
+        return response()->json(['count' => $count, 'id_global' =>$id_global]);
     }
 
     public function databonusglobal(){

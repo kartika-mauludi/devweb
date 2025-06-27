@@ -21,7 +21,7 @@
         <h4> Master Bonus Global </h2>
         <div class="card">
             <div class="card-header">
-                <div id="bonus-data" data-count="{{ count($count) }}"></div>
+                <div id="bonus-data" data-count=""></div>
                 <div id="btn-bonus-data"></div>
             </div>
             <div class="card-body">
@@ -379,7 +379,11 @@
                     $(form).closest('.modal').modal('hide');
                     form.reset();
                     table.ajax.reload();
-                  
+                    $.get("{{ route('bonus.count') }}", function (data) {
+                                const bonusData = document.getElementById("bonus-data");
+                                bonusData.dataset.count = data.count;
+                                renderBonusButton(data.count);
+                            });
 
                 },
                 error: function () {
@@ -427,13 +431,13 @@
 </script>
 
 <script>
- function renderBonusButton(count) {
+ function renderBonusButton(count, id) {
   const buttonContainer = document.getElementById("btn-bonus-data");
   if (!buttonContainer) return;
-
+  var url = "{{ route('bonus.edit-bonus', ':id') }}".replace(':id', id);
   if (count >= 1) {
     buttonContainer.innerHTML = `
-          <a href="{{ route('bonus.edit-bonus',$id_global) }}" class="btn btn-sm btn-warning"> Edit Bonus Global </a>
+          <a href="${url}" class="btn btn-sm btn-warning"> Edit Bonus Global </a>
     `;
   } else {
     buttonContainer.innerHTML = `
@@ -443,9 +447,12 @@
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  const bonusData = document.getElementById("bonus-data");
-  const count = parseInt(bonusData.dataset.count);
-  renderBonusButton(count);
+    fetch("{{ route('bonus.count') }}")
+    .then(res => res.json())
+    .then(data => {
+      renderBonusButton(data.count, data.id_global);
+    });
+
 });
 
 $('.customers_bonus').select2({
