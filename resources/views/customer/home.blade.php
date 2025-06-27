@@ -123,7 +123,7 @@
               @endif
             </div>
           </div>
-          @if($bonus->bonus)
+          @if(optional($bonus)->bonus)
           <div class="col-xl-12 col-lg-12 col-md-12" >
            <div class="service-item position-relative" style="border:1px">
             <h3> Bonus </h3>

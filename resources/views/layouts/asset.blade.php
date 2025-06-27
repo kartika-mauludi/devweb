@@ -61,6 +61,13 @@
 
         
       }
+
+      .footer .footer-contact a {
+        margin-right: 3px;
+        font-size: 12px;
+        line-height: 0;
+        color: color-mix(in srgb, var(--default-color), transparent 20%);
+      }
       @media (min-width: 768px) {
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
