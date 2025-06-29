@@ -185,7 +185,7 @@
         <h2 class="my-auto">Databases</h2>
       </div>
       <div class="container section-title" data-aos="fade-up">
-        <a href="#database" class="btn btn-primary" id="uc_login"> Login Database</a>
+        <a href="" class="btn btn-primary" id="uc_login"> Login Database</a>
       </div>
 
       <div class="container" id="listdatabase" style="display: none;">
@@ -276,7 +276,7 @@
       });
 
       $("#uc_login").click(function(e){
-          window.open("https://catalyst.uc.edu/psc/ps/EMPLOYEE/EMPL/s/WEBLIB_PTBR.ISCRIPT1.FieldFormula.IScript_StartPage", '_blank');
+          window.open("https://catalyst.uc.edu", '_blank');
       });
   </script>
   @endpush
