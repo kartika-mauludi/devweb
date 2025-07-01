@@ -134,10 +134,11 @@
             </div>
 			
 			<h3>Hai {{ $data["user"]->name  }}</h3>
-			<h4>Kamu menerima email ini karena, Masa Langganan Kamu Mau Habis, silahkan klik tombol berikut untuk memperpanjang masa langganan</h4>
+			<h4>Kamu menerima email ini karena, Masa Langganan Kamu Hampir Habis, silahkan perpanjang masa langganan kamu dengan login dan perpanjang lannganan</h4>
+            <h4>klik tombol berikut untuk cek paket langganan langganan</h4>
 			<center>
-			<a href="{{ url($url) }}" class="btn m3">Pilih Paket</a> 
-		</center>
+			<a href="{{ url('/#harga') }}" class="btn m3">Pilih Paket</a> 
+		    </center>
 
 			<h4>Link Reset Password ini tidak akan bisa digunakan setelah</h4> 
 			<h4>Jika kamu tidak meminta reset password tidak perlu melakukan apa - apa</h4>

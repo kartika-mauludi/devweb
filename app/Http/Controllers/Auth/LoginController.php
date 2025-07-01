@@ -85,6 +85,7 @@ class LoginController extends Controller
                     }
                     else if(now()->diffInDays(\Carbon\Carbon::parse($subscribe->end_date)) <=5 && !empty($subscribe->end_date)){
                         $data["user"] = $user;
+                        $data["url"] = route('commision-config.store');;
                         Mail::to($user->email)->send(new reminder($data));
                     }
                 }
