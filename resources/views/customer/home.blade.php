@@ -37,25 +37,25 @@
       @if($payment && $payment->status == "pending" && $ceksub->account_status == "non-aktif" && $sub && \Carbon\Carbon::parse($sub->created_at)->toDateString() === now()->toDateString())
         <div class="alert alert-danger alert-dismissible">
           <div class="container">
-            <p> Anda Memiliki Tagihan Pembayaran Yang Belum Diselesaikan Klik Tombol Berikut Untuk Melihat Pembayaran Anda
-                <a href="{{ route('customer/langganan.qris',$payment->user_id) }}" class="btn btn-primary my-2">Payment</a>
+            <p> Anda Memiliki Tagihan Pembayaran Yang Belum Diselesaikan Klik Tombol Berikut Untuk Melihat Pembayaran Anda <br>
+                <a href="{{ route('customer/langganan.qris',$payment->user_id) }}" class="btn btn-primary mt-2">Payment</a>
             </p>
           </div>
         </div>
        @elseif($payment && $payment->status == "pending" && $sub && $sub->account_status == "non-aktif" )
           <div class="alert alert-info alert-dismissible">
               <div class="container">
-                <p> Kamu belum berlangganan, mari mulai berlangganan untuk menikmati fitur dari kami
-                  <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary my-2">Mulai Berlangganan</a>
+                <p> Kamu belum berlangganan, mari mulai berlangganan untuk menikmati fitur dari kami <br>
+                  <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary mt-2">Mulai Berlangganan</a>
                 </p>
               </div>
             </div>
         @endif
         @if($sub && now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) <=5 && $payment && $payment->status == "completed")
-          <div class="alert alert-dangery alert-dismissible">
+          <div class="alert alert-danger alert-dismissible">
             <div class="container">
-              <p> Waktu Langganan Anda Akan Segera Habis, Silahkan Perpanjang Waktu Langganan Anda
-                <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary my-2">Perpanjang Langganan</a>
+              <p> Waktu Langganan Anda Akan Segera Habis, Silahkan Perpanjang Waktu Langganan Anda <br>
+                <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary mt-2">Perpanjang Langganan</a>
               </p>
             </div>
           </div>
@@ -185,7 +185,7 @@
         <h2 class="my-auto">Databases</h2>
       </div>
       <div class="container section-title" data-aos="fade-up">
-        <a href="" class="btn btn-primary" id="uc_login"> Login Database</a>
+        <a href="#database" class="btn btn-primary" id="uc_login"> Login Database</a>
       </div>
 
       <div class="container" id="listdatabase" style="display: none;">

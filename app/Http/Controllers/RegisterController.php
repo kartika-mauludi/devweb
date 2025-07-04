@@ -57,12 +57,12 @@ class RegisterController extends Controller
        }
         DB::beginTransaction(); 
         try {
-            $kode = Str::random(10);  
+            $kode = Str::random(3);  
             $user =  User::create([
                'name' => $data['name'],
                'email' => $data['email'],
                'nomor' => $data['nomor'],
-               'referral_code' => $kode,
+               'referral_code' => $kode.str_replace('-', '', (string) Str::uuid()),
                'password' => Hash::make($data['password']),
                'akun_id' => ''
            ]);

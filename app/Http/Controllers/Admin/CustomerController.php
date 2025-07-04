@@ -46,7 +46,7 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $input = $request->except('_token');
-        $input['referral_code'] = Str::random(10);
+        $input['referral_code'] = Str::random(3).str_replace('-', '', (string) Str::uuid());
         if ($request->filled('password')) {
             $input['password'] = Hash::make($request->password);
         }

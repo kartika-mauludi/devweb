@@ -65,7 +65,7 @@
                                 <select name="package_id" id="package_id" class="form-control form-control-sm" @required(!isset($record))>
                                     <option value=""></option>
                                     @foreach ($packages as $package)
-                                        <option value="{{ $package->id }}"  @if($subscribe)@selected($subscribe->subscribe_package_id == ($package->id ?? ''))@endif >{{ $package->name.' - '.$package->price }}</option>
+                                        <option value="{{ $package->id }}"  @if(isset($subscribe))@selected($subscribe->subscribe_package_id == ($package->id ?? ''))@endif >{{ $package->name.' - '.$package->price }}</option>
                                     @endforeach
                                 </select>
                             </div>
