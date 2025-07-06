@@ -366,6 +366,27 @@
 
   @stack('script')
 
+
+  <script>
+const sessionLifetimeMinutes = {{ config('session.lifetime') }};
+const sessionLifetimeMs = sessionLifetimeMinutes * 60 * 1000;
+
+let timeout = setTimeout(() => {
+    alert("Session expired. You will be logged out.");
+    window.location.href = "/logout"; // redirect logout route kamu
+}, sessionLifetimeMs);
+
+// Reset timer saat user aktif
+['click', 'mousemove', 'keypress', 'scroll'].forEach(event => {
+    document.addEventListener(event, () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            alert("Session expired. You will be logged out.");
+            window.location.href = "/logout";
+        }, sessionLifetimeMs);
+    });
+});
+</script>
 </body>
 
 </html>
