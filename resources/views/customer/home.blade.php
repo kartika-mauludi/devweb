@@ -123,6 +123,19 @@
               @endif
             </div>
           </div>
+          <div class="col-xl-12 col-lg-12 col-md-12" >
+           <div class="service-item position-relative" style="border:1px">
+            <h3> Video </h3>
+              @if($files)
+                @foreach ($files as $file )
+                  @if($file->type === "video")
+                    <h5 class="py-1 px-2" data-bs-toggle="modal" data-bs-target="#globalModal" data-id="{{ $file->id }}"  data-url="{{ $file->link }}"  data-title="{{ $file->name }}"><i class="bi bi-play-fill"></i> {{ $file->name }}</h5>
+                  </h5>
+                    @endif
+                @endforeach
+              @endif
+            </div>
+          </div>
           @if(optional($bonus)->bonus)
           <div class="col-xl-12 col-lg-12 col-md-12" >
            <div class="service-item position-relative" style="border:1px">
