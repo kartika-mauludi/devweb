@@ -243,7 +243,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body p-0">
-        <iframe id="globalIframe" src="" width="70%" height="600px" style="border: none;"></iframe>
+        <iframe id="globalIframe" src="" width="100%" height="600px" style="border: none;"></iframe>
       </div>
     </div>
   </div>
@@ -277,6 +277,26 @@
 
       $("#uc_login").click(function(e){
           window.open("https://catalyst.uc.edu", '_blank');
+      });
+
+
+       const globalModal = document.getElementById('globalModal');
+      globalModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const videoUrl = button.getAttribute('data-url');
+        const videoTitle = button.getAttribute('data-title');
+        
+        const modalTitle = globalModal.querySelector('.modal-title');
+        const iframe = globalModal.querySelector('#globalIframe');
+
+        modalTitle.textContent = videoTitle;
+        iframe.src = videoUrl;
+      });
+
+      // Kosongkan iframe saat modal ditutup (agar video stop otomatis)
+      globalModal.addEventListener('hidden.bs.modal', function () {
+        const iframe = globalModal.querySelector('#globalIframe');
+        iframe.src = '';
       });
   </script>
   @endpush
