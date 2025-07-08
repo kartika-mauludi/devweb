@@ -15,6 +15,7 @@
     <div class="container">
     <div class="row gy-4">
     @foreach($packages as $pack)
+    @if(!($pack->name == "custom" && $pack->id == 99 ))
         <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
         <div class="pricing-item">
             <h3>{{ $pack->name }}</h3>
@@ -35,6 +36,7 @@
             <a href="{{ route('payment',['id' => $pack->id, 'ref' => request('ref') ] ) }}" class="buy-btn">Pilih Paket</a>
         </div>
         </div><!-- End Pricing Item -->
+        @endif
     @endforeach
     </div>
           </div>

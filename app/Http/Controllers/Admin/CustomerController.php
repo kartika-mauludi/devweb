@@ -10,6 +10,7 @@ use App\Models\UniversityAccount;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
+use Hamcrest\Core\IsNull;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -56,7 +57,13 @@ class CustomerController extends Controller
             $user = User::create($input);
             $package = SubscribePackage::find($request->package_id);
             $start = Carbon::createFromFormat('Y-m-d', $request->start_date);
-            $end   = $start->copy()->addDays((int) $package->days);
+
+            if($request->package_id == 99 || $request->package_name === "tryel"){
+                $end   = Carbon::createFromFormat('Y-m-d', $request->end_date);
+            }
+            else{
+                $end   = $start->copy()->addDays((int) $package->days);
+            }
             
             if ($package) {
                 $subs['user_id'] = $user->id;
@@ -122,6 +129,7 @@ class CustomerController extends Controller
 
     public function update(Request $request, User $user)
     {
+       
         $input = $request->except('_token', '_method', 'password');
         if ($request->filled('password')) {
             $input['password'] = Hash::make($request->password);
@@ -130,10 +138,15 @@ class CustomerController extends Controller
         try{
             $user->update($input);
             $package = SubscribePackage::find($request->package_id);
-
             if ($package) {
                 $start = Carbon::createFromFormat('Y-m-d', $request->start_date);
-                $end   = $start->copy()->addDays((int) $package->days);
+               
+                if($package->id == 99 || $package->name === "tryel"){
+                    $end   = Carbon::createFromFormat('Y-m-d', $request->end_date);
+                }
+                else{
+                    $end   = $start->copy()->addDays((int) $package->days);
+                }
                 $subs['start_date'] = $start;
                 $subs['end_date'] = $end;
     

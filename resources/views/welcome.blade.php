@@ -120,9 +120,9 @@
     <div class="container">
     <div class="row gy-4">
     @foreach($packages as $pack)
+      @if($pack->name != "tryel")
         <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
         <div class="pricing-item">
-        
             <h2>{{ $pack->name }}</h2>
             <span><s>Rp. {{ number_format($pack->discount , 0, ",", ".")}}</s></span>
             <h4><sup>Rp.</sup>{{ number_format($pack->price , 0, ",", ".")}}<span></span></h4>
@@ -144,6 +144,7 @@
             <a href="{{ route('payment',$pack->id) }}" class="buy-btn">Pilih Paket</a>
         </div>
         </div><!-- End Pricing Item -->
+      @endif
     @endforeach
     </div>
           </div>

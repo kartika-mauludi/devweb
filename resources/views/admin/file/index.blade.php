@@ -63,6 +63,17 @@
                         <label>URL/Link</label>
                         <input type="url" name="link" id="url" class="form-control">
                     </div>
+                    <div class="form-group urut" style="display: none">
+                        <label>Urut</label>
+                        <select name="urut" id="urut" class="form-control">
+                           @for($i = 1; $i < 11 ; $i++)
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endfor
+                        </select>
+                        <small>
+                            Nomor Urut Tidak Bisa sama
+                        </small>
+                    </div>
                     <div class="form-group fileinput" style="display: none">
                         <label>File</label>
                         <input type="file" name="file_location" id="file_location" class="form-control" accept="application/zip/jpg/jpeg/png">
@@ -106,6 +117,17 @@
                     <div class="form-group urlinput" style="display: none">
                         <label>URL/Link</label>
                         <input type="url" name="link" id="edit_url" class="form-control">
+                    </div>
+                    <div class="form-group urut" style="display: none">
+                        <label>Urut</label>
+                        <select name="urut" id="edit_urut" class="form-control">
+                           @for($i = 1; $i < 11 ; $i++)
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endfor
+                        </select>
+                        <small>
+                            Nomor Urut Tidak Bisa sama
+                        </small>
                     </div>
                     <div class="form-group fileinput" style="display: none">
                         <label>File</label>
@@ -178,6 +200,7 @@
                 $('#edit_id').val(file.id);
                 $('#edit_name').val(file.name);
                 $('#edit_url').val(file.link);
+                $('#edit_urut').val(file.urut);
                 var updateUrl = "{{ route('file.update', ':id') }}".replace(':id', file.id);
                 $('#editfileForm').attr('action', updateUrl);
                 $('#editfileModal').modal('show');
@@ -296,9 +319,11 @@
             if (val == 'extension' || val == 'qris') {
                 $('.fileinput').show()
                 $('.urlinput').hide()
+                $('.urut').hide()
             } else {
                 $('.fileinput').hide()
                 $('.urlinput').show()
+                $('.urut').show()
             }
         })
         $('.Selectcustomer').each(function () {

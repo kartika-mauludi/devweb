@@ -56,9 +56,7 @@
                         </div>
 
                         <label for="">Data Langganan</label>
-
                         <hr>
-
                         <div class="row">
                             <div class="col-12 col-sm-6 form-group">
                                 <label for="package_id" class="form-label">Paket Langganan</label>
@@ -68,10 +66,16 @@
                                         <option value="{{ $package->id }}"  @if(isset($subscribe))@selected($subscribe->subscribe_package_id == ($package->id ?? ''))@endif >{{ $package->name.' - '.$package->price }}</option>
                                     @endforeach
                                 </select>
+                                <small>Pilih Custom jika ingin custom end date(langganan)</small>
                             </div>
                             <div class="col-12 col-sm-6 form-group">
                                 <label for="start_date" class="form-label">Start Date</label>
                                 <input type="date" name="start_date" id="start_date" class="form-control form-control-sm" value="{{ $subscribe->start_date ?? 0.00 }}" @required(!isset($record))>
+                            </div>
+                            <div class="col-12 col-sm-6 form-group">
+                                <label for="start_date" class="form-label">End Date</label>
+                                <input type="date" name="end_date" id="end_date" class="form-control form-control-sm" value="{{ $subscribe->end_date ?? 0.00 }}">
+                                <small>Biarkan Kosong Jika Tidak Ada Custom</small>
                             </div>
                         </div>
 

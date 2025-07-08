@@ -49,6 +49,7 @@ class FileController extends Controller
             'name' => 'required',
             'type' => 'required',
             'link' => 'nullable|url',
+            'urut' => 'nullable',
             'file_location' => 'nullable|mimes:zip,jpg,jpeg,png'
         ]);
         
@@ -101,6 +102,7 @@ class FileController extends Controller
             'name' => 'required',
             'type' => 'required',
             'link' => 'nullable|url',
+            'urut' => 'nullable|',
             'file_location' => 'nullable|mimes:zip,jpg,jpeg,png'
         ]);
         
@@ -161,7 +163,7 @@ class FileController extends Controller
     }
 
     public function data(){
-        $file = file::select(['id', 'name', 'link', 'type', 'file_location'])->get();
+        $file = file::select(['id', 'name', 'link', 'type', 'file_location','urut'])->get();
         return response()->json([
             "data" => $file
         ]);

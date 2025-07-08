@@ -34,6 +34,7 @@
 <div class="container py-3">
   <div class="row justify-content-center">
     <div class="col-xl-12 col-lg-12 col-md-12" >
+    @if($sub && !($sub->subscribepackage->name === "custom" || $sub->subscribepackage->id == 99))
       @if($payment && $payment->status == "pending" && $ceksub->account_status == "non-aktif" && $sub && \Carbon\Carbon::parse($sub->created_at)->toDateString() === now()->toDateString())
         <div class="alert alert-danger alert-dismissible">
           <div class="container">
@@ -60,9 +61,19 @@
             </div>
           </div>
         @endif
+      @elseif($sub && $sub->subscribepackage->name === "custom" && $sub->subscribepackage->id == 99 && now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) <=1 && $payment && $payment->status == "completed")
+      <div class="alert alert-danger alert-dismissible">
+            <div class="container">
+              <p> Waktu Percobaan Anda Akan Segera Habis, Silahkan Update Langganan Anda <br>
+                <a href="{{ route('customer/langganan.upgrade') }}" class="btn btn-primary mt-2">Perpanjang Langganan</a>
+              </p>
+            </div>
+          </div>
+      @endif
       </div>
     </div>
   </div>
+
       <!-- Section Title -->
       <div class="container">
         <div class="row justify-content-center">
@@ -70,7 +81,12 @@
             <div class="service-item position-relative">
             @if ($sub)
               <!-- {{ now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) }} -->
-              @if(\Carbon\Carbon::parse($sub->end_date) < now())
+              @if($sub->subscribepackage->name === "custom" || $sub->subscribepackage->id == 99)
+                <h3>Anda sedang menikmati akun percobaan</h3>
+                <h5 class="my-3"><p>Akun Percobaan Berakhir pada {{ \Carbon\Carbon::parse($sub->end_date)->format("d F Y") }}</p>
+                </h5>
+                <p> <a href="{{ route('customer/langganan.index') }}" class="btn btn-primary">langganan Sekarang</a> </p>
+              @elseif(\Carbon\Carbon::parse($sub->end_date) < now())
                 <h3 style="text:red">Anda Belum Berlangganan</h3>
                 <h5 class="my-3">Pilih Paket Untuk Menikmati Layanan Kami</h5>
                 <p> <a href="{{ route('customer/langganan.index') }}" class="btn btn-primary">langganan Sekarang</a> </p>
@@ -115,10 +131,6 @@
                       <h5 class="pt-3 px-2"><i class="bi bi-download"></i> Unduh {{ $file->name }}</h5>
                     </a>
                   @endif
-                  @if($file->type === "video")
-                    <h5 class="py-1 px-2" data-bs-toggle="modal" data-bs-target="#globalModal" data-id="{{ $file->id }}"  data-url="{{ $file->link }}"  data-title="{{ $file->name }}"><i class="bi bi-play-fill"></i> {{ $file->name }}</h5>
-                  </h5>
-                    @endif
                 @endforeach
               @endif
             </div>
@@ -126,12 +138,10 @@
           <div class="col-xl-12 col-lg-12 col-md-12" >
            <div class="service-item position-relative" style="border:1px">
             <h3> Video </h3>
-              @if($files)
-                @foreach ($files as $file )
-                  @if($file->type === "video")
-                    <h5 class="py-1 px-2" data-bs-toggle="modal" data-bs-target="#globalModal" data-id="{{ $file->id }}"  data-url="{{ $file->link }}"  data-title="{{ $file->name }}"><i class="bi bi-play-fill"></i> {{ $file->name }}</h5>
+              @if($videos)
+                @foreach ($videos as $video )
+                    <h5 class="py-1 px-2" data-bs-toggle="modal" data-bs-target="#globalModal" data-id="{{ $video->id }}"  data-url="{{ $video->link }}"  data-title="{{ $video->name }}"><i class="bi bi-play-fill"></i> {{ $video->name }}</h5>
                   </h5>
-                    @endif
                 @endforeach
               @endif
             </div>

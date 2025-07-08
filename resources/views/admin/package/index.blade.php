@@ -30,6 +30,7 @@
                         </thead>
                         <tbody>
                             @foreach ($records as $record)
+                                @if($record->name != "custom" && $record->id != 99)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $record->name }}</td>
@@ -40,7 +41,6 @@
                                         <form action="{{ route('package.destroy', $record->id) }}" onsubmit="return confirm('Apakah anda yakin ?')" method="post">
                                             @csrf
                                             @method('DELETE')
-
                                             <div class="btn-group">
                                                 <a href="{{ route('package.edit', $record->id) }}" class="btn btn-sm btn-warning">
                                                     Edit
@@ -52,6 +52,7 @@
                                         </form>
                                     </td>
                                 </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>

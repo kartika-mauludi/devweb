@@ -10,6 +10,7 @@ class File extends Model
         'type',
         'link',
         'name',
+        'urut',
         'file_location'
         
     ];
