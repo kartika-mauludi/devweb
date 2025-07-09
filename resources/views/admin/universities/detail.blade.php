@@ -27,7 +27,8 @@
                 <table id="tbl-university-account" class="table table-sm table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th class="fit">No.</th>
+                            <th class="fit">#</th>
+                            <th>ID</th>
                             <th>Username</th>
                             <th>Password</th>
                             <th class="fit text-center">Aksi</th>
@@ -84,6 +85,7 @@
                     return `<div class="text-center">${meta.row + 1}.</div>`;
                 } 
             },
+            {data:'id'},
             { data: 'username' },
             { data: 'password' },
             { 

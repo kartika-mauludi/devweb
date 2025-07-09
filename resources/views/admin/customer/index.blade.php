@@ -139,7 +139,7 @@
                     
                     parent.append($('<option/>', {
                         value: data.akun_id,
-                        text: `${data.akun_name} | ${data.akun_username}`,
+                        text: `ID : ${data.akun_id} | ${data.akun_name} | ${data.akun_username}`,
                         selected: data.selected
                     }))
                 })
