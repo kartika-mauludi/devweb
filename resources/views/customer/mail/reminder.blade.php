@@ -138,12 +138,7 @@
             <h4>klik tombol berikut untuk cek paket langganan langganan</h4>
 			<center>
 			<a href="{{ url('/#harga') }}" class="btn m3">Pilih Paket</a> 
-		    </center>
-
-			<h4>Link Reset Password ini tidak akan bisa digunakan setelah</h4> 
-			<h4>Jika kamu tidak meminta reset password tidak perlu melakukan apa - apa</h4>
-
-			
+		    </center>	
         </div>    
 	</div>
 </div>

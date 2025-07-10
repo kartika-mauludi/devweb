@@ -83,7 +83,7 @@ class LoginController extends Controller
                         $subscribe->account_status = "non-aktif";
                         $subscribe->save();
                     }
-                    else if(now()->diffInDays(\Carbon\Carbon::parse($subscribe->end_date)) <=5 && !empty($subscribe->end_date)){
+                    else if(now()->diffInDays(\Carbon\Carbon::parse($subscribe->end_date)) <=5 && !empty($subscribe->end_date) && $subscribe->subscribe_package_id != 99){
                         $data["user"] = $user;
                         $data["url"] = route('commision-config.store');;
                         Mail::to($user->email)->send(new reminder($data));
