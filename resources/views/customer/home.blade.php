@@ -81,7 +81,7 @@
             <div class="service-item position-relative">
             @if ($sub)
               <!-- {{ now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) }} -->
-              @if($sub->subscribepackage->name === "custom" || $sub->subscribepackage->id == 99)
+              @if( now()->diffInDays(\Carbon\Carbon::parse($sub->end_date)) >=0  && ($sub->subscribepackage->name === "custom" || $sub->subscribepackage->id == 99))
                 <h3>Anda sedang menikmati akun percobaan</h3>
                 <h5 class="my-3"><p>Akun Percobaan Berakhir pada {{ \Carbon\Carbon::parse($sub->end_date)->format("d F Y") }}</p>
                 </h5>
