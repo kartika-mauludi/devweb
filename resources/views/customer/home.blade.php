@@ -140,7 +140,7 @@
             <h3> Video </h3>
               @if($videos)
                 @foreach ($videos as $video )
-                    <h5 class="py-1 px-2" data-bs-toggle="modal" data-bs-target="#globalModal" data-id="{{ $video->id }}"  data-url="{{ $video->link }}"  data-title="{{ $video->name }}"><i class="bi bi-play-fill"></i> {{ $video->name }}</h5>
+                    <h5 class="py-1 px-2" data-bs-toggle="modal" data-bs-target="#globalModal" data-id="{{ $video->id }}"  data-url="{{ $video->link }}"  data-title="{{ $video->name }}" style="cursor: pointer;"><i class="bi bi-play-fill"></i> {{ $video->name }}</h5>
                   </h5>
                 @endforeach
               @endif
