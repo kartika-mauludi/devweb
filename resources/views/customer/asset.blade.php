@@ -284,13 +284,22 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
     </div>
+    
   </header>
+  <div id="installer-status" style="
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 12px;
+    font-weight: bold;
+    text-align: center;
+    display: none;">
+</div>
   <a href="https://wa.me/{{ \App\Models\User::with('config')->find(optional(\App\Models\ConfigAdmin::first())->nomor)->nomor ?? '+6285236868125'}}" target="_blank" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-whatsapp"></i></a>
   @yield('content')
 
 
 
-  
+
   <footer id="footer" class="footer">
     <div class="container footer-top">
       <div class="row gy-4">
@@ -389,6 +398,20 @@ let timeout = setTimeout(logout, sessionLifetimeMs);
         }, sessionLifetimeMs);
     });
 });
+
+
+  fetch("http://localhost:54321")
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "installed") {
+        alert("tes");
+      }
+    })
+    .catch(() => {
+      alert("❌ Installer belum dijalankan., Jalankan Installer Untuk Mengakses Database");
+      // $("#database").hide();
+  });
+
 </script>
 </body>
 

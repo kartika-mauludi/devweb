@@ -121,9 +121,20 @@
       </div>
      <div class="container py-3">
        <div class="row justify-content-center">
+       <div class="col-xl-12 col-lg-12 col-md-12" >
+           <div class="service-item position-relative" style="border:1px">
+            <h3> Video </h3>
+              @if($videos)
+                @foreach ($videos as $video )
+                    <h5 class="py-1 px-2" data-bs-toggle="modal" data-bs-target="#globalModal" data-id="{{ $video->id }}"  data-url="{{ $video->link }}"  data-title="{{ $video->name }}" style="cursor: pointer;"><i class="bi bi-play-fill"></i> {{ $video->name }}</h5>
+                  </h5>
+                @endforeach
+              @endif
+            </div>
+          </div>
          <div class="col-xl-12 col-lg-12 col-md-12" >
            <div class="service-item position-relative" style="border:1px">
-            <h3> Ekstensi </h3>
+            <h3> File </h3>
               @if($files)
                 @foreach ($files as $file )
                   @if($file->type === "extension")
@@ -131,17 +142,6 @@
                       <h5 class="pt-3 px-2"><i class="bi bi-download"></i> Unduh {{ $file->name }}</h5>
                     </a>
                   @endif
-                @endforeach
-              @endif
-            </div>
-          </div>
-          <div class="col-xl-12 col-lg-12 col-md-12" >
-           <div class="service-item position-relative" style="border:1px">
-            <h3> Video </h3>
-              @if($videos)
-                @foreach ($videos as $video )
-                    <h5 class="py-1 px-2" data-bs-toggle="modal" data-bs-target="#globalModal" data-id="{{ $video->id }}"  data-url="{{ $video->link }}"  data-title="{{ $video->name }}" style="cursor: pointer;"><i class="bi bi-play-fill"></i> {{ $video->name }}</h5>
-                  </h5>
                 @endforeach
               @endif
             </div>
@@ -230,7 +230,6 @@
                 <tr>
                     <th>Nama Universitas</th>
                     <th>Judul Database</th>
-                    <!-- <th>URL Website</th> -->
                 </tr>
             </thead>
             <tbody>

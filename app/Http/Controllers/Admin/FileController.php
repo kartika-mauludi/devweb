@@ -49,8 +49,16 @@ class FileController extends Controller
             'name' => 'required',
             'type' => 'required',
             'link' => 'nullable|url',
-            'urut' => 'nullable',
+            'urut' => 'required|integer|unique:files,urut',
             'file_location' => 'nullable|mimes:zip,jpg,jpeg,png'
+        ],[
+            'name.required' => 'Nama file wajib diisi.',
+            'type.required' => 'Tipe file harus dipilih.',
+            'link.url' => 'Link harus berupa URL yang valid.',
+            'urut.required' => 'Nomor urut wajib diisi.',
+            'urut.integer' => 'Nomor urut harus berupa angka.',
+            'urut.unique' => 'Nomor urut sudah digunakan. Pilih yang lain.',
+            'file_location.mimes' => 'File harus bertipe: zip, jpg, jpeg, atau png.'
         ]);
         
         $status = 400;
@@ -69,7 +77,7 @@ class FileController extends Controller
             $status = 200;
             $message = 'File berhasil ditambahkan!';
         }
-
+      
         return response()->json([
             'status' => $status,
             'message' => $message
@@ -98,12 +106,21 @@ class FileController extends Controller
      */
     public function update(Request $request, file $file)
     {
+        $id = $file->id;
         $input = $request->validate([
             'name' => 'required',
             'type' => 'required',
             'link' => 'nullable|url',
-            'urut' => 'nullable|',
+            'urut' => 'required|integer|unique:files,urut,'.$id,
             'file_location' => 'nullable|mimes:zip,jpg,jpeg,png'
+        ],[
+            'name.required' => 'Nama file wajib diisi.',
+            'type.required' => 'Tipe file harus dipilih.',
+            'link.url' => 'Link harus berupa URL yang valid.',
+            'urut.required' => 'Nomor urut wajib diisi.',
+            'urut.integer' => 'Nomor urut harus berupa angka.',
+            'urut.unique' => 'Nomor urut sudah digunakan. Pilih yang lain.',
+            'file_location.mimes' => 'File harus bertipe: zip, jpg, jpeg, atau png.'
         ]);
         
         $status = 400;

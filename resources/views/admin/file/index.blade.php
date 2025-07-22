@@ -54,7 +54,7 @@
                         <label>Type</label>
                         <select name="type" id="type" class="form-control">
                              <option value="">-- Pilih Type --</option>
-                             <option value="extension"> extension </option>
+                             <option value="extension"> File </option>
                              <option value="qris"> Qris </option>
                              <option value="video"> video </option>
                         </select>
@@ -66,7 +66,7 @@
                     <div class="form-group urut" style="display: none">
                         <label>Urut</label>
                         <select name="urut" id="urut" class="form-control">
-                           @for($i = 1; $i < 11 ; $i++)
+                           @for($i = 1; $i < 21 ; $i++)
                                 <option value="{{ $i }}">{{ $i }}</option>
                             @endfor
                         </select>
@@ -109,7 +109,7 @@
                         <label>Type</label>
                         <select name="type" id="edittype" class="form-control">
                              <option value="">-- Pilih Type --</option>
-                             <option value="extension"> extension </option>
+                             <option value="extension"> File </option>
                              <option value="qris"> Qris </option>
                              <option value="video"> video </option>
                         </select>
@@ -121,7 +121,7 @@
                     <div class="form-group urut" style="display: none">
                         <label>Urut</label>
                         <select name="urut" id="edit_urut" class="form-control">
-                           @for($i = 1; $i < 11 ; $i++)
+                           @for($i = 1; $i < 21 ; $i++)
                                 <option value="{{ $i }}">{{ $i }}</option>
                             @endfor
                         </select>
@@ -273,9 +273,23 @@
                     form.reset();
                     table.ajax.reload();
                 },
-                error: function () {
+                error: function (response) {
                     closeLoading();
-                    Swal.fire('Gagal!', 'Terjadi kesalahan saat menambah data.', 'error');
+                    let errorMessage = 'Terjadi kesalahan saat menambah data.';
+                    // Tangkap pesan validasi Laravel jika ada
+                    if (response.responseJSON) {
+                        if (response.responseJSON.errors) {
+                            // Ambil semua pesan error dan gabungkan
+                            errorMessage = Object.values(response.responseJSON.errors).flat().join('<br>');
+                        } else if (response.responseJSON.message) {
+                            errorMessage = response.responseJSON.message;
+                        }
+                    }
+                    Swal.fire({
+                        title: 'Gagal!',
+                        html: errorMessage,
+                        icon: 'error'
+                    });
                 }
             });
         });
@@ -306,9 +320,21 @@
                     form.reset();
                     table.ajax.reload();
                 },
-                error: function () {
+                error: function (response) {
                     closeLoading();
-                    Swal.fire('Gagal!', 'Terjadi kesalahan saat memperbarui data.', 'error');
+                    let errorMessage = 'Terjadi kesalahan saat menambah data.';
+                    if (response.responseJSON) {
+                        if (response.responseJSON.errors) {
+                            errorMessage = Object.values(response.responseJSON.errors).flat().join('<br>');
+                        } else if (response.responseJSON.message) {
+                            errorMessage = response.responseJSON.message;
+                        }
+                    }
+                    Swal.fire({
+                        title: 'Gagal!',
+                        html: errorMessage,
+                        icon: 'error'
+                    });
                 }
             });
         });
@@ -316,11 +342,17 @@
         $('select[name="type"]').on('change', function (e) {
             const val = $(this).val()
 
-            if (val == 'extension' || val == 'qris') {
+            if (val == 'qris') {
                 $('.fileinput').show()
                 $('.urlinput').hide()
                 $('.urut').hide()
-            } else {
+            } 
+            else if (val == 'extension') {
+                $('.fileinput').show()
+                $('.urlinput').hide()
+                $('.urut').show()
+            }
+             else {
                 $('.fileinput').hide()
                 $('.urlinput').show()
                 $('.urut').show()
