@@ -400,18 +400,6 @@ let timeout = setTimeout(logout, sessionLifetimeMs);
 });
 
 
-  fetch("http://localhost:54321")
-    .then(res => res.json())
-    .then(data => {
-      if (data.status === "installed") {
-        alert("tes");
-      }
-    })
-    .catch(() => {
-      alert("❌ Installer belum dijalankan., Jalankan Installer Untuk Mengakses Database");
-      // $("#database").hide();
-  });
-
 </script>
 </body>
 
