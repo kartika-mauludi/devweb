@@ -121,20 +121,9 @@
       </div>
      <div class="container py-3">
        <div class="row justify-content-center">
-       <div class="col-xl-12 col-lg-12 col-md-12" >
-           <div class="service-item position-relative" style="border:1px">
-            <h3> Video </h3>
-              @if($videos)
-                @foreach ($videos as $video )
-                    <h5 class="py-1 px-2" data-bs-toggle="modal" data-bs-target="#globalModal" data-id="{{ $video->id }}"  data-url="{{ $video->link }}"  data-title="{{ $video->name }}" style="cursor: pointer;"><i class="bi bi-play-fill"></i> {{ $video->name }}</h5>
-                  </h5>
-                @endforeach
-              @endif
-            </div>
-          </div>
          <div class="col-xl-12 col-lg-12 col-md-12" >
            <div class="service-item position-relative" style="border:1px">
-            <h3> File </h3>
+            <h3> Ekstensi </h3>
               @if($files)
                 @foreach ($files as $file )
                   @if($file->type === "extension")
@@ -142,6 +131,17 @@
                       <h5 class="pt-3 px-2"><i class="bi bi-download"></i> Unduh {{ $file->name }}</h5>
                     </a>
                   @endif
+                @endforeach
+              @endif
+            </div>
+          </div>
+          <div class="col-xl-12 col-lg-12 col-md-12" >
+           <div class="service-item position-relative" style="border:1px">
+            <h3> Video </h3>
+              @if($videos)
+                @foreach ($videos as $video )
+                    <h5 class="py-1 px-2" data-bs-toggle="modal" data-bs-target="#globalModal" data-id="{{ $video->id }}"  data-url="{{ $video->link }}"  data-title="{{ $video->name }}" style="cursor: pointer;"><i class="bi bi-play-fill"></i> {{ $video->name }}</h5>
+                  </h5>
                 @endforeach
               @endif
             </div>
@@ -206,10 +206,45 @@
     <section id="database" class="about section">
       <div class="container section-title" data-aos="fade-up">
         <h2 class="my-auto">Databases</h2>
+        <a href="https://unairsatu.unair.ac.id/" style="display: none;">Akses</a>
       </div>
-      <div class="container section-title" data-aos="fade-up">
+      <div class="container section-title" data-aos="fade-up" id="uc_login_database">
         <a href="#database" class="btn btn-primary" id="uc_login"> Login Database</a>
       </div>
+      <div class="container section-title" data-aos="fade-up" id="uc_logout_database">
+        <a href="#database" class="btn btn-danger d-none" id="uc_logout"> Logout Database</a>
+      </div>
+
+      <div class="d-flex justify-content-center p-2">
+        <div>
+          @php
+          $akun = $user->akun_id[array_key_last($user->akun_id)];
+          $univAcc = App\Models\UniversityAccount::find($akun);
+          @endphp
+          <a href="#database" class="btn btn-primary" id="con_ASU_1" style="display: none;">ARIZONA_1</a>
+          @if ($univAcc->username == "UNAIR_1")
+            <a href="#database" class="btn btn-primary" id="con_UNAIR_1" style="display: none;">UNAIR_1</a>
+          @elseif ($univAcc->username == "UNAIR_2")
+            <a href="#database" class="btn btn-primary" id="con_UNAIR_2" style="display: none;">UNAIR_2</a>
+          @elseif ($univAcc->username == "UNAIR_3")
+            <a href="#database" class="btn btn-primary" id="con_UNAIR_3" style="display: none;">UNAIR_3</a>
+          @elseif ($univAcc->username == "UNAIR_4")
+            <a href="#database" class="btn btn-primary" id="con_UNAIR_4" style="display: none;">UNAIR_4</a>
+          @endif
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center p-2">
+        <div>
+          <a href="#database" class="btn btn-danger" id="dis_ASU_1" style="display: none;">ARIZONA_1</a>
+          <a href="#database" class="btn btn-danger" id="dis_UNAIR_1" style="display: none;">UNAIR_1</a>
+          <a href="#database" class="btn btn-danger" id="dis_UNAIR_2" style="display: none;">UNAIR_2</a>
+          <a href="#database" class="btn btn-danger" id="dis_UNAIR_3" style="display: none;">UNAIR_3</a>
+          <a href="#database" class="btn btn-danger" id="dis_UNAIR_4" style="display: none;">UNAIR_4</a>
+        </div>
+      </div>
+
+      {{-- <div id="status"><center>Status: Menunggu perintah...</center></dopeiv> --}}
 
       <div class="container" id="listdatabase" style="display: none;">
         <div class="row justify-content-center">
@@ -230,6 +265,7 @@
                 <tr>
                     <th>Nama Universitas</th>
                     <th>Judul Database</th>
+                    <!-- <th>URL Website</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -274,6 +310,79 @@
   @push('script')
   <script>
     $("document").ready(function () {
+      const tombol1 = $('#con_ASU_1');
+      const tombol2 = $('#con_UNAIR_1');
+      const tombol3 = $('#con_UNAIR_2');
+      const tombol4 = $('#con_UNAIR_3');
+      const tombol5 = $('#con_UNAIR_4');
+
+      $(function() {
+
+        // Ganti dengan domain yang ingin Anda blokir
+        const domainDilarang = 'unairsatu.unair.ac.id';
+
+        // Gunakan event delegation pada 'body' untuk memantau semua klik pada link (<a>)
+        $('body').on('click', 'a', function(event) {
+
+            // 'this' dalam konteks ini sudah merujuk pada elemen <a> yang diklik.
+            // Cek jika hostname dari link tersebut mengandung domain yang dilarang.
+            if (this.hostname.includes(domainDilarang)) {
+                
+                // Hentikan aksi default browser (pindah halaman)
+                event.preventDefault();
+                
+                // Tampilkan pesan
+                alert('Akses ke ' + domainDilarang + ' tidak diizinkan dari situs ini.');
+            }
+        });
+
+      });
+
+      periksaStateSaatLoad();
+
+      // Periksa state saat halaman dimuat
+      function periksaStateSaatLoad() {
+        const stateTersimpan = localStorage.getItem('tombolAktif');
+
+        // Jika state 'tombol2' tersimpan, sesuaikan tampilan
+        if (stateTersimpan === 'tombol1') {
+            $("#con_ASU_1").hide();
+            $("#dis_ASU_1").show();
+        } else if (stateTersimpan === 'tombol2') {
+            $("#con_UNAIR_1").hide();
+            $("#dis_UNAIR_1").show();
+            $("#con_UNAIR_2").addClass("disabled");
+            $("#con_UNAIR_3").addClass("disabled");
+            $("#con_UNAIR_4").addClass("disabled");
+        } else if (stateTersimpan === 'tombol3') {
+            $("#con_UNAIR_2").hide();
+            $("#dis_UNAIR_2").show();
+            $("#con_UNAIR_1").addClass("disabled");
+            $("#con_UNAIR_3").addClass("disabled");
+            $("#con_UNAIR_4").addClass("disabled");
+        } else if (stateTersimpan === 'tombol4') {
+            $("#con_UNAIR_3").hide();
+            $("#dis_UNAIR_3").show();
+            $("#con_UNAIR_1").addClass("disabled");
+            $("#con_UNAIR_2").addClass("disabled");
+            $("#con_UNAIR_4").addClass("disabled");
+        } else if (stateTersimpan === 'tombol5') {
+            $("#con_UNAIR_4").hide();
+            $("#dis_UNAIR_4").show();
+            $("#con_UNAIR_1").addClass("disabled");
+            $("#con_UNAIR_2").addClass("disabled");
+            $("#con_UNAIR_3").addClass("disabled");
+        } else {
+            // Jika state 'tombol1' tidak tersimpan, sesuaikan tampilan
+            $("#con_ASU_1").hide();
+            $("#dis_ASU_1").hide();
+            $("#con_UNAIR_1").removeClass("disabled");
+            $("#con_UNAIR_2").removeClass("disabled");
+            $("#con_UNAIR_3").removeClass("disabled");
+            $("#con_UNAIR_4").removeClass("disabled");
+        }
+    }
+
       $("#filterTable").dataTable({
         "searching": true,
         "pageLength": 50
@@ -296,14 +405,386 @@
         });
         table.draw();
       });
-
+      
+      // REGISTRY_OFF
       $("#uc_login").click(function(e){
-          window.open("https://catalyst.uc.edu", '_blank');
-      });
+        const statusDiv = $("#status");
+        const socket = new WebSocket('ws://localhost:64135');
 
+        socket.onopen = function() {
+            statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
+            // console.log('Koneksi berhasil dibuka.');
+
+            // Siapkan data perintah dalam format JSON
+            const perintah = {
+                action: "REGISTRY_OFF", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
+            };
+
+            // Kirim data perintah sebagai teks JSON
+            socket.send(JSON.stringify(perintah));
+
+            $("#uc_login").addClass("d-none");
+            $("#uc_logout").removeClass("d-none");
+            $("#con_ASU_1").show();
+            $("#con_UNAIR_1").show();
+            $("#con_UNAIR_2").show();
+            $("#con_UNAIR_3").show();
+            $("#on_UNAIR_4").show();
+
+            const winFeat = 'width=1024,height=768,left=100,top=100,resizable=yes';
+
+            // window.open("https://catalyst.uc.edu", '_blank');
+            window.open("https://catalyst.uc.edu", 'Login UC', winFeat);
+          };
+
+          socket.onerror = function(error) {
+              statusDiv.textContent = 'Status: Gagal terhubung! Pastikan agen lokal sudah berjalan.';
+              console.error('WebSocket Error: ', error);
+          };
+
+          socket.onmessage = function(event) {
+              console.log('Pesan dari server:', event.data);
+              statusDiv.textContent = 'Status: ' + event.data;
+          };
+
+          socket.onclose = function() {
+              console.log('Koneksi WebSocket ditutup.');
+          };
+        });
+
+        // REGISTRY_ON
+        $("#uc_logout").click(function(e){
+          const statusDiv = $("#status");
+        const socket = new WebSocket('ws://localhost:64135');
+
+        socket.onopen = function() {
+            statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
+            // console.log('Koneksi berhasil dibuka.');
+
+            // Siapkan data perintah dalam format JSON
+            const perintah = {
+                action: "REGISTRY_ON", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
+            };
+
+            // Kirim data perintah sebagai teks JSON
+            socket.send(JSON.stringify(perintah));
+
+            $("#uc_login").removeClass("d-none");
+            $("#uc_login").show();
+            $("#uc_logout").addClass("d-none");
+            $("#listdatabase").hide();
+            $("#con_ASU_1").hide();
+            $("#con_UNAIR_1").hide();
+            $("#con_UNAIR_2").hide();
+            $("#con_UNAIR_3").hide();
+            $("#con_UNAIR_4").hide();
+          };
+
+          socket.onerror = function(error) {
+              statusDiv.textContent = 'Status: Gagal terhubung! Pastikan agen lokal sudah berjalan.';
+              console.error('WebSocket Error: ', error);
+          };
+
+          socket.onmessage = function(event) {
+              console.log('Pesan dari server:', event.data);
+              statusDiv.textContent = 'Status: ' + event.data;
+          };
+
+          socket.onclose = function() {
+              console.log('Koneksi WebSocket ditutup.');
+          };
+        });
+
+        // REGISTRY_CONNECT: ASU_1
+        $("#con_ASU_1").click(function(e){
+        const statusDiv = $("#status");
+        const socket = new WebSocket('ws://localhost:64135');
+
+        socket.onopen = function() {
+            statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
+            // console.log('Koneksi berhasil dibuka.');
+
+            // Siapkan data perintah dalam format JSON
+            const perintah = {
+                action: "CONNECT", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
+                vpn: "anyconnect", //"openvpn atau anyconnect"
+                univ: "ASU_1",
+                timestamp: new Date().getTime()
+            };
+
+            // Kirim data perintah sebagai teks JSON
+            socket.send(JSON.stringify(perintah));
+
+            $("#con_ASU_1").hide();
+            $("#dis_ASU_1").show();
+
+            localStorage.setItem('tombolAktif', 'tombol1');
+
+            const winFeat = 'width=1024,height=768,left=100,top=100,resizable=yes';
+
+            // window.open("https://catalyst.uc.edu", '_blank');
+            // window.open("https://catalyst.uc.edu", 'Login UC', winFeat);
+          };
+
+          socket.onerror = function(error) {
+              statusDiv.textContent = 'Status: Gagal terhubung! Pastikan agen lokal sudah berjalan.';
+              console.error('WebSocket Error: ', error);
+          };
+
+          socket.onmessage = function(event) {
+              console.log('Pesan dari server:', event.data);
+              statusDiv.textContent = 'Status: ' + event.data;
+          };
+
+          socket.onclose = function() {
+              console.log('Koneksi WebSocket ditutup.');
+          };
+        });
+
+        // REGISTRY_DISCONNECT: ASU_1
+        $("#dis_ASU_1").click(function(e){
+          const statusDiv = $("#status");
+          const socket = new WebSocket('ws://localhost:64135');
+
+        socket.onopen = function() {
+            statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
+            // console.log('Koneksi berhasil dibuka.');
+
+            // Siapkan data perintah dalam format JSON
+            const perintah = {
+                action: "DISCONNECT", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
+                vpn: "anyconnect", //"openvpn atau anyconnect"
+                univ: "ASU_1",
+                timestamp: new Date().getTime()
+            };
+
+            // Kirim data perintah sebagai teks JSON
+            socket.send(JSON.stringify(perintah));
+
+            $("#con_ASU_1").show();
+            $("#dis_ASU_1").hide();
+
+            localStorage.removeItem('tombolAktif', 'tombol1');
+
+            const winFeat = 'width=1024,height=768,left=100,top=100,resizable=yes';
+
+            // window.open("https://catalyst.uc.edu", '_blank');
+            // window.open("https://catalyst.uc.edu", 'Login UC', winFeat);
+          };
+
+          socket.onerror = function(error) {
+              statusDiv.textContent = 'Status: Gagal terhubung! Pastikan agen lokal sudah berjalan.';
+              console.error('WebSocket Error: ', error);
+          };
+
+          socket.onmessage = function(event) {
+              console.log('Pesan dari server:', event.data);
+              statusDiv.textContent = 'Status: ' + event.data;
+          };
+
+          socket.onclose = function() {
+              console.log('Koneksi WebSocket ditutup.');
+          };
+        });
+
+        // REGISTRY_CONNECT: UNAIR_1
+        $("#con_UNAIR_1").click(function(e){
+          const statusDiv = $("#status");
+        const socket = new WebSocket('ws://localhost:64135');
+
+        socket.onopen = function() {
+            statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
+            // console.log('Koneksi berhasil dibuka.');
+
+            // Siapkan data perintah dalam format JSON
+            const perintah = {
+                action: "CONNECT", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
+                vpn: "openvpn", //"openvpn atau anyconnect"
+                univ: "UNAIR_1",
+                timestamp: new Date().getTime()
+            };
+
+            // Kirim data perintah sebagai teks JSON
+            socket.send(JSON.stringify(perintah));
+
+            $("#con_UNAIR_1").hide();
+            $("#dis_UNAIR_1").show();
+            $("#con_UNAIR_2").addClass("disabled");
+            $("#con_UNAIR_3").addClass("disabled");
+            $("#con_UNAIR_4").addClass("disabled");
+
+            localStorage.setItem('tombolAktif', 'tombol2');
+
+            const winFeat = 'width=1024,height=768,left=100,top=100,resizable=yes';
+
+            // window.open("https://catalyst.uc.edu", '_blank');
+            // window.open("https://catalyst.uc.edu", 'Login UC', winFeat);
+          };
+
+          socket.onerror = function(error) {
+              statusDiv.textContent = 'Status: Gagal terhubung! Pastikan agen lokal sudah berjalan.';
+              console.error('WebSocket Error: ', error);
+          };
+
+          socket.onmessage = function(event) {
+              console.log('Pesan dari server:', event.data);
+              statusDiv.textContent = 'Status: ' + event.data;
+          };
+
+          socket.onclose = function() {
+              console.log('Koneksi WebSocket ditutup.');
+          };
+        });
+
+        // REGISTRY_DISCONNECT: UNAIR_1
+        $("#dis_UNAIR_1").click(function(e){
+          const statusDiv = $("#status");
+        const socket = new WebSocket('ws://localhost:64135');
+
+        socket.onopen = function() {
+            statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
+            // console.log('Koneksi berhasil dibuka.');
+
+            // Siapkan data perintah dalam format JSON
+            const perintah = {
+                action: "DISCONNECT", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
+                vpn: "openvpn", //"openvpn atau anyconnect"
+                univ: "UNAIR_1",
+                timestamp: new Date().getTime()
+            };
+
+            // Kirim data perintah sebagai teks JSON
+            socket.send(JSON.stringify(perintah));
+
+            $("#con_UNAIR_1").show();
+            $("#dis_UNAIR_1").hide();
+            $("#con_UNAIR_2").removeClass("disabled");
+            $("#con_UNAIR_3").removeClass("disabled");
+            $("#con_UNAIR_4").removeClass("disabled");
+
+            localStorage.removeItem('tombolAktif', 'tombol2');
+
+            const winFeat = 'width=1024,height=768,left=100,top=100,resizable=yes';
+
+            // window.open("https://catalyst.uc.edu", '_blank');
+            // window.open("https://catalyst.uc.edu", 'Login UC', winFeat);
+          };
+
+          socket.onerror = function(error) {
+              statusDiv.textContent = 'Status: Gagal terhubung! Pastikan agen lokal sudah berjalan.';
+              console.error('WebSocket Error: ', error);
+          };
+
+          socket.onmessage = function(event) {
+              console.log('Pesan dari server:', event.data);
+              statusDiv.textContent = 'Status: ' + event.data;
+          };
+
+          socket.onclose = function() {
+              console.log('Koneksi WebSocket ditutup.');
+          };
+        });
+
+        // REGISTRY_CONNECT: UNAIR_2
+        $("#con_UNAIR_2").click(function(e){
+          const statusDiv = $("#status");
+        const socket = new WebSocket('ws://localhost:64135');
+
+        socket.onopen = function() {
+            statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
+            // console.log('Koneksi berhasil dibuka.');
+
+            // Siapkan data perintah dalam format JSON
+            const perintah = {
+                action: "CONNECT", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
+                vpn: "openvpn", //"openvpn atau anyconnect"
+                univ: "UNAIR_2",
+                timestamp: new Date().getTime()
+            };
+
+            // Kirim data perintah sebagai teks JSON
+            socket.send(JSON.stringify(perintah));
+
+            $("#con_UNAIR_2").hide();
+            $("#dis_UNAIR_2").show();
+            $("#con_UNAIR_1").addClass("disabled");
+            $("#con_UNAIR_3").addClass("disabled");
+            $("#con_UNAIR_4").addClass("disabled");
+
+            localStorage.setItem('tombolAktif', 'tombol3');
+
+            const winFeat = 'width=1024,height=768,left=100,top=100,resizable=yes';
+
+            // window.open("https://catalyst.uc.edu", '_blank');
+            // window.open("https://catalyst.uc.edu", 'Login UC', winFeat);
+          };
+
+          socket.onerror = function(error) {
+              statusDiv.textContent = 'Status: Gagal terhubung! Pastikan agen lokal sudah berjalan.';
+              console.error('WebSocket Error: ', error);
+          };
+
+          socket.onmessage = function(event) {
+              console.log('Pesan dari server:', event.data);
+              statusDiv.textContent = 'Status: ' + event.data;
+          };
+
+          socket.onclose = function() {
+              console.log('Koneksi WebSocket ditutup.');
+          };
+        });
+
+        // REGISTRY_DISCONNECT: UNAIR_2
+        $("#dis_UNAIR_2").click(function(e){
+          const statusDiv = $("#status");
+        const socket = new WebSocket('ws://localhost:64135');
+
+        socket.onopen = function() {
+            statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
+            // console.log('Koneksi berhasil dibuka.');
+
+            // Siapkan data perintah dalam format JSON
+            const perintah = {
+                action: "DISCONNECT", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
+                vpn: "openvpn", //"openvpn atau anyconnect"
+                univ: "UNAIR_2",
+                timestamp: new Date().getTime()
+            };
+
+            // Kirim data perintah sebagai teks JSON
+            socket.send(JSON.stringify(perintah));
+
+            $("#con_UNAIR_2").show();
+            $("#dis_UNAIR_2").hide();
+            $("#con_UNAIR_1").removeClass("disabled");
+            $("#con_UNAIR_3").removeClass("disabled");
+            $("#con_UNAIR_4").removeClass("disabled");
+
+            localStorage.removeItem('tombolAktif', 'tombol3');
+
+            const winFeat = 'width=1024,height=768,left=100,top=100,resizable=yes';
+
+            // window.open("https://catalyst.uc.edu", '_blank');
+            // window.open("https://catalyst.uc.edu", 'Login UC', winFeat);
+          };
+
+          socket.onerror = function(error) {
+              statusDiv.textContent = 'Status: Gagal terhubung! Pastikan agen lokal sudah berjalan.';
+              console.error('WebSocket Error: ', error);
+          };
+
+          socket.onmessage = function(event) {
+              console.log('Pesan dari server:', event.data);
+              statusDiv.textContent = 'Status: ' + event.data;
+          };
+
+          socket.onclose = function() {
+              console.log('Koneksi WebSocket ditutup.');
+          };
+        });
 
        const globalModal = document.getElementById('globalModal');
-      globalModal.addEventListener('show.bs.modal', function (event) {
+        globalModal.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
         const videoUrl = button.getAttribute('data-url');
         const videoTitle = button.getAttribute('data-title');
@@ -314,6 +795,202 @@
         modalTitle.textContent = videoTitle;
         iframe.src = videoUrl;
       });
+
+      // REGISTRY_CONNECT: UNAIR_3
+        $("#con_UNAIR_3").click(function(e){
+          const statusDiv = $("#status");
+        const socket = new WebSocket('ws://localhost:64135');
+
+        socket.onopen = function() {
+            statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
+            // console.log('Koneksi berhasil dibuka.');
+
+            // Siapkan data perintah dalam format JSON
+            const perintah = {
+                action: "CONNECT", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
+                vpn: "openvpn", //"openvpn atau anyconnect"
+                univ: "UNAIR_3",
+                timestamp: new Date().getTime()
+            };
+
+            // Kirim data perintah sebagai teks JSON
+            socket.send(JSON.stringify(perintah));
+
+            $("#con_UNAIR_3").hide();
+            $("#dis_UNAIR_3").show();
+            $("#con_UNAIR_1").addClass("disabled");
+            $("#con_UNAIR_2").addClass("disabled");
+            $("#con_UNAIR_4").addClass("disabled");
+
+            localStorage.setItem('tombolAktif', 'tombol4');
+
+            const winFeat = 'width=1024,height=768,left=100,top=100,resizable=yes';
+
+            // window.open("https://catalyst.uc.edu", '_blank');
+            // window.open("https://catalyst.uc.edu", 'Login UC', winFeat);
+          };
+
+          socket.onerror = function(error) {
+              statusDiv.textContent = 'Status: Gagal terhubung! Pastikan agen lokal sudah berjalan.';
+              console.error('WebSocket Error: ', error);
+          };
+
+          socket.onmessage = function(event) {
+              console.log('Pesan dari server:', event.data);
+              statusDiv.textContent = 'Status: ' + event.data;
+          };
+
+          socket.onclose = function() {
+              console.log('Koneksi WebSocket ditutup.');
+          };
+        });
+
+        // REGISTRY_DISCONNECT: UNAIR_3
+        $("#dis_UNAIR_3").click(function(e){
+          const statusDiv = $("#status");
+        const socket = new WebSocket('ws://localhost:64135');
+
+        socket.onopen = function() {
+            statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
+            // console.log('Koneksi berhasil dibuka.');
+
+            // Siapkan data perintah dalam format JSON
+            const perintah = {
+                action: "DISCONNECT", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
+                vpn: "openvpn", //"openvpn atau anyconnect"
+                univ: "UNAIR_3",
+                timestamp: new Date().getTime()
+            };
+
+            // Kirim data perintah sebagai teks JSON
+            socket.send(JSON.stringify(perintah));
+
+            $("#con_UNAIR_3").show();
+            $("#dis_UNAIR_3").hide();
+            $("#con_UNAIR_1").removeClass("disabled");
+            $("#con_UNAIR_2").removeClass("disabled");
+            $("#con_UNAIR_4").removeClass("disabled");
+
+            localStorage.removeItem('tombolAktif', 'tombol4');
+
+            const winFeat = 'width=1024,height=768,left=100,top=100,resizable=yes';
+
+            // window.open("https://catalyst.uc.edu", '_blank');
+            // window.open("https://catalyst.uc.edu", 'Login UC', winFeat);
+          };
+
+          socket.onerror = function(error) {
+              statusDiv.textContent = 'Status: Gagal terhubung! Pastikan agen lokal sudah berjalan.';
+              console.error('WebSocket Error: ', error);
+          };
+
+          socket.onmessage = function(event) {
+              console.log('Pesan dari server:', event.data);
+              statusDiv.textContent = 'Status: ' + event.data;
+          };
+
+          socket.onclose = function() {
+              console.log('Koneksi WebSocket ditutup.');
+          };
+        });
+
+        // REGISTRY_CONNECT: UNAIR_4
+        $("#con_UNAIR_4").click(function(e){
+          const statusDiv = $("#status");
+        const socket = new WebSocket('ws://localhost:64135');
+
+        socket.onopen = function() {
+            statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
+            // console.log('Koneksi berhasil dibuka.');
+
+            // Siapkan data perintah dalam format JSON
+            const perintah = {
+                action: "CONNECT", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
+                vpn: "openvpn", //"openvpn atau anyconnect"
+                univ: "UNAIR_4",
+                timestamp: new Date().getTime()
+            };
+
+            // Kirim data perintah sebagai teks JSON
+            socket.send(JSON.stringify(perintah));
+
+            $("#con_UNAIR_4").hide();
+            $("#dis_UNAIR_4").show();
+            $("#con_UNAIR_1").addClass("disabled");
+            $("#con_UNAIR_2").addClass("disabled");
+            $("#con_UNAIR_3").addClass("disabled");
+
+            localStorage.setItem('tombolAktif', 'tombol5');
+
+            const winFeat = 'width=1024,height=768,left=100,top=100,resizable=yes';
+
+            // window.open("https://catalyst.uc.edu", '_blank');
+            // window.open("https://catalyst.uc.edu", 'Login UC', winFeat);
+          };
+
+          socket.onerror = function(error) {
+              statusDiv.textContent = 'Status: Gagal terhubung! Pastikan agen lokal sudah berjalan.';
+              console.error('WebSocket Error: ', error);
+          };
+
+          socket.onmessage = function(event) {
+              console.log('Pesan dari server:', event.data);
+              statusDiv.textContent = 'Status: ' + event.data;
+          };
+
+          socket.onclose = function() {
+              console.log('Koneksi WebSocket ditutup.');
+          };
+        });
+
+        // REGISTRY_DISCONNECT: UNAIR_4
+        $("#dis_UNAIR_4").click(function(e){
+          const statusDiv = $("#status");
+        const socket = new WebSocket('ws://localhost:64135');
+
+        socket.onopen = function() {
+            statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
+            // console.log('Koneksi berhasil dibuka.');
+
+            // Siapkan data perintah dalam format JSON
+            const perintah = {
+                action: "DISCONNECT", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
+                vpn: "openvpn", //"openvpn atau anyconnect"
+                univ: "UNAIR_4",
+                timestamp: new Date().getTime()
+            };
+
+            // Kirim data perintah sebagai teks JSON
+            socket.send(JSON.stringify(perintah));
+
+            $("#con_UNAIR_4").show();
+            $("#dis_UNAIR_4").hide();
+            $("#con_UNAIR_1").removeClass("disabled");
+            $("#con_UNAIR_2").removeClass("disabled");
+            $("#con_UNAIR_3").removeClass("disabled");
+
+            localStorage.removeItem('tombolAktif', 'tombol5');
+
+            const winFeat = 'width=1024,height=768,left=100,top=100,resizable=yes';
+
+            // window.open("https://catalyst.uc.edu", '_blank');
+            // window.open("https://catalyst.uc.edu", 'Login UC', winFeat);
+          };
+
+          socket.onerror = function(error) {
+              statusDiv.textContent = 'Status: Gagal terhubung! Pastikan agen lokal sudah berjalan.';
+              console.error('WebSocket Error: ', error);
+          };
+
+          socket.onmessage = function(event) {
+              console.log('Pesan dari server:', event.data);
+              statusDiv.textContent = 'Status: ' + event.data;
+          };
+
+          socket.onclose = function() {
+              console.log('Koneksi WebSocket ditutup.');
+          };
+        });
 
       // Kosongkan iframe saat modal ditutup (agar video stop otomatis)
       globalModal.addEventListener('hidden.bs.modal', function () {
