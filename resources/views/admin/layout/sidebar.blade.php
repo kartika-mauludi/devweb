@@ -97,6 +97,14 @@
           </p>
         </a>
       </li>
+      <li class="nav-item">
+        <a href="{{ route('letencrypt.index') }}" class="nav-link @if(Route::is('superadmin.*')) active @endif">
+          <i class="nav-icon fa fa-lock"></i>
+          <p>
+            Manage Config
+          </p>
+        </a>
+      </li>
       
     </ul>
 </nav>
