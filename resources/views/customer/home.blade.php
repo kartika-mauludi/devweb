@@ -133,6 +133,10 @@
                   @endif
                 @endforeach
               @endif
+              <h3>Update Agent</h3>
+              <button id="updateAgent" class="btn btn-warning text-white">
+                <i class="bi bi-arrow-clockwise"></i> Update Agent
+              </button>
             </div>
           </div>
           <div class="col-xl-12 col-lg-12 col-md-12" >
@@ -212,7 +216,7 @@
         <a href="#database" class="btn btn-primary" id="uc_login"> Login Database</a>
       </div>
       <div class="container section-title" data-aos="fade-up" id="uc_logout_database">
-        <a href="#database" class="btn btn-danger d-none" id="uc_logout"> Logout Database</a>
+        <a href="#database" class="btn btn-danger" id="uc_logout" style="display: none;"> Logout Database</a>
       </div>
 
       <div class="d-flex justify-content-center p-2">
@@ -221,7 +225,10 @@
           $akun = $user->akun_id[array_key_last($user->akun_id)];
           $univAcc = App\Models\UniversityAccount::find($akun);
           @endphp
+          <p id="jalankan" style="display: none;">Jalankan otomatisasi:</p>
           <a href="#database" class="btn btn-primary" id="con_ASU_1" style="display: none;">ARIZONA_1</a>
+          <a href="#database" class="btn btn-primary" id="auraria" style="display: none;">AURARIA</a>
+          <a href="#database" class="btn btn-primary" id="oakland" style="display: none;">OAKLAND</a>
           @if ($univAcc->username == "UNAIR_1")
             <a href="#database" class="btn btn-primary" id="con_UNAIR_1" style="display: none;">UNAIR_1</a>
           @elseif ($univAcc->username == "UNAIR_2")
@@ -236,6 +243,7 @@
 
       <div class="d-flex justify-content-center p-2">
         <div>
+          <p id="hentikan" style="display: none;">Berhentikan otomatisasi:</p>
           <a href="#database" class="btn btn-danger" id="dis_ASU_1" style="display: none;">ARIZONA_1</a>
           <a href="#database" class="btn btn-danger" id="dis_UNAIR_1" style="display: none;">UNAIR_1</a>
           <a href="#database" class="btn btn-danger" id="dis_UNAIR_2" style="display: none;">UNAIR_2</a>
@@ -405,9 +413,8 @@
         });
         table.draw();
       });
-      
-      // REGISTRY_OFF
-      $("#uc_login").click(function(e){
+
+      $("#updateAgent").click(function(e){
         const statusDiv = $("#status");
         const socket = new WebSocket('ws://localhost:64135');
 
@@ -417,24 +424,21 @@
 
             // Siapkan data perintah dalam format JSON
             const perintah = {
-                action: "REGISTRY_OFF", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
+                action: "SYNC", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
+                vpn: "", //"openvpn atau anyconnect"
+                univ: "",
+                timestamp: new Date().getTime()
             };
 
             // Kirim data perintah sebagai teks JSON
             socket.send(JSON.stringify(perintah));
 
-            $("#uc_login").addClass("d-none");
-            $("#uc_logout").removeClass("d-none");
-            $("#con_ASU_1").show();
-            $("#con_UNAIR_1").show();
-            $("#con_UNAIR_2").show();
-            $("#con_UNAIR_3").show();
-            $("#on_UNAIR_4").show();
+            // localStorage.setItem('tombolAktif', 'tombol1');
 
-            const winFeat = 'width=1024,height=768,left=100,top=100,resizable=yes';
+            // const winFeat = 'width=1024,height=768,left=100,top=100,resizable=yes';
 
             // window.open("https://catalyst.uc.edu", '_blank');
-            window.open("https://catalyst.uc.edu", 'Login UC', winFeat);
+            // window.open("https://catalyst.uc.edu", 'Login UC', winFeat);
           };
 
           socket.onerror = function(error) {
@@ -451,6 +455,66 @@
               console.log('Koneksi WebSocket ditutup.');
           };
         });
+
+      let socketOpen = function() {
+        const statusDiv = $("#status");
+        const socket = new WebSocket('ws://localhost:64135');
+        
+        socket.onopen = function() {
+            statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
+            // console.log('Koneksi berhasil dibuka.');
+
+            // Siapkan data perintah dalam format JSON
+            const perintah = {
+                action: "REGISTRY_OFF", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
+            };
+
+            // Kirim data perintah sebagai teks JSON
+            socket.send(JSON.stringify(perintah));
+
+            $("#uc_login").addClass("d-none");
+            $("#uc_logout").show();
+            $("#con_ASU_1").show();
+            $("#con_UNAIR_1").show();
+            $("#con_UNAIR_2").show();
+            $("#con_UNAIR_3").show();
+            $("#con_UNAIR_4").show();
+            $("#jalankan").show();
+            $("#hentikan").show();
+            $("#auraria").show();
+            $("#oakland").show();
+          };
+
+          let retError = "";
+
+          socket.onerror = function(error) {
+              statusDiv.textContent = 'Status: Gagal terhubung! Pastikan agen lokal sudah berjalan.';
+              console.error('WebSocket Error: ', error);
+              retError = error;
+              return retError;
+          };
+
+          socket.onmessage = function(event) {
+              console.log('Pesan dari server:', event.data);
+              statusDiv.textContent = 'Status: ' + event.data;
+              retError = error;
+              return retError;
+          };
+
+          socket.onclose = function() {
+              console.log('Koneksi WebSocket ditutup.');
+          };
+        };
+      
+      // REGISTRY_OFF
+      $("#uc_login").click(function(e){
+        socketOpen();
+
+        const winFeat = 'width=1024,height=768,left=100,top=100,resizable=yes';
+
+        // window.open("https://catalyst.uc.edu", '_blank');
+        window.open("https://catalyst.uc.edu", 'Login UC', winFeat);
+      });
 
         // REGISTRY_ON
         $("#uc_logout").click(function(e){
@@ -471,13 +535,22 @@
 
             $("#uc_login").removeClass("d-none");
             $("#uc_login").show();
-            $("#uc_logout").addClass("d-none");
+            $("#uc_logout").hide();
             $("#listdatabase").hide();
             $("#con_ASU_1").hide();
             $("#con_UNAIR_1").hide();
             $("#con_UNAIR_2").hide();
             $("#con_UNAIR_3").hide();
             $("#con_UNAIR_4").hide();
+            $("#dis_ASU_1").hide();
+            $("#dis_UNAIR_1").hide();
+            $("#dis_UNAIR_2").hide();
+            $("#dis_UNAIR_3").hide();
+            $("#dis_UNAIR_4").hide();
+            $("#jalankan").hide();
+            $("#hentikan").hide();
+            $("#auraria").hide();
+            $("#oakland").hide();
           };
 
           socket.onerror = function(error) {
@@ -997,5 +1070,7 @@
         const iframe = globalModal.querySelector('#globalIframe');
         iframe.src = '';
       });
+
+
   </script>
   @endpush
