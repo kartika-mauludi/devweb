@@ -89,7 +89,7 @@ class EncryptController extends Controller
     {
         $key = $this->generateFernetKey();
 
-        Storage::disk('local')->put('config.key', $key);
+        Storage::disk('public')->put('config/config.key', $key);
 
         $rows = ConfigAccount::all();
 
@@ -123,7 +123,7 @@ class EncryptController extends Controller
         $fernet = new Fernet($key);
         $encrypted = $fernet->encode($json);
 
-        Storage::disk('local')->put('config.enc', $encrypted);
+        Storage::disk('public')->put('config/config.enc', $encrypted);
 
         return back()->with('success', '✅ File config.key dan config.enc berhasil dibuat di storage/app');
     }

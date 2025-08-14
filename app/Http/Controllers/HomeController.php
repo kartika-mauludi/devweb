@@ -81,7 +81,7 @@ class HomeController extends Controller
         $video = File::where('type','=','video')->orderBy('urut')->get();
         $bonus_global = Bonus::where('type','=','global')->first();
         $bonus_private = BonusesDetails::with('bonus')->where('user_id', Auth::id())->first();
-
+        // dd($file);
         $data['admin'] = $admin;
         $data['user'] = $user;
         $data['komisi'] = $paid->sum('amount') - $wd->sum('amount') ;
