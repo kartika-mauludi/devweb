@@ -222,21 +222,23 @@
       <div class="d-flex justify-content-center p-2">
         <div>
           @php
-          $akun = $user->akun_id[array_key_last($user->akun_id)];
-          $univAcc = App\Models\UniversityAccount::find($akun);
+          $akunIds = $user->akun_id;
+          $universityNames = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->get()->pluck('university.name');
+          $univAcc = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->first();
+          $univNameLower = $universityNames->map(fn($name) => strtolower($name));
           @endphp
           <p id="jalankan" style="display: none;">Jalankan otomatisasi:</p>
-          <a href="#database" class="btn btn-primary" id="con_ASU_1" style="display: none;">ARIZONA_1</a>
-          <a href="#database" class="btn btn-primary" id="auraria" style="display: none;">AURARIA</a>
-          <a href="#database" class="btn btn-primary" id="oakland" style="display: none;">OAKLAND</a>
-          @if ($univAcc->username == "UNAIR_1")
+          @if (Str::contains($univNameLower, 'arizona'))
+            <a href="#database" class="btn btn-primary" id="con_ASU_1" style="display: none;">ARIZONA_1</a>
+          @endif
+          @if (Str::contains($univNameLower, 'auraria'))
+            <a href="#database" class="btn btn-primary" id="auraria" style="display: none;">AURARIA</a>
+          @endif
+          @if (Str::contains($univNameLower, 'oakland'))
+            <a href="#database" class="btn btn-primary" id="oakland" style="display: none;">OAKLAND</a>
+          @endif
+          @if (Str::contains($univNameLower, 'airlangga'))
             <a href="#database" class="btn btn-primary" id="con_UNAIR_1" style="display: none;">UNAIR_1</a>
-          @elseif ($univAcc->username == "UNAIR_2")
-            <a href="#database" class="btn btn-primary" id="con_UNAIR_2" style="display: none;">UNAIR_2</a>
-          @elseif ($univAcc->username == "UNAIR_3")
-            <a href="#database" class="btn btn-primary" id="con_UNAIR_3" style="display: none;">UNAIR_3</a>
-          @elseif ($univAcc->username == "UNAIR_4")
-            <a href="#database" class="btn btn-primary" id="con_UNAIR_4" style="display: none;">UNAIR_4</a>
           @endif
         </div>
       </div>
@@ -262,8 +264,11 @@
             <select id="categoryFilter" class="form-control">
               <option value="show" hidden selected class="bg-muted text-secondary"><i class="fas fa-filter"></i> Filter by University</option>
               <option value="">Show All</option>
-              @foreach ( $univs as $univ )
+              {{-- @foreach ( $univs as $univ )
                    <option value="{{ $univ->name }}">{{ $univ->name }}</option>
+              @endforeach --}}
+              @foreach ($universityNames as $una)
+                <option value="{{ $una }}">{{ $una }}</option>
               @endforeach
             </select>
           </div>
@@ -276,8 +281,24 @@
                     <!-- <th>URL Website</th> -->
                 </tr>
             </thead>
+            @php
+                $univId = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->get()->pluck('university.id');
+                $websitesUniv = App\Models\UniversityWebsite::with('university')->whereIn('university_id', $univId)->get();
+            @endphp
             <tbody>
-                @foreach ($websites as $index => $web)
+              @foreach ( $websitesUniv as $wu)
+                <tr>
+                  <td class="text-nowrap">
+                    @if($wu->university->parent == 0 || $wu->university->parent === null)
+                        {{ $wu->university->name ?? 'Tidak Diketahui' }}
+                    @elseif($wu->university->parent != 0 && $wu->university->parent !== null)
+                        {{ \App\Models\University::where('id', $wu->university->parent)->first()->name ?? 'Tidak Diketahui'}}
+                    @endif
+                  </td>
+                  <td class="text-nowrap"><a href="{{ $wu->url }}" target="_blank">{!! $wu->title.' <i class="fa-solid fa-up-right-from-square"></i>' ?? 'Tidak Diketahui' !!}</a></td>
+                </tr>
+              @endforeach
+                {{-- @foreach ($websites as $index => $web)
                     <tr>
                         <td class="text-nowrap">
                           @if($web->university->parent == 0 || $web->university->parent === null)
@@ -288,7 +309,7 @@
                         </td>
                         <td class="text-nowrap"><a href="{{ $web->url }}" target="_blank">{!! $web->title.' <i class="fa-solid fa-up-right-from-square"></i>' ?? 'Tidak Diketahui' !!}</a></td>
                     </tr>
-                @endforeach
+                @endforeach --}}
             </tbody>
           </table>
           </div>

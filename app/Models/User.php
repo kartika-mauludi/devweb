@@ -100,4 +100,9 @@ class User extends Authenticatable implements CanResetPassword
     {
         $query->where('is_superadmin', true);
     }
+
+    public function universityAccount()
+    {
+        return $this->belongsTo(UniversityAccount::class);
+    }
 }
