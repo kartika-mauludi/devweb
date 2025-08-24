@@ -214,6 +214,7 @@
       </div>
       <div class="container section-title" data-aos="fade-up" id="uc_login_database">
         <a href="#database" class="btn btn-primary" id="uc_login"> Login Cincinnati</a>
+        <p class="text-danger fs-5 mt-3 fw-bold" style="display: none;" id="pesan">Silahkan menginstall Agent dan Ekstensi terlebih dahulu!</p>
       </div>
       <div class="container section-title" data-aos="fade-up" id="uc_logout_database">
         <a href="#database" class="btn btn-danger" id="uc_logout" style="display: none;"> Logout Cincinnati</a>
@@ -344,6 +345,18 @@
       const tombol3 = $('#con_UNAIR_2');
       const tombol4 = $('#con_UNAIR_3');
       const tombol5 = $('#con_UNAIR_4');
+
+      const socket = new WebSocket('ws://localhost:64135');
+
+      socket.onerror = function(error) {
+          const btn = document.getElementById('uc_login');
+          if (btn) {
+            btn.style.display = 'none';
+            const pesan = document.getElementById('pesan');
+            pesan.style.display = 'block';
+            alert('Silahkan install agent dan ekstensi terlebih dahulu untuk mengakses database!');
+          }
+      };
 
       $(function() {
 
