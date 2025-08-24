@@ -213,10 +213,10 @@
         <a href="https://unairsatu.unair.ac.id/" style="display: none;">Akses</a>
       </div>
       <div class="container section-title" data-aos="fade-up" id="uc_login_database">
-        <a href="#database" class="btn btn-primary" id="uc_login"> Login Database</a>
+        <a href="#database" class="btn btn-primary" id="uc_login"> Login Cincinnati</a>
       </div>
       <div class="container section-title" data-aos="fade-up" id="uc_logout_database">
-        <a href="#database" class="btn btn-danger" id="uc_logout" style="display: none;"> Logout Database</a>
+        <a href="#database" class="btn btn-danger" id="uc_logout" style="display: none;"> Logout Cincinnati</a>
       </div>
 
       <div class="d-flex justify-content-center p-2">
