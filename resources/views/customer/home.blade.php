@@ -213,10 +213,11 @@
         <a href="https://unairsatu.unair.ac.id/" style="display: none;">Akses</a>
       </div>
       <div class="container section-title" data-aos="fade-up" id="uc_login_database">
-        <a href="#database" class="btn btn-primary" id="uc_login"> Login Cincinnati</a>
+        <a href="#database" class="btn btn-primary" id="db_login"> Login Database</a>
+        <p class="text-danger fs-5 mt-3 fw-bold" style="display: none;" id="pesan">Silahkan menginstall Agent dan Ekstensi terlebih dahulu!</p>
       </div>
       <div class="container section-title" data-aos="fade-up" id="uc_logout_database">
-        <a href="#database" class="btn btn-danger" id="uc_logout" style="display: none;"> Logout Cincinnati</a>
+        <a href="#database" class="btn btn-danger" id="db_logout" style="display: none;"> Logout Database</a>
       </div>
 
       <div class="d-flex justify-content-center p-2">
@@ -228,8 +229,11 @@
           $univNameLower = $universityNames->map(fn($name) => strtolower($name));
           @endphp
           <p id="jalankan" style="display: none;">Jalankan otomatisasi:</p>
+          @if (Str::contains($univNameLower, 'cincinnati'))
+            <a href="#database" class="btn btn-primary" id="uc_login" style="display: none;">CINCINNATI</a>
+          @endif
           @if (Str::contains($univNameLower, 'arizona'))
-            <a href="#database" class="btn btn-primary" id="con_ASU_1" style="display: none;">ARIZONA_1</a>
+            <a href="#database" class="btn btn-primary" id="con_ASU_1" style="display: none;">ARIZONA</a>
           @endif
           @if (Str::contains($univNameLower, 'auraria'))
             <a href="#database" class="btn btn-primary" id="auraria" style="display: none;">AURARIA</a>
@@ -344,6 +348,18 @@
       const tombol3 = $('#con_UNAIR_2');
       const tombol4 = $('#con_UNAIR_3');
       const tombol5 = $('#con_UNAIR_4');
+
+      const socket = new WebSocket('ws://localhost:64135');
+
+      socket.onerror = function(error) {
+          const btn = document.getElementById('uc_login');
+          if (btn) {
+            btn.style.display = 'none';
+            const pesan = document.getElementById('pesan');
+            pesan.style.display = 'block';
+            alert('Silahkan install agent dan ekstensi terlebih dahulu untuk mengakses database!');
+          }
+      };
 
       $(function() {
 
@@ -493,8 +509,10 @@
             // Kirim data perintah sebagai teks JSON
             socket.send(JSON.stringify(perintah));
 
-            $("#uc_login").addClass("d-none");
-            $("#uc_logout").show();
+            $("#db_login").addClass("d-none");
+            $("#db_logout").show();
+            $("#listdatabase").show();
+            $("#uc_login").show();
             $("#con_ASU_1").show();
             $("#con_UNAIR_1").show();
             $("#con_UNAIR_2").show();
@@ -526,19 +544,13 @@
               console.log('Koneksi WebSocket ditutup.');
           };
         };
-      
-      // REGISTRY_OFF
-      $("#uc_login").click(function(e){
-        socketOpen();
 
-        const winFeat = 'width=1024,height=768,left=100,top=100,resizable=yes';
-
-        // window.open("https://catalyst.uc.edu", '_blank');
-        window.open("https://catalyst.uc.edu", 'Login UC', winFeat);
-      });
+        $("#db_login").click(function(e){
+          socketOpen();
+        });
 
         // REGISTRY_ON
-        $("#uc_logout").click(function(e){
+        $("#db_logout").click(function(e){
           const statusDiv = $("#status");
         const socket = new WebSocket('ws://localhost:64135');
 
@@ -554,10 +566,11 @@
             // Kirim data perintah sebagai teks JSON
             socket.send(JSON.stringify(perintah));
 
-            $("#uc_login").removeClass("d-none");
-            $("#uc_login").show();
-            $("#uc_logout").hide();
+            $("#db_login").removeClass("d-none");
+            $("#db_login").show();
+            $("#db_logout").hide();
             $("#listdatabase").hide();
+            $("#uc_login").hide();
             $("#con_ASU_1").hide();
             $("#con_UNAIR_1").hide();
             $("#con_UNAIR_2").hide();
@@ -588,6 +601,16 @@
               console.log('Koneksi WebSocket ditutup.');
           };
         });
+
+        // Cincinnati Login
+      $("#uc_login").click(function(e){
+        // socketOpen();
+
+        const winFeat = 'width=1024,height=768,left=100,top=100,resizable=yes';
+
+        // window.open("https://catalyst.uc.edu", '_blank');
+        window.open("https://catalyst.uc.edu", 'Login UC', winFeat);
+      });
 
         // REGISTRY_CONNECT: ASU_1
         $("#con_ASU_1").click(function(e){
