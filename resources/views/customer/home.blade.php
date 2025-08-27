@@ -213,8 +213,8 @@
         <a href="https://unairsatu.unair.ac.id/" style="display: none;">Akses</a>
       </div>
       <div class="container section-title" data-aos="fade-up" id="uc_login_database">
-        <a href="#database" class="btn btn-primary" id="db_login"> Login Database</a>
-        <p class="text-danger fs-5 mt-3 fw-bold" style="display: none;" id="pesan">Silahkan menginstall Agent dan Ekstensi terlebih dahulu!</p>
+        <a href="#database" class="btn btn-primary" id="db_login" style="display: none;"> Login Database</a>
+        <p class="text-danger fs-5 mt-3 fw-bold" id="pesan">Silahkan menginstall Agent (khusus windows) dan Ekstensi terlebih dahulu!</p>
       </div>
       <div class="container section-title" data-aos="fade-up" id="uc_logout_database">
         <a href="#database" class="btn btn-danger" id="db_logout" style="display: none;"> Logout Database</a>
@@ -349,41 +349,83 @@
       const tombol4 = $('#con_UNAIR_3');
       const tombol5 = $('#con_UNAIR_4');
 
-      const socket = new WebSocket('ws://localhost:64135');
+      // const socket = new WebSocket('ws://localhost:64135');
 
-      socket.onerror = function(error) {
-          const btn = document.getElementById('uc_login');
-          if (btn) {
-            btn.style.display = 'none';
-            const pesan = document.getElementById('pesan');
-            pesan.style.display = 'block';
-            alert('Silahkan install agent dan ekstensi terlebih dahulu untuk mengakses database!');
-          }
-      };
+      // socket.onerror = function(error) {
+      //     const btn = document.getElementById('db_login');
+      //     if (btn) {
+      //       btn.style.display = 'none';
+      //       const pesan = document.getElementById('pesan');
+      //       pesan.style.display = 'block';
+      //       alert('Silahkan install agent dan ekstensi terlebih dahulu untuk mengakses database!');
+      //     }
+      // };
 
-      $(function() {
+      function getOS() {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        const platform = navigator.platform.toLowerCase();
 
-        // Ganti dengan domain yang ingin Anda blokir
-        const domainDilarang = 'unairsatu.unair.ac.id';
+        if (platform.includes('win')) return 'Windows';
+        if (platform.includes('mac')) return 'macOS';
+        if (platform.includes('linux')) return 'Linux';
+        if (/android/i.test(userAgent)) return 'Android';
+        if (/iphone|ipad|ipod/i.test(userAgent)) return 'iOS';
 
-        // Gunakan event delegation pada 'body' untuk memantau semua klik pada link (<a>)
-        $('body').on('click', 'a', function(event) {
+        return 'Unknown';
+      }
 
-            // 'this' dalam konteks ini sudah merujuk pada elemen <a> yang diklik.
-            // Cek jika hostname dari link tersebut mengandung domain yang dilarang.
-            if (this.hostname.includes(domainDilarang)) {
-                
-                // Hentikan aksi default browser (pindah halaman)
-                event.preventDefault();
-                
-                // Tampilkan pesan
-                alert('Akses ke ' + domainDilarang + ' tidak diizinkan dari situs ini.');
-            }
-        });
+console.log("Operating System:", getOS());
 
-      });
+if (getOS() === 'Windows') {
 
-      periksaStateSaatLoad();
+  window.addEventListener("message", function(event) {
+    if (event.source !== window) return;
+
+    if (event.data && event.data.from === "databaseriset" && event.data.installed === true) {
+      console.log("Ekstensi terpasang!");
+
+      const btn = document.getElementById('db_login');
+      if (btn) {
+        btn.style.display = 'inline';
+        const pesan = document.getElementById('pesan');
+        pesan.style.display = 'none';
+      }
+
+      // Lakukan sesuatu, misalnya: ubah UI, set cookie, dll
+    }
+  });
+
+  const socket = new WebSocket('ws://localhost:64135');
+
+    socket.onerror = function(error) {
+        const btn = document.getElementById('db_login');
+        if (btn) {
+          btn.style.display = 'none';
+          const pesan = document.getElementById('pesan');
+          pesan.style.display = 'block';
+          alert('Untuk pengguna Windows, silahkan install agent dan ekstensi terlebih dahulu untuk mengakses database!');
+        }
+    };
+}
+
+if (getOS() === 'macOS') {
+  window.addEventListener("message", function(event) {
+    if (event.source !== window) return;
+
+    if (event.data && event.data.from === "databaseriset" && event.data.installed === true) {
+      console.log("Ekstensi terpasang!");
+
+      const btn = document.getElementById('db_login');
+      if (btn) {
+        btn.style.display = 'inline';
+        const pesan = document.getElementById('pesan');
+        pesan.style.display = 'none';
+      }
+
+      // Lakukan sesuatu, misalnya: ubah UI, set cookie, dll
+    }
+  });
+}
 
       // Periksa state saat halaman dimuat
       function periksaStateSaatLoad() {
@@ -427,6 +469,8 @@
             $("#con_UNAIR_4").removeClass("disabled");
         }
     }
+
+    periksaStateSaatLoad();
 
       $("#filterTable").dataTable({
         "searching": true,
@@ -545,62 +589,95 @@
           };
         };
 
-        $("#db_login").click(function(e){
-          socketOpen();
-        });
+        // $("#db_login").click(function(e){
+          // alert("Pastikan ekstensi telah terinstall jika tombol tidak melakukan aksi apapun.");
+        //   socketOpen();
+        //   $("#db_login").addClass("d-none");
+        //   $("#db_logout").show();
+        //   $("#listdatabase").show();
+        //   $("#uc_login").show();
+        //   $("#con_ASU_1").show();
+        //   $("#con_UNAIR_1").show();
+        //   $("#con_UNAIR_2").show();
+        //   $("#con_UNAIR_3").show();
+        //   $("#con_UNAIR_4").show();
+        //   $("#jalankan").show();
+        //   $("#hentikan").show();
+        //   $("#auraria").show();
+        //   $("#oakland").show();
+        // });
 
         // REGISTRY_ON
-        $("#db_logout").click(function(e){
-          const statusDiv = $("#status");
-        const socket = new WebSocket('ws://localhost:64135');
+        // $("#db_logout").click(function(e){
+          // $("#db_login").removeClass("d-none");
+          // $("#db_login").show();
+          // $("#db_logout").hide();
+          // $("#listdatabase").hide();
+          // $("#uc_login").hide();
+          // $("#con_ASU_1").hide();
+          // $("#con_UNAIR_1").hide();
+          // $("#con_UNAIR_2").hide();
+          // $("#con_UNAIR_3").hide();
+          // $("#con_UNAIR_4").hide();
+          // $("#dis_ASU_1").hide();
+          // $("#dis_UNAIR_1").hide();
+          // $("#dis_UNAIR_2").hide();
+          // $("#dis_UNAIR_3").hide();
+          // $("#dis_UNAIR_4").hide();
+          // $("#jalankan").hide();
+          // $("#hentikan").hide();
+          // $("#auraria").hide();
+          // $("#oakland").hide();
+        //   const statusDiv = $("#status");
+        // const socket = new WebSocket('ws://localhost:64135');
 
-        socket.onopen = function() {
-            statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
-            // console.log('Koneksi berhasil dibuka.');
+        // socket.onopen = function() {
+        //     statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
+        //     // console.log('Koneksi berhasil dibuka.');
 
-            // Siapkan data perintah dalam format JSON
-            const perintah = {
-                action: "REGISTRY_ON", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
-            };
+        //     // Siapkan data perintah dalam format JSON
+        //     const perintah = {
+        //         action: "REGISTRY_ON", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
+        //     };
 
-            // Kirim data perintah sebagai teks JSON
-            socket.send(JSON.stringify(perintah));
+        //     // Kirim data perintah sebagai teks JSON
+        //     socket.send(JSON.stringify(perintah));
 
-            $("#db_login").removeClass("d-none");
-            $("#db_login").show();
-            $("#db_logout").hide();
-            $("#listdatabase").hide();
-            $("#uc_login").hide();
-            $("#con_ASU_1").hide();
-            $("#con_UNAIR_1").hide();
-            $("#con_UNAIR_2").hide();
-            $("#con_UNAIR_3").hide();
-            $("#con_UNAIR_4").hide();
-            $("#dis_ASU_1").hide();
-            $("#dis_UNAIR_1").hide();
-            $("#dis_UNAIR_2").hide();
-            $("#dis_UNAIR_3").hide();
-            $("#dis_UNAIR_4").hide();
-            $("#jalankan").hide();
-            $("#hentikan").hide();
-            $("#auraria").hide();
-            $("#oakland").hide();
-          };
+        //     $("#db_login").removeClass("d-none");
+        //     $("#db_login").show();
+        //     $("#db_logout").hide();
+        //     $("#listdatabase").hide();
+        //     $("#uc_login").hide();
+        //     $("#con_ASU_1").hide();
+        //     $("#con_UNAIR_1").hide();
+        //     $("#con_UNAIR_2").hide();
+        //     $("#con_UNAIR_3").hide();
+        //     $("#con_UNAIR_4").hide();
+        //     $("#dis_ASU_1").hide();
+        //     $("#dis_UNAIR_1").hide();
+        //     $("#dis_UNAIR_2").hide();
+        //     $("#dis_UNAIR_3").hide();
+        //     $("#dis_UNAIR_4").hide();
+        //     $("#jalankan").hide();
+        //     $("#hentikan").hide();
+        //     $("#auraria").hide();
+        //     $("#oakland").hide();
+        //   };
 
-          socket.onerror = function(error) {
-              statusDiv.textContent = 'Status: Gagal terhubung! Pastikan agen lokal sudah berjalan.';
-              console.error('WebSocket Error: ', error);
-          };
+        //   socket.onerror = function(error) {
+        //       statusDiv.textContent = 'Status: Gagal terhubung! Pastikan agen lokal sudah berjalan.';
+        //       console.error('WebSocket Error: ', error);
+        //   };
 
-          socket.onmessage = function(event) {
-              console.log('Pesan dari server:', event.data);
-              statusDiv.textContent = 'Status: ' + event.data;
-          };
+        //   socket.onmessage = function(event) {
+        //       console.log('Pesan dari server:', event.data);
+        //       statusDiv.textContent = 'Status: ' + event.data;
+        //   };
 
-          socket.onclose = function() {
-              console.log('Koneksi WebSocket ditutup.');
-          };
-        });
+        //   socket.onclose = function() {
+        //       console.log('Koneksi WebSocket ditutup.');
+        //   };
+        // });
 
         // Cincinnati Login
       $("#uc_login").click(function(e){
