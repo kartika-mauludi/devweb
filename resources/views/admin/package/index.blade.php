@@ -30,7 +30,7 @@
                         </thead>
                         <tbody>
                             @foreach ($records as $record)
-                                @if($record->name != "custom" && $record->id != 99)
+                                <!-- @if($record->name != "custom" && $record->id != 99) -->
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $record->name }}</td>
@@ -52,7 +52,7 @@
                                         </form>
                                     </td>
                                 </tr>
-                                @endif
+                                <!-- @endif -->
                             @endforeach
                         </tbody>
                     </table>
