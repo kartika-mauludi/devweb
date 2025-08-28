@@ -243,11 +243,10 @@
           $username_arizona = $univAccMapped[0]['username'];
           $username_unair = $univAccMapped[1]['username'];
 
-          $arizona = App\Models\ConfigAccount::where('username', $username_arizona)->first();
-          $arizonaConfig = $arizona->config_name;
-          $unair = App\Models\ConfigAccount::where('username', $username_unair)->first();
+          $arizona = App\Models\ConfigAccount::where('username', $username_arizona)->first() ?? "";
+          $unair = App\Models\ConfigAccount::where('username', $username_unair)->first() ?? "";
 
-          $unairTrim = Str::replace('.ovpn', '', $unair->name_config);
+          $unairTrim = Str::replace('.ovpn', '', $unair->name_config)
           @endphp
           <p id="jalankan" style="display: none;">Jalankan otomatisasi:</p>
           @if (Str::contains($univNameLower, 'cincinnati'))
