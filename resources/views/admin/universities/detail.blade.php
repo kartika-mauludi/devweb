@@ -19,10 +19,7 @@
                     <div class="d-flex align-items-center mb-2 justify-content-between">
                         <p class="mb-0 font-weight-bold">Daftar Akun</p>
                         @if ($university->name == 'Universitas Airlangga' || $university->name == 'Arizona State University')
-                        <div class="d-flex gap-5">
-                                <button class="btn btn-sm btn-success" data-toggle="modal"
-                                    data-target="#addAccountModal">Tambah</button>
-                            </div>
+                        
                         @else
                             <div class="d-flex gap-5">
                                 <button class="btn btn-sm btn-success" data-toggle="modal"

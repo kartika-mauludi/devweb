@@ -228,6 +228,7 @@ Route::middleware(['auth', 'admin'])->controller(EncryptController::class)->grou
    Route::get('/get-letencrypt', 'generate')->name('letencrypt.generate');
    Route::post('/asu-config', 'addAsuConfig')->name('asu-addconfig');
    Route::post('/unair-config', 'addUnairConfig')->name('unair-addconfig');
+   Route::post('/config-edit', 'editConfig')->name('config.edit');
    Route::delete('/config-destroy/{id}', 'destroyConfig')->name('config.destroy');
 });
 
