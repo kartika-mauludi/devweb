@@ -14,7 +14,7 @@ class ConfigFileController extends Controller
         $list = [];
         foreach ($files as $file) {
             $publicUrl = Storage::url($file);
-            $absoluteUrl = asset('/devweb/public/storage/'. $file);
+            $absoluteUrl = asset('/storage/'. $file);
             $localPath = Storage::disk('public')->path($file); // /devweb/public/storage/config/config.enc
 
             if (file_exists($localPath)) {
