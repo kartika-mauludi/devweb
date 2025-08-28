@@ -226,7 +226,28 @@
           $akunIds = $user->akun_id;
           $universityNames = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->get()->pluck('university.name');
           $univAcc = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->first();
+          $univAccs = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->get();
           $univNameLower = $universityNames->map(fn($name) => strtolower($name));
+          $univAccMapped = $univAccs
+            ->filter(function ($account) {
+                return in_array($account->university->name ?? null, ['Arizona State University', 'Universitas Airlangga']);
+            })
+            ->map(function ($account) {
+                return [
+                    'id' => $account->id,
+                    'username' => $account->username,
+                    'password' => $account->password,
+                    'university_name' => $account->university->name ?? null,
+                ];
+          })->values();
+          $username_arizona = $univAccMapped[0]['username'];
+          $username_unair = $univAccMapped[1]['username'];
+
+          $arizona = App\Models\ConfigAccount::where('username', $username_arizona)->first();
+          $arizonaConfig = $arizona->config_name;
+          $unair = App\Models\ConfigAccount::where('username', $username_unair)->first();
+
+          $unairTrim = Str::replace('.ovpn', '', $unair->name_config);
           @endphp
           <p id="jalankan" style="display: none;">Jalankan otomatisasi:</p>
           @if (Str::contains($univNameLower, 'cincinnati'))
@@ -694,6 +715,9 @@ if (getOS() === 'macOS') {
         const statusDiv = $("#status");
         const socket = new WebSocket('ws://localhost:64135');
 
+        let arizona = @json($arizona['name_config']).toUpperCase();
+        console.log(arizona);
+
         socket.onopen = function() {
             statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
             // console.log('Koneksi berhasil dibuka.');
@@ -702,7 +726,7 @@ if (getOS() === 'macOS') {
             const perintah = {
                 action: "CONNECT", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
                 vpn: "anyconnect", //"openvpn atau anyconnect"
-                univ: "ASU_1",
+                univ: arizona,
                 timestamp: new Date().getTime()
             };
 
@@ -740,6 +764,8 @@ if (getOS() === 'macOS') {
           const statusDiv = $("#status");
           const socket = new WebSocket('ws://localhost:64135');
 
+          let arizona = @json($arizona['name_config']).toUpperCase();
+
         socket.onopen = function() {
             statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
             // console.log('Koneksi berhasil dibuka.');
@@ -748,7 +774,7 @@ if (getOS() === 'macOS') {
             const perintah = {
                 action: "DISCONNECT", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
                 vpn: "anyconnect", //"openvpn atau anyconnect"
-                univ: "ASU_1",
+                univ: arizona,
                 timestamp: new Date().getTime()
             };
 
@@ -786,6 +812,8 @@ if (getOS() === 'macOS') {
           const statusDiv = $("#status");
         const socket = new WebSocket('ws://localhost:64135');
 
+        let unair = @json($unairTrim).toUpperCase();
+
         socket.onopen = function() {
             statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
             // console.log('Koneksi berhasil dibuka.');
@@ -794,7 +822,7 @@ if (getOS() === 'macOS') {
             const perintah = {
                 action: "CONNECT", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
                 vpn: "openvpn", //"openvpn atau anyconnect"
-                univ: "UNAIR_1",
+                univ: unair,
                 timestamp: new Date().getTime()
             };
 
@@ -835,6 +863,8 @@ if (getOS() === 'macOS') {
           const statusDiv = $("#status");
         const socket = new WebSocket('ws://localhost:64135');
 
+        let unair = @json($unairTrim).toUpperCase();
+
         socket.onopen = function() {
             statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
             // console.log('Koneksi berhasil dibuka.');
@@ -843,7 +873,7 @@ if (getOS() === 'macOS') {
             const perintah = {
                 action: "DISCONNECT", // "CONNECT" atau "DISCONNECT atau REGISTRY_ON" atau "REGISTRY_OFF"
                 vpn: "openvpn", //"openvpn atau anyconnect"
-                univ: "UNAIR_1",
+                univ: unair,
                 timestamp: new Date().getTime()
             };
 

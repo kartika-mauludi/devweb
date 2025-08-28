@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\ConfigAccount;
+use App\Models\University;
+use App\Models\UniversityAccount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Fernet\Fernet;
+use Illuminate\Support\Facades\DB;
 use PSpell\Config;
 
 class EncryptController extends Controller
@@ -20,69 +23,184 @@ class EncryptController extends Controller
 
     public function addAsuConfig(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'name_config' => 'required',
-            'username' => 'required',
-            'password' => 'required',
-        ]);
+        $result = DB::transaction(function () use ($request) {
+            $sumAsu = ConfigAccount::where('name_university', 'Arizona State University')->count();
+            $name_config = "asu_" . ($sumAsu + 1);
 
-        ConfigAccount::create([
-            'name_university' => $request->name,
-            'name_config' => $request->name_config,
-            'username' => $request->username,
-            'password' => $request->password,
-        ]);
-        return back()->with('success', '✅ Data berhasil disimpan');
+            $request->validate([
+                'name' => 'required',
+                'address' => 'required',
+                'username' => 'required',
+                'password' => 'required',
+            ]);
+
+            if (ConfigAccount::where('username', $request->username)
+                ->where('name_university', 'Arizona State University')
+                ->exists()
+            ) {
+                return [
+                    'statusCode' => 302,
+                ];
+            }
+
+            ConfigAccount::create([
+                'name_university' => $request->name,
+                'name_config' => $name_config,
+                'username' => $request->username,
+                'password' => $request->password,
+                'address' => $request->address,
+            ]);
+
+            $asu = University::where('name', 'Arizona State University')->firstOrFail();
+
+            if (UniversityAccount::where('username', $request->username)
+                ->where('university_id', $asu->id)
+                ->exists()
+            ) {
+                return [
+                    'statusCode' => 302,
+                ];
+            }
+
+            UniversityAccount::create([
+                'university_id' => $asu->id,
+                'username' => $request->username,
+                'password' => $request->password
+            ]);
+
+            return [
+                'statusCode' => 200,
+            ];
+        });
+
+        if ($result['statusCode'] == 302) {
+            return redirect()->back()->with('message', '❌ Akun sudah ada di database');
+        } else if ($result['statusCode'] == 200) {
+            return redirect()->back()->with('message', '✅ Data berhasil disimpan');
+        }
     }
 
     public function addUnairConfig(Request $request)
     {
+        $result = DB::transaction(function () use ($request) {
+            $sumUnair = ConfigAccount::where('name_university', 'Universitas Airlangga')->count();
+            $name_config = "unair_" . ($sumUnair + 1) . ".ovpn";
 
-        // dd($request->all());
+            $request->validate([
+                'name' => 'required',
+                'username' => 'required',
+                'password' => 'required',
+                'address' => 'required',
+            ]);
 
-        $sumUnair = ConfigAccount::where('name_university', 'Universitas Airlangga')->count();
-        // dd($sumUnair);
-        $name_config = "unair_" . ($sumUnair + 1) . ".ovpn";
+            if (ConfigAccount::where('username', $request->username)
+                ->where('name_university', 'Universitas Airlangga')
+                ->exists()
+            ) {
+                return [
+                    'statusCode' => 302,
+                ];
+            }
 
-        $request->validate([
-            'name' => 'required',
-            'username' => 'required',
-            'password' => 'required',
-            'address' => 'required',
-        ]);
-        ConfigAccount::create([
-            'name_university' => $request->name,
-            'name_config' => $name_config,
-            'username' => $request->username,
-            'password' => $request->password,
-            'address' => $request->address,
-        ]);
+            ConfigAccount::create([
+                'name_university' => $request->name,
+                'name_config' => $name_config,
+                'username' => $request->username,
+                'password' => $request->password,
+                'address' => $request->address,
+            ]);
 
+            if ($request->file('config')) {
+                $request->file('config')->storeAs('config', $name_config, 'public');
+            }
 
+            $unair = University::where('name', 'Universitas Airlangga')->firstOrFail();
 
-        if ($request->file('config')) {
-            $request->file('config')->storeAs('config', $name_config, 'public');
+            if (UniversityAccount::where('username', $request->username)
+                ->where('university_id', $unair->id)
+                ->exists()
+            ) {
+                return [
+                    'statusCode' => 302,
+                ];
+            }
+
+            UniversityAccount::create([
+                'university_id' => $unair->id,
+                'username' => $request->username,
+                'password' => $request->password
+            ]);
+
+            return [
+                'statusCode' => 200,
+            ];
+        });
+
+        if ($result['statusCode'] == 302) {
+            return redirect()->back()->with('message', '❌ Akun sudah ada di database');
+        } else if ($result['statusCode'] == 200) {
+            return redirect()->back()->with('message', '✅ Data berhasil disimpan');
         }
-
-        return back()->with('success', '✅ Data berhasil disimpan');
     }
 
     public function destroyConfig($id)
     {
 
         $config = ConfigAccount::findOrFail($id);
-        // dd($config->address);
+        // dd($config);
+        if ($config->name_university == "Arizona State University") {
+            $result = DB::transaction(function () use ($config) {
+                $asu = University::where('name', 'Arizona State University')->firstOrFail();
+                $universityAccount = UniversityAccount::where('username', $config->username)
+                    ->where('university_id', $asu->id)
+                    ->first();
 
-        if ($config->address != null && $config->address != "") {
-            if (Storage::disk('public')->exists('config/' . $config->name_config)) {
-                Storage::disk('public')->delete('config/' . $config->name_config);
+                if ($universityAccount) {
+                    $universityAccount->delete();
+                }
+
+                $config->delete();
+
+                return [
+                    'status' => 'success'
+                ];
+            });
+
+            if ($result['status'] == 'success') {
+                return redirect()->back()->with('message', '✅ Data berhasil dihapus');
+            } else {
+                return redirect()->back()->with('message', '❌ Gagal menghapus data');
+            }
+        } elseif ($config->name_university == "Universitas Airlangga") {
+            $result = DB::transaction(function () use ($config) {
+                $unair = University::where('name', 'Universitas Airlangga')->firstOrFail();
+                $universityAccount = UniversityAccount::where('username', $config->username)
+                    ->where('university_id', $unair->id)
+                    ->first();
+
+                if ($universityAccount) {
+                    $universityAccount->delete();
+                }
+
+                if ($config->address != null && $config->address != "") {
+                    if (Storage::disk('public')->exists('config/' . $config->name_config)) {
+                        Storage::disk('public')->delete('config/' . $config->name_config);
+                    }
+
+                    $config->delete();
+                }
+
+                return [
+                    'status' => 'success',
+                ];
+            });
+
+            if ($result['status'] == 'success') {
+                return redirect()->back()->with('message', '✅ Data berhasil dihapus');
+            } else {
+                return redirect()->back()->with('message', '❌ Gagal menghapus data');
             }
         }
-
-        $config->delete();
-
-        return back()->with('success', '✅ Data berhasil dihapus');
     }
 
     public function generate()
@@ -125,7 +243,7 @@ class EncryptController extends Controller
 
         Storage::disk('public')->put('config/config.enc', $encrypted);
 
-        return back()->with('success', '✅ File config.key dan config.enc berhasil dibuat di storage/app');
+        return back()->with('message', '✅ File config.key dan config.enc berhasil dibuat di storage/app');
     }
 
     private function generateFernetKey(): string
