@@ -249,6 +249,8 @@
           $arizona = App\Models\ConfigAccount::where('username', $username_arizona)->first();
           $unair = App\Models\ConfigAccount::where('username', $username_unair)->first();
 
+          dd($arizona, $unair);
+
           if ($arizona?->name_config && $unair?->name_config) {
             $arizonaTrim = $arizona->name_config;
             $unairTrim = Str::replace('.ovpn', '', $unair->name_config);
@@ -272,7 +274,7 @@
             <a href="#database" class="btn btn-primary" id="oakland" style="display: none;">OAKLAND</a>
           @endif
           @if (Str::contains($univNameLower, 'airlangga'))
-            <a href="#database" class="btn btn-primary" id="con_UNAIR_1" style="display: none;">UNAIR_1</a>
+            <a href="#database" class="btn btn-primary" id="con_UNAIR_1" style="display: none;">UNAIR</a>
           @endif
         </div>
       </div>
@@ -724,8 +726,6 @@ if (getOS() === 'macOS') {
         const statusDiv = $("#status");
         const socket = new WebSocket('ws://localhost:64135');
 
-        let arizona = @json($arizonaTrim).toUpperCase();
-
         socket.onopen = function() {
             statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
             // console.log('Koneksi berhasil dibuka.');
@@ -772,7 +772,6 @@ if (getOS() === 'macOS') {
           const statusDiv = $("#status");
           const socket = new WebSocket('ws://localhost:64135');
 
-          let arizona = @json($arizonaTrim).toUpperCase();
           // console.log("ASU DISCONNECT": arizona_dis);
 
         socket.onopen = function() {
