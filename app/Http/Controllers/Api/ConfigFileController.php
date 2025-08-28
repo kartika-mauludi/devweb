@@ -10,7 +10,7 @@ class ConfigFileController extends Controller
     public function index()
     {
         // ambil semua file di folder itu (mengembalikan path seperti "public/config_files/name.ext")
-        $files = Storage::files('config');
+        $files = Storage::disk('public')->files('config');
 
         // dd($files);
 
