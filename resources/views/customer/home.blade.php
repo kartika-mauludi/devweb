@@ -249,7 +249,14 @@
           $arizona = App\Models\ConfigAccount::where('username', $username_arizona)->first();
           $unair = App\Models\ConfigAccount::where('username', $username_unair)->first();
 
-          $unairTrim = Str::replace('.ovpn', '', $unair->name_config)
+          if ($arizona?->name_config && $unair?->name_config) {
+            $arizonaTrim = $arizona->name_config;
+            $unairTrim = Str::replace('.ovpn', '', $unair->name_config);
+          } else {
+            $arizonaTrim = "";
+            $unairTrim = "";
+          }
+
           @endphp
           <p id="jalankan" style="display: none;">Jalankan otomatisasi:</p>
           @if (Str::contains($univNameLower, 'cincinnati'))
@@ -717,8 +724,7 @@ if (getOS() === 'macOS') {
         const statusDiv = $("#status");
         const socket = new WebSocket('ws://localhost:64135');
 
-        let arizona = @json($arizona['name_config']).toUpperCase();
-        console.log("ASU CONNECT", arizona);
+        let arizona = @json($arizonaTrim).toUpperCase();
 
         socket.onopen = function() {
             statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
@@ -766,7 +772,7 @@ if (getOS() === 'macOS') {
           const statusDiv = $("#status");
           const socket = new WebSocket('ws://localhost:64135');
 
-          let arizona = @json($arizona['name_config']).toUpperCase();
+          let arizona = @json($arizonaTrim).toUpperCase();
           // console.log("ASU DISCONNECT": arizona_dis);
 
         socket.onopen = function() {
