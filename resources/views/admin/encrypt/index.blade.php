@@ -120,8 +120,8 @@
                                 readonly>
                         </div>
                         <div class="form-group">
-                            <label>Server</label>
-                            <input type="text" name="name_config" class="form-control" placeholder="sslvpn.asu.edu">
+                            <label>Adress</label>
+                            <input type="text" name="address" class="form-control" placeholder="sslvpn.asu.edu">
                         </div>
                         <div class="form-group">
                             <label>Username</label>

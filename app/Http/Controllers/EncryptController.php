@@ -25,9 +25,12 @@ class EncryptController extends Controller
     {
 
         $result = DB::transaction(function () use ($request) {
+            $sumAsu = ConfigAccount::where('name_university', 'Arizona State University')->count();
+            $name_config = "asu_" . ($sumAsu + 1);
+
             $request->validate([
                 'name' => 'required',
-                'name_config' => 'required',
+                'address' => 'required',
                 'username' => 'required',
                 'password' => 'required',
             ]);
@@ -43,9 +46,10 @@ class EncryptController extends Controller
 
             ConfigAccount::create([
                 'name_university' => $request->name,
-                'name_config' => $request->name_config,
+                'name_config' => $name_config,
                 'username' => $request->username,
                 'password' => $request->password,
+                'address' => $request->address,
             ]);
 
             $asu = University::where('name', 'Arizona State University')->firstOrFail();
