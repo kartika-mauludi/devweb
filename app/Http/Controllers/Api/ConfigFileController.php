@@ -9,23 +9,14 @@ class ConfigFileController extends Controller
 {
     public function index()
     {
-        // ambil semua file di folder itu (mengembalikan path seperti "public/config_files/name.ext")
-        $files = Storage::files('config');
-
-        // dd($files);
+        $files = Storage::disk('public')->files('config');
 
         $list = [];
-        // dd(file_exists("D:\\WORK\\devweb\\storage\\app\\public\\config\\config.enc"));
         foreach ($files as $file) {
-            $basename = basename($file);
             $publicUrl = Storage::url($file);
-            $absoluteUrl = url($publicUrl, [], true);
+            $absoluteUrl = asset('/devweb/public/storage/'. $file);
+            $localPath = Storage::disk('public')->path($file); // /devweb/public/storage/config/config.enc
 
-            // Pastikan path benar di Windows
-            $normalizedFile = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $file);
-            $localPath = storage_path('app/public/' . $file);
-            // dd($localPath);
-            // dd(file_exists($localPath));
             if (file_exists($localPath)) {
                 $hash = hash_file('sha256', $localPath);
                 $mtime = filemtime($localPath);
@@ -35,12 +26,14 @@ class ConfigFileController extends Controller
             }
 
             $list[] = [
-                'name'       => $basename,
+                'name'       => basename($file),
                 'url'        => $absoluteUrl,
                 'hash'       => $hash,
                 'updated_at' => $mtime,
             ];
         }
+
+        // /devweb/public/storage/config/config.enc
 
         return response()->json($list);
     }
