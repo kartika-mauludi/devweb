@@ -23,7 +23,6 @@ class EncryptController extends Controller
 
     public function addAsuConfig(Request $request)
     {
-
         $result = DB::transaction(function () use ($request) {
             $sumAsu = ConfigAccount::where('name_university', 'Arizona State University')->count();
             $name_config = "asu_" . ($sumAsu + 1);
@@ -83,7 +82,6 @@ class EncryptController extends Controller
 
     public function addUnairConfig(Request $request)
     {
-
         $result = DB::transaction(function () use ($request) {
             $sumUnair = ConfigAccount::where('name_university', 'Universitas Airlangga')->count();
             $name_config = "unair_" . ($sumUnair + 1) . ".ovpn";

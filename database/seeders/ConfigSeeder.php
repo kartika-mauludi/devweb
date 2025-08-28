@@ -20,14 +20,6 @@ class ConfigSeeder extends Seeder
            'password' => 'Pejuang45!@!@',
            'address' => 'sslvpn.asu.edu',
         ]);
-
-         ConfigAccount::create([
-           'name_university' => 'Arizona State University',
-           'name_config' => 'asu_2',
-           'username' => 'wjune12',
-           'password' => 'Pejuang45!@!@',
-           'address' => 'sslvpn.asu.edu',
-         ]);
         
         ConfigAccount::create([
            'name_university' => 'Universitas Airlangga',
