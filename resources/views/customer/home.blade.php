@@ -226,7 +226,18 @@
           $akunIds = $user->akun_id;
           $universityNames = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->get()->pluck('university.name');
           $univAcc = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->first();
+          $univAccs = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->get();
           $univNameLower = $universityNames->map(fn($name) => strtolower($name));
+          $univAccMapped = $univAccs->map(function($account) {
+            return [
+                'id' => $account->id,
+                'username' => $account->username,
+                'password' => $account->password,
+                'university_name' => $account->university->name ?? null,
+            ];
+        });
+
+          dd($univAccMapped);
           @endphp
           <p id="jalankan" style="display: none;">Jalankan otomatisasi:</p>
           @if (Str::contains($univNameLower, 'cincinnati'))

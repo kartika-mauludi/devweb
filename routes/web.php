@@ -217,6 +217,10 @@ Route::resource('universities.websites', UniversityWebsiteController::class);
 // Route::get('/api/get-login-data', [AutoLoginController::class, 'getLoginData']);
 Route::middleware('auth')->get('/api/get-login-data', [AutoLoginController::class, 'getLoginData']);
 Route::get('/api/get-allowed-urls', [AutoLoginController::class, 'getAllowedUrls']);
+// Route::get('/api/get-akun', function () {
+//     return redirect('/');
+// });
+Route::get('/api/get-akun', [AutoLoginController::class, 'getAkun']);
 
 
 
