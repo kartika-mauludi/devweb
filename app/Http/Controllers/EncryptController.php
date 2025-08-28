@@ -143,6 +143,42 @@ class EncryptController extends Controller
         }
     }
 
+    public function editConfig(Request $request)
+    {
+        // dd($request->all());
+
+        $result = DB::transaction(function () use ($request) {
+            $request->validate([
+                'name' => 'required',
+                'username' => 'required',
+                'password' => 'required',
+                'address' => 'required',
+            ]);
+
+            ConfigAccount::where('id', $request->id)->update([
+                'name_university' => $request->name,
+                'username' => $request->username,
+                'password' => $request->password,
+                'address' => $request->address,
+            ]);
+
+            UniversityAccount::where('username', $request->old_username)->update([
+                'username' => $request->username,
+                'password' => $request->password
+            ]);
+
+            return [
+                'status' => 'success',
+            ];
+        });
+
+        if ($result['status'] == 'success') {
+            return redirect()->back()->with('message', '✅ Data berhasil diubah');
+        } else {
+            return redirect()->back()->with('message', '❌ Gagal mengubah data');
+        }
+    }
+
     public function destroyConfig($id)
     {
 

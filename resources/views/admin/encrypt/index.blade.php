@@ -48,8 +48,11 @@
                                             onsubmit="return confirm('Yakin mau hapus?')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                            <button type="submit" class="badge badge-danger">Hapus</button>
                                         </form>
+                                        <button class="badge badge-warning edit-btn" data-id="{{ $item->id }}">
+                                            Edit
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -61,6 +64,43 @@
         </div>
     </div>
 
+    <div class="modal fade" id="editAccountModal" tabindex="-1">
+        <div class="modal-dialog">
+            <form method="POST" action="{{ route('config.edit') }}">
+                @csrf
+                <input type="hidden" name="id">
+                <input type="hidden" name="old_username">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Akun</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Nama Universitas</label>
+                            <input type="text" name="name" class="form-control"
+                                readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Adress</label>
+                            <input type="text" name="address" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" name="username" class="form-control" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="text" name="password" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Simpan</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <div class="modal fade" id="addUnairConfig" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -144,5 +184,23 @@
 @push('script')
     <script>
         $('.datatable').DataTable();
+
+        const data = @json($dataConfig);
+        console.log(data);
+        $('.edit-btn').on('click', function() {
+            let id = $(this).data('id')
+
+            data.forEach(function(item) {
+                if (item.id == id) {
+                    $('#editAccountModal input[name="id"]').val(item.id);
+                    $('#editAccountModal input[name="old_username"]').val(item.username);
+                    $('#editAccountModal input[name="name"]').val(item.name_university);
+                    $('#editAccountModal input[name="username"]').val(item.username);
+                    $('#editAccountModal input[name="password"]').val(item.password);
+                    $('#editAccountModal input[name="address"]').val(item.address);
+                    $('#editAccountModal').modal('show');
+                }
+            });
+        });
     </script>
 @endpush
