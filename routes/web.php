@@ -18,6 +18,7 @@ use App\Http\Controllers\UniversityAccountController;
 use App\Http\Controllers\UniversityWebsiteController;
 use App\Http\Controllers\AutoLoginController;
 use App\Http\Controllers\Admin\BonusController;
+use App\Http\Controllers\EncryptController;
 use App\Models\ConfigAdmin;
 use App\Models\User;
 // use App\Http\Controllers\Auth\RegisterController;
@@ -222,7 +223,12 @@ Route::get('/api/get-allowed-urls', [AutoLoginController::class, 'getAllowedUrls
 // });
 Route::get('/api/get-akun', [AutoLoginController::class, 'getAkun']);
 
-
-
+Route::middleware(['auth', 'admin'])->controller(EncryptController::class)->group(function () {
+   Route::get('/letencrypt', 'index')->name('letencrypt.index');
+   Route::get('/get-letencrypt', 'generate')->name('letencrypt.generate');
+   Route::post('/asu-config', 'addAsuConfig')->name('asu-addconfig');
+   Route::post('/unair-config', 'addUnairConfig')->name('unair-addconfig');
+   Route::delete('/config-destroy/{id}', 'destroyConfig')->name('config.destroy');
+});
 
 // End Admin Page Route //
