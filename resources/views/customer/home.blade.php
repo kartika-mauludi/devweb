@@ -227,24 +227,27 @@
           $universityNames = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->get()->pluck('university.name');
           $univAcc = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->first();
           $univAccs = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->get();
-          $univNameLower = $universityNames->map(fn($name) => strtolower($name));
-          $univAccMapped = $univAccs
-            ->filter(function ($account) {
-                return in_array($account->university->name ?? null, ['Arizona State University', 'Universitas Airlangga']);
-            })
-            ->map(function ($account) {
-                return [
-                    'id' => $account->id,
-                    'username' => $account->username,
-                    'password' => $account->password,
-                    'university_name' => $account->university->name ?? null,
-                ];
-          })->values();
-          $username_arizona = $univAccMapped[0]['username'];
-          $username_unair = $univAccMapped[1]['username'];
 
-          $arizona = App\Models\ConfigAccount::where('username', $username_arizona)->first() ?? "";
-          $unair = App\Models\ConfigAccount::where('username', $username_unair)->first() ?? "";
+          $univNameLower = $universityNames->map(fn($name) => strtolower($name));
+          
+          $airlanggaAccs = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)
+            ->whereHas('university', function ($query) {
+              $query->where('name', 'Universitas Airlangga');
+            })
+            ->get();
+          $univAirlangga = $airlanggaAccs->first()?->username;
+          $arizonaAccs = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)
+            ->whereHas('university', function ($query) {
+              $query->where('name', 'Arizona State University');
+            })
+            ->get();
+          $univArizona = $arizonaAccs->first()?->username;
+
+          $username_arizona = $univArizona;
+          $username_unair = $univAirlangga;
+
+          $arizona = App\Models\ConfigAccount::where('username', $username_arizona)->first();
+          $unair = App\Models\ConfigAccount::where('username', $username_unair)->first();
 
           $unairTrim = Str::replace('.ovpn', '', $unair->name_config)
           @endphp
@@ -715,7 +718,7 @@ if (getOS() === 'macOS') {
         const socket = new WebSocket('ws://localhost:64135');
 
         let arizona = @json($arizona['name_config']).toUpperCase();
-        console.log(arizona);
+        console.log("ASU CONNECT", arizona);
 
         socket.onopen = function() {
             statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
@@ -764,6 +767,7 @@ if (getOS() === 'macOS') {
           const socket = new WebSocket('ws://localhost:64135');
 
           let arizona = @json($arizona['name_config']).toUpperCase();
+          // console.log("ASU DISCONNECT": arizona_dis);
 
         socket.onopen = function() {
             statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
@@ -812,6 +816,7 @@ if (getOS() === 'macOS') {
         const socket = new WebSocket('ws://localhost:64135');
 
         let unair = @json($unairTrim).toUpperCase();
+        // console.log("UNAIR CONNECT", unair);
 
         socket.onopen = function() {
             statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
@@ -863,6 +868,7 @@ if (getOS() === 'macOS') {
         const socket = new WebSocket('ws://localhost:64135');
 
         let unair = @json($unairTrim).toUpperCase();
+        // console.log("UNAIR DISCONNECT", unair);
 
         socket.onopen = function() {
             statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
