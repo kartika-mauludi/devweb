@@ -249,8 +249,6 @@
           $arizona = App\Models\ConfigAccount::where('username', $username_arizona)->first();
           $unair = App\Models\ConfigAccount::where('username', $username_unair)->first();
 
-          dd($arizona, $unair);
-
           if ($arizona?->name_config && $unair?->name_config) {
             $arizonaTrim = $arizona->name_config;
             $unairTrim = Str::replace('.ovpn', '', $unair->name_config);
