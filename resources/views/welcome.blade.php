@@ -120,7 +120,7 @@
     <div class="container">
     <div class="row gy-4">
     @foreach($packages as $pack)
-      @if($pack->name != "tryel")
+      @if($pack->name != "custom" && $pack->id != 99)
         <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
         <div class="pricing-item">
             <h2>{{ $pack->name }}</h2>
