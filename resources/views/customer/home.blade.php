@@ -249,12 +249,12 @@
           $arizona = App\Models\ConfigAccount::where('username', $username_arizona)->first();
           $unair = App\Models\ConfigAccount::where('username', $username_unair)->first();
 
+          $arizonaTrim = "";
+          $unairTrim = "";
+
           if ($arizona?->name_config && $unair?->name_config) {
             $arizonaTrim = $arizona->name_config;
             $unairTrim = Str::replace('.ovpn', '', $unair->name_config);
-          } else {
-            $arizonaTrim = "";
-            $unairTrim = "";
           }
 
           @endphp
@@ -724,6 +724,10 @@ if (getOS() === 'macOS') {
         const statusDiv = $("#status");
         const socket = new WebSocket('ws://localhost:64135');
 
+        let arizona = @json($arizonaTrim).toUpperCase();
+
+        // console.log("ASU CONNECT", arizona);
+
         socket.onopen = function() {
             statusDiv.textContent = 'Status: Terhubung! Mengirim perintah...';
             // console.log('Koneksi berhasil dibuka.');
@@ -769,6 +773,8 @@ if (getOS() === 'macOS') {
         $("#dis_ASU_1").click(function(e){
           const statusDiv = $("#status");
           const socket = new WebSocket('ws://localhost:64135');
+
+          let arizona = @json($arizonaTrim).toUpperCase();
 
           // console.log("ASU DISCONNECT": arizona_dis);
 
@@ -817,8 +823,9 @@ if (getOS() === 'macOS') {
         $("#con_UNAIR_1").click(function(e){
           const statusDiv = $("#status");
         const socket = new WebSocket('ws://localhost:64135');
-
+      
         let unair = @json($unairTrim).toUpperCase();
+
         // console.log("UNAIR CONNECT", unair);
 
         socket.onopen = function() {
@@ -871,6 +878,7 @@ if (getOS() === 'macOS') {
         const socket = new WebSocket('ws://localhost:64135');
 
         let unair = @json($unairTrim).toUpperCase();
+
         // console.log("UNAIR DISCONNECT", unair);
 
         socket.onopen = function() {
