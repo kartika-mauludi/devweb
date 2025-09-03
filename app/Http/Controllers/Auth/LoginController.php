@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\CheckUserSession;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -45,6 +46,7 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
+        $this->middleware('checkUserSession');
     }
 
     public function login(Request $request): RedirectResponse
@@ -68,11 +70,15 @@ class LoginController extends Controller
             $lastSessionId = $user->last_session_id;
         
             if ($user->is_superadmin == 0 && $lastSessionId && $lastSessionId !== $currentSessionId) {
-                DB::table('sessions')->where('id', $lastSessionId)->delete();
+                // DB::table('sessions')->where('id', $lastSessionId)->delete();
+                auth()->logout(); // keluarkan user baru
+
+                return redirect()->route('login')
+                ->withErrors(['email' => 'Akun ini sudah login di perangkat lain, silahkan melakukan logout terlebih dahulu kemudian login kembali.']);
             }
             
             $user->last_session_id = $currentSessionId;
-            $user->save();            
+            $user->save();
 
             if ($user->is_superadmin == 1) {
                 return redirect()->route('admin.home');
@@ -102,4 +108,19 @@ class LoginController extends Controller
         }
           
     }
+
+    public function logout(Request $request)
+{
+    $user = auth()->user();
+    if ($user) {
+        $user->last_session_id = null;
+        $user->save();
+    }
+
+    auth()->logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect()->route('login');
+}
 }
