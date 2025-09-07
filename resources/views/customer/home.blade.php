@@ -206,23 +206,7 @@
         </div>
       </div>
     </section>
-    @if($sub && \Carbon\Carbon::parse($sub->end_date) >= now() && $sub->account_status == "aktif" ) 
-    <section id="database" class="about section">
-      <div class="container section-title" data-aos="fade-up">
-        <h2 class="my-auto">Databases</h2>
-        <a href="https://unairsatu.unair.ac.id/" style="display: none;">Akses</a>
-      </div>
-      <div class="container section-title" data-aos="fade-up" id="uc_login_database">
-        <a href="#database" class="btn btn-primary" id="db_login" style="display: none;"> Login Database</a>
-        <p class="text-danger fs-5 mt-3 fw-bold" id="pesan">Silahkan menginstall Agent (khusus windows) dan Ekstensi terlebih dahulu!</p>
-      </div>
-      <div class="container section-title" data-aos="fade-up" id="uc_logout_database">
-        <a href="#database" class="btn btn-danger" id="db_logout" style="display: none;"> Logout Database</a>
-      </div>
-
-      <div class="d-flex justify-content-center p-2">
-        <div>
-          @php
+    @php
           $akunIds = $user->akun_id;
           $universityNames = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->get()->pluck('university.name');
           $univAcc = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->first();
@@ -258,6 +242,23 @@
           }
 
           @endphp
+
+    @if($sub && \Carbon\Carbon::parse($sub->end_date) >= now() && $sub->account_status == "aktif" ) 
+    <section id="database" class="about section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2 class="my-auto">Databases</h2>
+        <a href="https://unairsatu.unair.ac.id/" style="display: none;">Akses</a>
+      </div>
+      <div class="container section-title" data-aos="fade-up" id="uc_login_database">
+        <a href="#database" class="btn btn-primary" id="db_login" style="display: none;"> Login Database</a>
+        <p class="text-danger fs-5 mt-3 fw-bold" id="pesan">Silahkan menginstall Agent (khusus windows) dan Ekstensi terlebih dahulu!</p>
+      </div>
+      <div class="container section-title" data-aos="fade-up" id="uc_logout_database">
+        <a href="#database" class="btn btn-danger" id="db_logout" style="display: none;"> Logout Database</a>
+      </div>
+
+      <div class="d-flex justify-content-center p-2">
+        <div>
           <p id="jalankan" style="display: none;">Jalankan otomatisasi:</p>
           @if (Str::contains($univNameLower, 'cincinnati'))
             <a href="#database" class="btn btn-primary" id="uc_login" style="display: none;">CINCINNATI</a>
