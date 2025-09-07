@@ -223,6 +223,9 @@ Route::get('/api/get-allowed-urls', [AutoLoginController::class, 'getAllowedUrls
 // });
 Route::get('/api/get-akun', [AutoLoginController::class, 'getAkun']);
 
+
+
+
 Route::middleware(['auth', 'admin'])->controller(EncryptController::class)->group(function () {
    Route::get('/letencrypt', 'index')->name('letencrypt.index');
    Route::get('/get-letencrypt', 'generate')->name('letencrypt.generate');
