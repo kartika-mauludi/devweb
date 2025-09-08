@@ -251,7 +251,7 @@
       </div>
       <div class="container section-title" data-aos="fade-up" id="uc_login_database">
         <a href="#database" class="btn btn-primary" id="db_login" style="display: none;"> Login Database</a>
-        <p class="text-danger fs-5 mt-3 fw-bold" id="pesan">Silahkan menginstall Agent (khusus windows) dan Ekstensi terlebih dahulu!</p>
+        <p class="text-danger fs-5 mt-3 fw-bold" id="pesan">Silahkan menginstall Agent (khusus windows) dan Ekstensi terlebih dahulu! pastikan versi yang terbaru</p>
       </div>
       <div class="container section-title" data-aos="fade-up" id="uc_logout_database">
         <a href="#database" class="btn btn-danger" id="db_logout" style="display: none;"> Logout Database</a>
@@ -413,15 +413,27 @@ if (getOS() === 'Windows') {
     if (event.source !== window) return;
 
     if (event.data && event.data.from === "databaseriset" && event.data.installed === true) {
+        const minVersion = "1.0";
+
+        console.log("versi : ", event.data.version);
+
+    if (compareVersions(event.data.version, minVersion) >= 0) {
       console.log("Ekstensi terpasang!");
-
-      const btn = document.getElementById('db_login');
-      if (btn) {
-        btn.style.display = 'inline';
-        const pesan = document.getElementById('pesan');
-        pesan.style.display = 'none';
+          const btn = document.getElementById('db_login');
+          if (btn) {
+            btn.style.display = 'inline';
+            const pesan = document.getElementById('pesan');
+            pesan.style.display = 'none';
+          }
+      } else {
+        const btn = document.getElementById('db_login');
+        if (btn) {
+          btn.style.display = 'none';
+          const pesan = document.getElementById('pesan');
+          pesan.style.display = 'inline';
+        }
       }
-
+         
       // Lakukan sesuatu, misalnya: ubah UI, set cookie, dll
     }
   });
@@ -443,16 +455,23 @@ if (getOS() === 'macOS') {
   window.addEventListener("message", function(event) {
     if (event.source !== window) return;
 
-    if (event.data && event.data.from === "databaseriset" && event.data.installed === true) {
+    if (event.data && event.data.from === "databaseriset" && event.data.installed === true ) {
+      if (compareVersions(event.data.version, minVersion) >= 0) {
       console.log("Ekstensi terpasang!");
-
-      const btn = document.getElementById('db_login');
-      if (btn) {
-        btn.style.display = 'inline';
-        const pesan = document.getElementById('pesan');
-        pesan.style.display = 'none';
+          const btn = document.getElementById('db_login');
+          if (btn) {
+            btn.style.display = 'inline';
+            const pesan = document.getElementById('pesan');
+            pesan.style.display = 'none';
+          }
+      } else {
+        const btn = document.getElementById('db_login');
+        if (btn) {
+          btn.style.display = 'none';
+          const pesan = document.getElementById('pesan');
+          pesan.style.display = 'inline';
+        }
       }
-
       // Lakukan sesuatu, misalnya: ubah UI, set cookie, dll
     }
   });
@@ -1238,6 +1257,22 @@ if (getOS() === 'macOS') {
         const iframe = globalModal.querySelector('#globalIframe');
         iframe.src = '';
       });
+
+      function compareVersions(v1, v2) {
+        const a = v1.split('.').map(Number);
+        const b = v2.split('.').map(Number);
+
+        // samakan panjang array (biar "2.0" dianggap sama dengan "2.0.0")
+        while (a.length < b.length) a.push(0);
+        while (b.length < a.length) b.push(0);
+
+        for (let i = 0; i < a.length; i++) {
+          if (a[i] > b[i]) return 1;  // v1 lebih besar
+          if (a[i] < b[i]) return -1; // v1 lebih kecil
+        }
+        return 0; // sama
+      }
+
 
 
   </script>
