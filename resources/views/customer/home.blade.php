@@ -408,15 +408,11 @@
 console.log("Operating System:", getOS());
 
 if (getOS() === 'Windows') {
-
   window.addEventListener("message", function(event) {
     if (event.source !== window) return;
-
     if (event.data && event.data.from === "databaseriset" && event.data.installed === true) {
-        const minVersion = "1.0";
-
+        const minVersion = "2.0";
         console.log("versi : ", event.data.version);
-
     if (compareVersions(event.data.version, minVersion) >= 0) {
       console.log("Ekstensi terpasang!");
           const btn = document.getElementById('db_login');
@@ -455,8 +451,10 @@ if (getOS() === 'macOS') {
   window.addEventListener("message", function(event) {
     if (event.source !== window) return;
 
-    if (event.data && event.data.from === "databaseriset" && event.data.installed === true ) {
-      if (compareVersions(event.data.version, minVersion) >= 0) {
+ if (event.data && event.data.from === "databaseriset" && event.data.installed === true) {
+        const minVersion = "2.0";
+        console.log("versi : ", event.data.version);
+    if (compareVersions(event.data.version, minVersion) >= 0) {
       console.log("Ekstensi terpasang!");
           const btn = document.getElementById('db_login');
           if (btn) {
