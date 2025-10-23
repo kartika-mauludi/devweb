@@ -26,9 +26,6 @@
         {{ session('error_payment') }}
       </div>
     @endsession
-
-    <!-- <a href="{{ route('customer/langganan.qris',$payment->user_id) }}" class="btn btn-primary my-2">Payment</a> -->
-
     <!-- Services Section -->
 <section id="tabel" class="services section ">
 <div class="container py-3">
@@ -207,7 +204,10 @@
       </div>
     </section>
     @php
-          $akunIds = $user->akun_id;
+         $akunIds =[];
+          if($user->akun_id){
+            $akunIds = $user->akun_id;
+          }
           $universityNames = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->get()->pluck('university.name');
           $univAcc = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->first();
           $univAccs = App\Models\UniversityAccount::with('university')->whereIn('id', $akunIds)->get();
