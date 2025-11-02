@@ -218,6 +218,9 @@ class CustomerController extends Controller
     public function akunUpdate(Request $request, User $user)
     {   
         if (!$request->has('akun') or $request->akun == null) {
+            $user->update([
+                'akun_id' => ""
+            ]);
             return redirect()->route('customer.index');
         }
 

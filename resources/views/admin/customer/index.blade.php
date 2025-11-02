@@ -109,6 +109,7 @@
 
 @push('script')
     <script>
+    $(document).ready(function() {
         var table = $('.datatable').DataTable({
             layout: {
                 topStart: {
@@ -163,7 +164,7 @@
 
         $('#refresh').click(function(){
             
-        })
-
+        });
+});
     </script>
 @endpush
