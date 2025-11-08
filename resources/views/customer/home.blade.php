@@ -237,8 +237,8 @@
           $unairTrim = "";
 
           if ($arizona?->name_config || $unair?->name_config) {
-            $arizonaTrim = $arizona->name_config;
-            $unairTrim = Str::replace('.ovpn', '', $unair->name_config);
+            $arizonaTrim = $arizona?->name_config ?? '';
+            $unairTrim = Str::replace('.ovpn', '', $unair?->name_config ?? '');
           }
 
           @endphp
