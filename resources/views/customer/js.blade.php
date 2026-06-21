@@ -108,18 +108,18 @@
                 }
             });
 
-            // const socket = new WebSocket('ws://localhost:64135');
+            const socket = new WebSocket('ws://localhost:64135');
 
-            // socket.onerror = function(error) {
-            //     const btn = document.getElementById('db_login');
-            //     if (btn) {
-            //         btn.style.display = 'none';
-            //         const pesan = document.getElementById('pesan');
-            //         pesan.style.display = 'block';
-            //         alert(
-            //             'Untuk pengguna Windows, silahkan install agent dan ekstensi terlebih dahulu untuk mengakses database!');
-            //     }
-            // };
+            socket.onerror = function(error) {
+                const btn = document.getElementById('db_login');
+                if (btn) {
+                    btn.style.display = 'none';
+                    const pesan = document.getElementById('pesan');
+                    pesan.style.display = 'block';
+                    alert(
+                        'Untuk pengguna Windows, silahkan install agent dan ekstensi terlebih dahulu untuk mengakses database!');
+                }
+            };
         }
 
 
