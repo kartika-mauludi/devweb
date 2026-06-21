@@ -12,7 +12,8 @@ class UniversityWebsite extends Model
     protected $fillable = [
         'university_id',
         'title',
-        'url'
+        'url',
+        'flag_id',
     ];
 
     public function university()

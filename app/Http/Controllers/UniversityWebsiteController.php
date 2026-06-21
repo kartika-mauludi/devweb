@@ -34,7 +34,8 @@ class UniversityWebsiteController extends Controller
         $result = UniversityWebsite::create([
             'university_id' => $universityId,
             'title' => $request->title,
-            'url' => $request->url
+            'url' => $request->url,
+            'flag_id' => $request->flag_id
         ]);
 
         $status = 400;
@@ -77,7 +78,8 @@ class UniversityWebsiteController extends Controller
         
         $result = $website->update([
             'title' => $request->title,
-            'url' => $request->url
+            'url' => $request->url,
+            'flag_id' => $request->flag_id,
         ]);
 
         $status = 400;

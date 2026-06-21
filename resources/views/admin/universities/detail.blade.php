@@ -18,46 +18,29 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center mb-2 justify-content-between">
                         <p class="mb-0 font-weight-bold">Daftar Akun</p>
-                        @if ($university->name == 'Universitas Airlangga' || $university->name == 'Arizona State University')
-                        
-                        @else
-                            <div class="d-flex gap-5">
-                                <button class="btn btn-sm btn-success" data-toggle="modal"
-                                    data-target="#addAccountModal">Tambah</button>
-                                <button class="btn btn-sm btn-info" data-toggle="modal"
-                                    data-target="#importAccountModal">Import</button>
-                                <button class="btn btn-sm btn-danger" id="deleteBtn">Hapus All User</button>
-                            </div>
-                        @endif
+                        <div class="d-flex gap-5">
+                            <button class="btn btn-sm btn-success" data-toggle="modal"
+                                data-target="#addAccountModal">Tambah</button>
+                            <button class="btn btn-sm btn-info" data-toggle="modal"
+                                data-target="#importAccountModal">Import</button>
+                            <button class="btn btn-sm btn-danger" id="deleteBtn">Hapus All User</button>
+                        </div>
                     </div>
-                    @if ($university->name == 'Universitas Airlangga' || $university->name == 'Arizona State University')
-                        <table id="tbl-university-account1" class="table table-sm table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th class="fit">#</th>
-                                    <th>ID</th>
-                                    <th>Username</th>
-                                    <th>Password</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    @else
-                        <table id="tbl-university-account" class="table table-sm table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th class="fit">#</th>
-                                    <th>ID</th>
-                                    <th>Username</th>
-                                    <th>Password</th>
-                                    <th class="fit text-center">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    @endif
+
+                    <table id="tbl-university-account" class="table table-sm table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="fit">#</th>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>Tag</th>
+                                <th class="fit text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                     <hr>
                     <div class="d-flex align-items-center mb-2 justify-content-between">
                         <p class="mb-0 font-weight-bold">Daftar Website</p>
@@ -74,6 +57,7 @@
                                 <th class="fit text-center">No.</th>
                                 <th>Judul</th>
                                 <th>Link</th>
+                                <th>Flag ID</th>
                                 <th class="fit text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -116,6 +100,9 @@
                     data: 'password'
                 },
                 {
+                    data: 'tag'
+                },
+                {
                     data: 'id',
                     render: function(data) {
                         return `
@@ -131,29 +118,6 @@
             }
         });
 
-        var accountTable = $('#tbl-university-account1').DataTable({
-            ordering: false,
-            ajax: `/universities/${universityId}/accounts`,
-            columns: [{
-                    data: null,
-                    render: (data, type, row, meta) => {
-                        return `<div class="text-center">${meta.row + 1}.</div>`;
-                    }
-                },
-                {
-                    data: 'id'
-                },
-                {
-                    data: 'username'
-                },
-                {
-                    data: 'password'
-                },
-            ],
-            initComplete: function() {
-                $(this).wrap('<div class="table-responsive"></div>');
-            }
-        });
 
         var websiteTable = $('#tbl-university-website').DataTable({
             ordering: false,
@@ -171,6 +135,9 @@
                 {
                     data: 'url',
                     render: (data) => data ? `<a href="${data}" target="_blank">${data}</a>` : '-'
+                },
+                {
+                    data: 'flag_id',
                 },
                 {
                     data: 'id',

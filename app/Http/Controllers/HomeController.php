@@ -27,7 +27,7 @@ class HomeController extends Controller
      * @return void
      */
 
-     private $title = 'Dashboard';
+    private $title = 'Dashboard';
     public function __construct()
     {
         $this->middleware('auth');
@@ -39,18 +39,19 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
-     public function index(){
+    public function index()
+    {
         // $packages =  SubscribePackagecribe::all();
         return view('welcome');
-     }
+    }
 
     public function adminhome()
     {
         $data['title'] = $this->title;
-        $data['activeCustomer'] = User::customer()->whereHas('subscribeRecord', function($query) {
+        $data['activeCustomer'] = User::customer()->whereHas('subscribeRecord', function ($query) {
             $query->where('end_date', '>', date('Y-m-d'));
         })->get();
-        $data['unpaid'] = User::whereHas('payments', function($query) {
+        $data['unpaid'] = User::whereHas('payments', function ($query) {
             $query->where('status', '=', "pending");
         })->get();
         $data['incomes'] = Payment::where('status', 'completed')->get();
@@ -63,42 +64,51 @@ class HomeController extends Controller
     {
         $id = auth::user()->id;
         $user =  User::with('subscribeRecord.subscribePackage')->find($id);
-        $subscribe = SubscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->where('account_status','aktif')->get();
-        if(count($subscribe)  >= 1){
-            $subscribes = SubscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->where('account_status','aktif')->first();
+        $subscribe = SubscribeRecord::latest('id')->with('subscribePackage')->where('user_id', $id)->where('account_status', 'aktif')->get();
+        if (count($subscribe)  >= 1) {
+            $subscribes = SubscribeRecord::latest('id')->with('subscribePackage')->where('user_id', $id)->where('account_status', 'aktif')->first();
+        } else {
+            $subscribes = SubscribeRecord::latest('id')->with('subscribePackage')->where('user_id', $id)->first();
         }
-        else{
-            $subscribes = SubscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->first();
-        }
-        $ceksub = subscribeRecord::latest('id')->with('subscribePackage')->where('user_id',$id)->first();;
-        $paid = UserAffiliate::select('amount')->whereHas('payments', function($query){$query->where('status','completed');})->where('User_id',auth::user()->id)->get();
-        $wd= UserAffiliate::select('amount')->with('user')->where('user_id',auth::user()->id)->where('status','withdraw')->get();
-        $payment = Payment::latest('id')->where('user_id',$id)->first();
-        $admin = User::where('is_superadmin',1)->first();
-        $univ = University::where('parent','==',0)->where('parent','===',Null)->get();
+        $ceksub = subscribeRecord::latest('id')->with('subscribePackage')->where('user_id', $id)->first();;
+        $paid = UserAffiliate::select('amount')->whereHas('payments', function ($query) {
+            $query->where('status', 'completed');
+        })->where('User_id', auth::user()->id)->get();
+        $wd = UserAffiliate::select('amount')->with('user')->where('user_id', auth::user()->id)->where('status', 'withdraw')->get();
+        $payment = Payment::latest('id')->where('user_id', $id)->first();
+        $admin = User::where('is_superadmin', 1)->first();
+        $univ = University::where('parent', '==', 0)->where('parent', '===', Null)->get();
         $website = UniversityWebsite::with('university')->orderBy('title')->get();
         $file = File::latest()->get();
-        $video = File::where('type','=','video')->orderBy('urut')->get();
-        $bonus_global = Bonus::where('type','=','global')->first();
+        $video = File::where('type', '=', 'video')->orderBy('urut')->get();
+        $bonus_global = Bonus::where('type', '=', 'global')->first();
         $bonus_private = BonusesDetails::with('bonus')->where('user_id', Auth::id())->first();
         // dd($file);
         $data['admin'] = $admin;
         $data['user'] = $user;
-        $data['komisi'] = $paid->sum('amount') - $wd->sum('amount') ;
+        $data['komisi'] = $paid->sum('amount') - $wd->sum('amount');
         $data['sub'] = $subscribes;
         $data['payment'] = $payment;
         $data['univs'] = $univ;
         $data['websites'] = $website;
         $data['ceksub'] = $ceksub;
         $data['files'] = $file;
-        $data['videos']= $video;
+        $data['videos'] = $video;
         $data['bonus_global'] = $bonus_global;
         $data['bonus'] = $bonus_private;
 
-        
-        return view('customer.home',$data);
+        // dd($data['sub']);
+        // $akunIds = [];
+        // if ($user->akun_id) {
+        //     $akunIds = $user->akun_id;
+        // }
+        // $universityNames = UniversityAccount::with('university')
+        //     ->whereIn('id', $akunIds)
+        //     ->get()
+        //     ->pluck('university.name');
+        // dd($universityNames);
+
+
+        return view('customer.home', $data);
     }
-
-
-
 }

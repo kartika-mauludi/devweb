@@ -17,6 +17,10 @@
                         <label>Password</label>
                         <input type="text" name="password" class="form-control" required>
                     </div>
+                    <div class="form-group">
+                        <label>Tag</label>
+                        <input type="text" name="tag" class="form-control">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Simpan</button>
@@ -46,6 +50,10 @@
                     <div class="form-group">
                         <label>Password</label>
                         <input type="text" name="password" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tag</label>
+                        <input type="text" name="tag" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -81,7 +89,7 @@
                     form.trigger('reset');
                     accountTable.ajax.reload();
                 },
-                error: function () {
+                error: function (error) {
                     closeLoading();
                     Swal.fire('Gagal!', 'Terjadi kesalahan saat memproses data.', 'error');
                 }
@@ -95,6 +103,7 @@
             $.get(`/universities/${universityId}/accounts/${accountId}/edit`, function (data) {
                 $('#editAccountModal input[name="username"]').val(data.username);
                 $('#editAccountModal input[name="password"]').val(data.password);
+                $('#editAccountModal input[name="tag"]').val(data.tag);
                 $('#editAccountModal form').attr('action', `/universities/${universityId}/accounts/${accountId}`);
                 $('#editAccountModal input[name="_method"]').val('PUT');
                 $('#editAccountModal').modal('show');

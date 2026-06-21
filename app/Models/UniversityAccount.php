@@ -12,7 +12,9 @@ class UniversityAccount extends Model
     protected $fillable = [
         'university_id', 
         'username', 
-        'password'
+        'password',
+        'tag',
+        'flag_id',
     ];
 
     public function university()

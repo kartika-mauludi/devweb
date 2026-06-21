@@ -18,6 +18,10 @@
                         <label for="web-url">Link</label>
                         <input id="web-url" type="url" name="url" class="form-control" required>
                     </div>
+                    <div class="form-group">
+                        <label for="flag_id">Flag ID</label>
+                        <input id="flag_id" type="text" name="flag_id" class="form-control" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Simpan</button>
@@ -47,6 +51,10 @@
                     <div class="form-group">
                         <label for="web-url-edit">Link</label>
                         <input id="web-url-edit" type="url" name="url" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="flag_id-edit">Flag ID</label>
+                        <input id="flag_id-edit" type="text" name="flag_id" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -99,6 +107,7 @@
             $.get(`/universities/${universityId}/websites/${websiteId}/edit`, function (data) {
                 $('#editWebsiteModal input[name="title"]').val(data.title);
                 $('#editWebsiteModal input[name="url"]').val(data.url);
+                $('#editWebsiteModal input[name="flag_id"]').val(data.flag_id);
                 $('#editWebsiteModal form').attr('action', `/universities/${universityId}/websites/${websiteId}`);
                 $('#editWebsiteModal input[name="_method"]').val('PUT');
                 $('#editWebsiteModal').modal('show');

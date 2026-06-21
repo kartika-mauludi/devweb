@@ -58,6 +58,14 @@
         </a>
       </li>
       <li class="nav-item">
+        <a href="{{ route('content.index') }}" class="nav-link @if(Route::is('contents.*')) active @endif">
+          <i class="nav-icon fa fa-align-left"></i>
+          <p>
+            Content
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
         <a href="{{ route('configuration.index') }}" class="nav-link @if(Route::is('configuration.*')) active @endif">
         <i class="nav-icon fas fa-handshake"></i>
           <p>

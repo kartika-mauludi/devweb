@@ -20,10 +20,11 @@ class UniversityAccountController extends Controller
     
     public function store(Request $request, $universityId)
     {
+        // dd($request->all());
         $request->validate([
             // 'university_id' => 'required',
             'username' => 'required',
-            'password' => 'required',
+            'password' => 'required'
         ]);
 
         if (UniversityAccount::where('username', $request->username)
@@ -38,12 +39,13 @@ class UniversityAccountController extends Controller
         $result = UniversityAccount::create([
             'university_id' => $universityId,
             'username' => $request->username,
-            'password' => $request->password
+            'password' => $request->password,
+            'tag' => $request->tag,
         ]);
     
         $status = 400;
         $message = 'Akun gagal ditambahkan!';
-
+        // dd($result);
         if ($result) {
             $status = 200;
             $message = 'Akun berhasil ditambahkan!';
@@ -139,6 +141,7 @@ class UniversityAccountController extends Controller
             // 'university_id' => 'required',
             'username' => 'required',
             'password' => 'required',
+            'tag' => 'nullable'
         ]);
 
         if (UniversityAccount::where('username', $request->username)
@@ -154,7 +157,8 @@ class UniversityAccountController extends Controller
         $account = UniversityAccount::where('id', $accountId)->where('university_id', $universityId)->firstOrFail();
         $result = $account->update([
             'username' => $request->username,
-            'password' => $request->password
+            'password' => $request->password,
+            'tag' => $request->tag,
         ]);
 
         $status = 400;

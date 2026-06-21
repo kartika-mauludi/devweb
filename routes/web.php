@@ -18,7 +18,9 @@ use App\Http\Controllers\UniversityAccountController;
 use App\Http\Controllers\UniversityWebsiteController;
 use App\Http\Controllers\AutoLoginController;
 use App\Http\Controllers\Admin\BonusController;
+use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\EncryptController;
+use App\Http\Controllers\WelcomeController;
 use App\Models\ConfigAdmin;
 use App\Models\User;
 // use App\Http\Controllers\Auth\RegisterController;
@@ -26,11 +28,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\SubscribePackage;
 use App\Models\UniversityWebsite;
 
-Route::get('/', function () {
-    $packages =  SubscribePackage::all();
-    $websites = UniversityWebsite::with('university')->orderBy('title')->get();
-    return view('welcome',compact('packages','websites'));
-});
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Auth::routes(['register' => false]);
 Route::get('/payment/{id}','App\Http\Controllers\PaymentController@index')->name('payment');
@@ -122,6 +120,21 @@ Route::prefix('admin')->group(function(){
         Route::post('store', 'store')->name('store');
         Route::put('update/{subscribePackage}', 'update')->name('update');
         Route::delete('destroy/{subscribePackage}', 'destroy')->name('destroy');
+    });
+
+    Route::group(['prefix'=> 'content', 'as'=> 'content.', 'controller' => ContentController::class], function(){
+        Route::get('/', 'index')->name('index');
+
+        Route::post('storef', 'featureStore')->name('storef');
+        Route::post('storep', 'packageStore')->name('storep');
+
+        Route::put('updatef', 'featureUpdate')->name('updatef');
+        Route::put('updatep', 'packageUpdate')->name('updatep');
+
+
+        Route::delete('destroy/{id}', 'featureDel')->name('destroyf');
+        Route::delete('destroyp/{id}', 'packageDelete')->name('destroyp');
+
     });
     
     Route::group(['prefix' => 'package-record', 'as' => 'package-record.', 'controller' => SubscribeRecordController::class], function(){

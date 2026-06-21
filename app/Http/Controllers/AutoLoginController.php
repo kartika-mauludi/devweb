@@ -84,19 +84,23 @@ class AutoLoginController extends Controller
 
     public function getAkun(Request $request) {
         try {
-            $user = auth::user();
+        $user = auth::user();
         $akunIds = $user->akun_id;
         $univAcc = UniversityAccount::with('university')->whereIn('id', $akunIds)->get();
+        
         $univAccMapped = $univAcc->map(function($account) {
             return [
                 'id' => $account->id,
                 'username' => $account->username,
                 'password' => $account->password,
-                'university_name' => $account->university->name ?? null,
+                'tag' => $account->tag,
+                'signin_url' => $account->university->signin_url ?? null,
+                'signout_url' => $account->university->signout_url ?? null,
+                'university_name' => $account->university->name ?? null
             ];
         });
         } catch (\Throwable $th) {
-            return response()->json(['message' => 'Terjadi kesalahan, silahkan hubungi admin'], 404);
+            return response()->json(['message' => 'Terjadi kesalahan, silahkan hubungi admin' . $th->getMessage()], 404);
         }
 
         return response()->json($univAccMapped);

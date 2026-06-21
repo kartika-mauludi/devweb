@@ -129,7 +129,7 @@ class UniversityController extends Controller
 
     public function getData()
     {
-        $universities = University::select(['id', 'name', 'main_url', 'signin_url', 'signout_url','batasan','parent'])->get();
+        $universities = University::select(['id', 'name', 'main_url', 'signin_url', 'signout_url', 'batasan', 'parent'])->get();
     
         return response()->json([
             "data" => $universities

@@ -40,7 +40,16 @@
       <div class="container">
         <div class="row gy-4">
 
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
+          @foreach ($features as $feature)
+            <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
+              <div class="service-item position-relative text-center">
+                <div class="icon"><i class="{{ $feature->icon }}"></i></div>
+                <h4>{{ $feature->title }}</h4>
+                <p>{{ $feature->description }}</p>
+              </div>
+            </div>
+          @endforeach
+          {{-- <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
             <div class="service-item position-relative text-center">
               <div class="icon"><i class="bi bi-database"></i></div>
               <h4>700+ Database Riset Premium</h4>
@@ -72,7 +81,7 @@
             </div>
           </div><!-- End Service Item -->
         </div>
-      </div>
+      </div> --}}
     </section><!-- /Services Section -->
 
 
