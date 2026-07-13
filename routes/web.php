@@ -249,6 +249,4 @@ Route::middleware(['auth', 'admin'])->controller(EncryptController::class)->grou
    Route::delete('/config-destroy/{id}', 'destroyConfig')->name('config.destroy');
 });
 
-Route::post('/api/lynk-webhook', [LynkWebhookController::class, 'handle']);
-
 // End Admin Page Route //
