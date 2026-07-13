@@ -375,7 +375,7 @@
                             </div>
                         </div>
 
-                        {{-- <div id="status"><center>Status: Menunggu perintah...</center></dopeiv> --}}
+                        <div id="status"><center>Status: Menunggu perintah...</center></dopeiv>
 
                         <div class="container" id="listdatabase" style="display: none;">
                             <div class="row justify-content-center">

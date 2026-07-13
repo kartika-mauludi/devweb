@@ -20,6 +20,7 @@ use App\Http\Controllers\AutoLoginController;
 use App\Http\Controllers\Admin\BonusController;
 use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\EncryptController;
+use App\Http\Controllers\LynkWebhookController;
 use App\Http\Controllers\WelcomeController;
 use App\Models\ConfigAdmin;
 use App\Models\User;
@@ -247,5 +248,7 @@ Route::middleware(['auth', 'admin'])->controller(EncryptController::class)->grou
    Route::post('/config-edit', 'editConfig')->name('config.edit');
    Route::delete('/config-destroy/{id}', 'destroyConfig')->name('config.destroy');
 });
+
+Route::post('/api/lynk-webhook', [LynkWebhookController::class, 'handle']);
 
 // End Admin Page Route //
