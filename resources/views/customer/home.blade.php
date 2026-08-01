@@ -375,63 +375,67 @@
                             </div>
                         </div>
 
-                        <div id="status"><center>Status: Menunggu perintah...</center></dopeiv>
+                        <div id="status">
+                            <center>Status: Menunggu perintah...</center>
+                            </dopeiv>
 
-                        <div class="container" id="listdatabase" style="display: none;">
-                            <div class="row justify-content-center">
-                                <div class="col-lg-12 content">
-                                    <div class="container mt-4">
-                                        <div class="category-filter">
-                                            <select id="categoryFilter" class="form-control">
-                                                <option value="show" hidden selected class="bg-muted text-secondary"><i
-                                                        class="fas fa-filter"></i> Filter by University</option>
-                                                <option value="">Show All</option>
-                                                {{-- @foreach ($univs as $univ)
+                            <div class="container" id="listdatabase" style="display: none;">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-12 content">
+                                        <div class="container mt-4">
+                                            <div class="category-filter">
+                                                <select id="categoryFilter" class="form-control">
+                                                    <option value="show" hidden selected
+                                                        class="bg-muted text-secondary"><i class="fas fa-filter"></i>
+                                                        Filter by University</option>
+                                                    <option value="">Show All</option>
+                                                    {{-- @foreach ($univs as $univ)
                    <option value="{{ $univ->name }}">{{ $univ->name }}</option>
               @endforeach --}}
-                                                @foreach ($universityNames as $una)
-                                                    <option value="{{ $una }}">{{ $una }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="table-responsive">
-                                            <table id="filterTable" class="table display w-100 ">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Nama Universitas</th>
-                                                        <th>Judul Database</th>
-                                                        <!-- <th>URL Website</th> -->
-                                                    </tr>
-                                                </thead>
-                                                @php
-                                                    $univId = App\Models\UniversityAccount::with('university')
-                                                        ->whereIn('id', $akunIds)
-                                                        ->get()
-                                                        ->pluck('university.id');
-                                                    $websitesUniv = App\Models\UniversityWebsite::with('university')
-                                                        ->whereIn('university_id', $univId)
-                                                        ->get();
-                                                @endphp
-                                                <tbody>
-                                                    @foreach ($websitesUniv as $wu)
-                                                        <tr>
-                                                            <td class="text-nowrap">
-                                                                @if ($wu->university->parent == 0 || $wu->university->parent === null)
-                                                                    {{ $wu->university->name ?? 'Tidak Diketahui' }}
-                                                                @elseif($wu->university->parent != 0 && $wu->university->parent !== null)
-                                                                    {{ \App\Models\University::where('id', $wu->university->parent)->first()->name ?? 'Tidak Diketahui' }}
-                                                                @endif
-                                                            </td>
-                                                            <td class="text-nowrap">
-                                                                <a href="{{ $wu->url }}" id="{{ $wu->flag_id }}"
-                                                                    onclick="automateLogin('{{ $wu->flag_id }}')"
-                                                                    target="_blank">
-                                                                    {!! $wu->title . ' <i class="fa-solid fa-up-right-from-square"></i>' ?? 'Tidak Diketahui' !!}
-                                                                </a>
-                                                            </td>
-                                                        </tr>
+                                                    @foreach ($universityNames as $una)
+                                                        <option value="{{ $una }}">{{ $una }}</option>
                                                     @endforeach
-                                                    {{-- @foreach ($websites as $index => $web)
+                                                </select>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table id="filterTable" class="table display w-100 ">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nama Universitas</th>
+                                                            <th>Judul Database</th>
+                                                            <!-- <th>URL Website</th> -->
+                                                        </tr>
+                                                    </thead>
+                                                    @php
+                                                        $univId = App\Models\UniversityAccount::with('university')
+                                                            ->whereIn('id', $akunIds)
+                                                            ->get()
+                                                            ->pluck('university.id');
+                                                        $websitesUniv = App\Models\UniversityWebsite::with('university')
+                                                            ->whereIn('university_id', $univId)
+                                                            ->get();
+                                                    @endphp
+                                                    <tbody>
+                                                        @foreach ($websitesUniv as $wu)
+                                                            <tr>
+                                                                <td class="text-nowrap">
+                                                                    @if ($wu->university->parent == 0 || $wu->university->parent === null)
+                                                                        {{ $wu->university->name ?? 'Tidak Diketahui' }}
+                                                                    @elseif($wu->university->parent != 0 && $wu->university->parent !== null)
+                                                                        {{ \App\Models\University::where('id', $wu->university->parent)->first()->name ?? 'Tidak Diketahui' }}
+                                                                    @endif
+                                                                </td>
+                                                                <td class="text-nowrap">
+                                                                    <a href="{{ $wu->url }}"
+                                                                        id="{{ $wu->flag_id }}"
+                                                                        onclick="automateLogin('{{ $wu->flag_id }}')"
+                                                                        target="_blank">
+                                                                        {!! $wu->title . ' <i class="fa-solid fa-up-right-from-square"></i>' ?? 'Tidak Diketahui' !!}
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                        {{-- @foreach ($websites as $index => $web)
                     <tr>
                         <td class="text-nowrap">
                           @if ($web->university->parent == 0 || $web->university->parent === null)
@@ -443,12 +447,12 @@
                         <td class="text-nowrap"><a href="{{ $web->url }}" target="_blank">{!! $web->title.' <i class="fa-solid fa-up-right-from-square"></i>' ?? 'Tidak Diketahui' !!}</a></td>
                     </tr>
                 @endforeach --}}
-                                                </tbody>
-                                            </table>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                     </section>
                 @endif
     </main>
