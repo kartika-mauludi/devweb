@@ -8,7 +8,7 @@
             <div class="container">
                
                 <div class="alert alert-success" role="alert">
-                    Beli di lynk.id gunakan kode voucher <strong>DBRMERDEKA</strong> untuk mendapatkan diskon 10% untuk semua paket. Berlaku hingga akhir bulan Agustus 2026.
+                    Beli di lynk.id gunakan kode voucher <strong>DBRMERDEKA</strong> untuk mendapatkan diskon 5% untuk semua paket. Berlaku hingga akhir bulan Agustus 2026.
                     <a href="https://lynk.id/afibruly0417/wowl8ee10zlx" target="_blank" class="alert-link" rel="noopener noreferrer">Klik Disini</a>
                 </div>
                 <div class="row gy-4">
